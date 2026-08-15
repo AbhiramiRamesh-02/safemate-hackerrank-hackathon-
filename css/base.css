@@ -1,15 +1,64 @@
-/* Modern Design System - Reset */
+/* ===================================================
+   SAFEMATE - CUSTOM DESIGN SYSTEM
+   PALETTE: English Violet (#4A3267), Blush (#DE638A),
+            Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
+   =================================================== */
+
+:root {
+    /* Exact Palette Hex Codes */
+    --color-violet: #4A3267;
+    --color-blush: #DE638A;
+    --color-pink: #F7B9C4;
+    --color-mimi: #F3D9E5;
+    --color-thistle: #C6BADE;
+
+    /* Semantic Mappings */
+    --primary: #DE638A;
+    --primary-dark: #4A3267;
+    --primary-hover: #c95076;
+    --primary-gradient: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
+    --primary-glow: 0 4px 15px rgba(222, 99, 138, 0.3);
+
+    --bg-canvas: #faf7fa;
+    --bg-surface: #ffffff;
+    --bg-surface-subtle: #F3D9E5;
+    --bg-hero: linear-gradient(135deg, #F3D9E5 0%, #F7B9C4 100%);
+
+    --border-color: #C6BADE;
+    --border-pink: #F7B9C4;
+    --border-subtle: #F3D9E5;
+
+    --text-primary: #4A3267;
+    --text-body: #2d1e3d;
+    --text-secondary: #6e5786;
+    --text-muted: #9683aa;
+    --text-pink: #DE638A;
+
+    --status-safe: #10b981;
+    --status-safe-bg: #ecfdf5;
+    --status-safe-border: #a7f3d0;
+
+    --status-concern: #f59e0b;
+    --status-concern-bg: #fffbeb;
+    --status-concern-border: #fde68a;
+
+    --status-alert: #ef4444;
+    --status-alert-bg: #fef2f2;
+    --status-alert-border: #fecaca;
+}
+
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Base Typography & Canvas background */
+/* Base Typography & Canvas */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fafafb;
-    color: #18181b;
+    background-color: var(--bg-canvas);
+    color: var(--text-body);
     min-height: 100vh;
     padding: 20px;
     line-height: 1.5;
@@ -22,17 +71,17 @@ body {
     margin: 0 auto;
 }
 
-/* Professional Flat Header */
+/* Header */
 header {
     background: #ffffff;
     padding: 16px 24px;
     border-radius: 12px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px 0 rgba(74, 50, 103, 0.08);
     margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #e4e4e7;
+    border: 1px solid var(--border-color);
 }
 
 /* Logo Styling */
@@ -44,14 +93,14 @@ header {
 }
 
 .logo-shield {
-    background: linear-gradient(135deg, #be185d, #db2777);
+    background: var(--primary-gradient);
     width: 36px;
     height: 36px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(190, 24, 93, 0.3);
+    box-shadow: var(--primary-glow);
 }
 
 .logo-s {
@@ -63,7 +112,7 @@ header {
 }
 
 .logo-text {
-    color: #be185d;
+    color: var(--color-violet);
     font-size: 24px;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -75,11 +124,11 @@ header {
     gap: 16px;
 }
 
-/* Logout Button - Flat Solid design */
+/* Logout Button */
 .logout-btn {
-    background-color: #f4f4f5;
-    color: #18181b;
-    border: 1px solid #e4e4e7;
+    background-color: #faf7fa;
+    color: var(--color-violet);
+    border: 1px solid var(--border-color);
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -97,21 +146,21 @@ header {
 /* Page Title */
 .page-title {
     text-align: center;
-    color: #be185d;
+    color: var(--color-violet);
     font-size: 28px;
     font-weight: 800;
     margin-bottom: 24px;
     letter-spacing: -0.5px;
 }
 
-/* Modern Flat Card design */
+/* Card Design */
 .card {
     background: #ffffff;
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e4e4e7;
+    box-shadow: 0 4px 10px rgba(74, 50, 103, 0.05);
+    border: 1px solid var(--border-color);
 }
 
 /* Role Selection Cards */
@@ -121,28 +170,28 @@ header {
     padding: 20px;
     cursor: pointer;
     border-radius: 12px;
-    border: 1px solid #e4e4e7;
+    border: 1px solid var(--border-color);
     background: #ffffff;
     margin-bottom: 12px;
     transition: all 0.2s ease;
 }
 
 .role-card:hover {
-    border-color: #be185d;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.08);
-    background: #fffcfd;
+    border-color: var(--color-blush);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(222, 99, 138, 0.15);
+    background: #fffbfe;
 }
 
 .role-info h3 {
-    color: #18181b;
+    color: var(--color-violet);
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
 .role-info p {
-    color: #71717a;
+    color: var(--text-secondary);
     font-size: 13px;
 }
 
@@ -151,15 +200,15 @@ header {
     background: #ffffff;
     border-radius: 16px;
     padding: 32px 24px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgba(74, 50, 103, 0.08);
     max-width: 420px;
     margin: 40px auto;
-    border: 1px solid #e4e4e7;
+    border: 1px solid var(--border-color);
 }
 
 .login-card h2 {
     text-align: center;
-    color: #18181b;
+    color: var(--color-violet);
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 24px;
@@ -173,7 +222,7 @@ header {
 
 .form-group label {
     display: block;
-    color: #27272a;
+    color: var(--color-violet);
     font-weight: 600;
     margin-bottom: 6px;
     font-size: 13px;
@@ -184,43 +233,43 @@ header {
 .form-group select {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid #d4d4d8;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
     background: #ffffff;
-    color: #18181b;
+    color: var(--text-body);
     transition: all 0.15s ease;
 }
 
 .form-group input::placeholder {
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #be185d;
-    box-shadow: 0 0 0 3px rgba(190, 24, 93, 0.15);
+    border-color: var(--color-blush);
+    box-shadow: 0 0 0 3px rgba(222, 99, 138, 0.2);
 }
 
-/* Buttons - Flat High-quality styling */
+/* Primary Button */
 .submit-btn {
     width: 100%;
     padding: 14px;
-    background: #be185d;
+    background: var(--primary-gradient);
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.25);
+    box-shadow: var(--primary-glow);
     transition: all 0.15s ease;
 }
 
 .submit-btn:hover {
-    background: #9d174d;
-    box-shadow: 0 6px 16px rgba(190, 24, 93, 0.35);
+    background: linear-gradient(135deg, #c95076 0%, #3a2652 100%);
+    box-shadow: 0 6px 18px rgba(222, 99, 138, 0.4);
     transform: translateY(-1px);
 }
 
@@ -231,18 +280,19 @@ header {
 .switch-link {
     text-align: center;
     margin-top: 16px;
-    color: #71717a;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
 .switch-link a {
-    color: #be185d;
+    color: var(--color-blush);
     font-weight: 600;
     text-decoration: none;
 }
 
 .switch-link a:hover {
     text-decoration: underline;
+    color: var(--color-violet);
 }
 
 /* Dashboard */
@@ -252,7 +302,7 @@ header {
 }
 
 .dashboard h2 {
-    color: #be185d;
+    color: var(--color-violet);
     font-size: 26px;
     font-weight: 800;
     margin-bottom: 20px;
@@ -264,7 +314,7 @@ header {
 }
 
 .dashboard-section h3 {
-    color: #18181b;
+    color: var(--color-violet);
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 12px;
@@ -275,8 +325,8 @@ header {
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 12px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 4px rgba(74, 50, 103, 0.05);
+    border: 1px solid var(--border-color);
 }
 
 /* Stats Section */
@@ -288,15 +338,15 @@ header {
 
 .stat-card {
     background: #ffffff;
-    border: 1px solid #e4e4e7;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px rgba(74, 50, 103, 0.05);
 }
 
 .stat-card h4 {
-    color: #71717a;
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
@@ -307,11 +357,11 @@ header {
 .stat-card .value {
     font-size: 26px;
     font-weight: 700;
-    color: #be185d;
+    color: var(--color-blush);
 }
 
 .stat-card p {
-    color: #71717a;
+    color: var(--text-muted);
     font-size: 12px;
     margin-top: 4px;
 }
@@ -323,6 +373,10 @@ header {
     gap: 12px;
     padding: 12px 16px;
     background: #ffffff;
-    border: 1px solid #e4e4e7;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
+}
+
+.hidden {
+    display: none !important;
 }

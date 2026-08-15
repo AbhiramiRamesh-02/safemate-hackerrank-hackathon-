@@ -1060,20 +1060,20 @@
     </script>
 
     <!-- Global Floating Chat Components -->
-    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:#be185d; color:white; border:none; box-shadow:0 4px 15px rgba(190, 24, 93, 0.3); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
+    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:var(--primary-gradient); color:white; border:none; box-shadow:var(--primary-glow); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
 
-    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:white; border-radius:12px; border:1px solid #e4e4e7; box-shadow:0 10px 25px rgba(0,0,0,0.15); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
+    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:#ffffff; border-radius:12px; border:1px solid var(--border-color); box-shadow:0 10px 25px rgba(74, 50, 103, 0.15); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
         <!-- Chat Header -->
-        <div style="background:#be185d; color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
+        <div style="background:var(--primary-gradient); color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
             <span id="chatDriverName">Chat</span>
             <span style="cursor:pointer; font-size:16px;" onclick="toggleChatWindow()">✕</span>
         </div>
         <!-- Chat Messages Container -->
-        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:#fafafb;"></div>
+        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:#faf7fa;"></div>
         <!-- Chat Input Bar -->
-        <div style="display:flex; border-top:1px solid #e4e4e7; padding:8px; background:white;">
-            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid #d4d4d8; border-radius:6px; font-size:13px; outline:none;" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendChatMessage()" style="background:#be185d; color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
+        <div style="display:flex; border-top:1px solid var(--border-color); padding:8px; background:#ffffff;">
+            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; outline:none;" onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendChatMessage()" style="background:var(--color-blush); color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
         </div>
     </div>
 

@@ -1,3 +1,9 @@
+/* ===================================================
+   SAFEMATE - COMPONENTS
+   PALETTE: English Violet (#4A3267), Blush (#DE638A),
+            Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
+   =================================================== */
+
 .toggle-switch {
     position: relative;
     width: 46px;
@@ -14,7 +20,8 @@
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #e4e4e7;
+    background-color: var(--color-mimi);
+    border: 1px solid var(--border-color);
     transition: 0.3s;
     border-radius: 24px;
 }
@@ -22,8 +29,8 @@
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     left: 3px;
     bottom: 3px;
     background-color: white;
@@ -32,7 +39,8 @@
 }
 
 input:checked + .toggle-slider {
-    background-color: #be185d;
+    background-color: var(--color-blush);
+    border-color: var(--color-blush);
 }
 
 input:checked + .toggle-slider:before {
@@ -42,35 +50,39 @@ input:checked + .toggle-slider:before {
 .availability-status {
     font-weight: 600;
     font-size: 14px;
-    color: #10b981;
+    color: var(--status-safe);
 }
 
 .availability-status.offline {
-    color: #ef4444;
+    color: var(--status-alert);
 }
 
 /* Request Cards */
 .request-card {
-    border-left: 4px solid #be185d;
+    border-left: 4px solid var(--color-blush);
     background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
 }
 
 .request-card .route {
-    color: #27272a;
+    color: var(--text-body);
     font-size: 14px;
     font-weight: 500;
     margin: 6px 0;
 }
 
 .request-card .meta {
-    color: #71717a;
+    color: var(--text-secondary);
     font-size: 12px;
     margin: 4px 0;
 }
 
 .request-card .price {
-    color: #be185d;
-    font-weight: 600;
+    color: var(--color-blush);
+    font-weight: 700;
     font-size: 15px;
     margin: 8px 0;
 }
@@ -109,195 +121,113 @@ input:checked + .toggle-slider:before {
 
 .completed-card {
     background: #ffffff;
+    border: 1px solid var(--border-color);
     border-left: 4px solid #10b981;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
 }
 
 /* Review Cards */
 .review-card {
-    border: 1px solid #e4e4e7;
-    border-left: 4px solid #be185d;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--color-blush);
     background: #ffffff;
     padding: 16px;
+    border-radius: 12px;
     margin-bottom: 12px;
-    border-radius: 8px;
 }
 
-.review-card h4 {
-    color: #eab308;
-    margin-bottom: 6px;
+.review-card .stars {
+    color: #f59e0b;
     font-size: 14px;
+    margin-bottom: 4px;
 }
 
 .review-card p {
-    color: #27272a;
-    font-style: italic;
+    color: var(--text-body);
     font-size: 13px;
-    margin-bottom: 6px;
-    line-height: 1.4;
+    margin: 4px 0;
 }
 
-.review-card small {
-    color: #71717a;
+.review-card .author {
+    color: var(--text-muted);
     font-size: 11px;
+    margin-top: 6px;
 }
 
-.hidden {
-    display: none !important;
-}
-
-/* Modern Grid for Cabs/Guides cards */
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-}
-
-.service-card {
+/* Service & Stay Cards */
+.stay-card,
+.driver-card,
+.guide-card,
+.group-card {
     background: #ffffff;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e4e4e7;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: border-color 0.15s;
+    padding: 16px;
+    margin-bottom: 14px;
+    transition: all 0.2s ease;
 }
 
-.service-card:hover {
-    border-color: #be185d;
+.stay-card:hover,
+.driver-card:hover,
+.guide-card:hover,
+.group-card:hover {
+    border-color: var(--color-blush);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.12);
 }
 
-.service-card h4 {
-    color: #18181b;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.service-card .service-type {
-    color: #be185d;
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-.service-card p {
-    color: #52525b;
-    font-size: 13px;
-}
-
-/* Booking button flat styling */
 .booking-btn {
     width: 100%;
-    padding: 10px 14px;
-    background: #be185d;
+    padding: 10px;
+    background: var(--primary-gradient);
     color: white;
     border: none;
     border-radius: 6px;
-    font-weight: 600;
     font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 12px;
-    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.2);
-    transition: all 0.15s ease;
+    margin-top: 10px;
+    box-shadow: var(--primary-glow);
+    transition: all 0.2s ease;
 }
 
 .booking-btn:hover {
-    background: #9d174d;
-    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.3);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #c95076 0%, #3a2652 100%);
+    box-shadow: 0 6px 18px rgba(222, 99, 138, 0.35);
 }
 
-/* Forms in tabs */
-.planner-form {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e4e4e7;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-}
-
-.planner-form .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.planner-form select,
-.planner-form input {
-    padding: 10px 12px;
-    border: 1px solid #d4d4d8;
-    border-radius: 6px;
-    font-size: 13px;
-    width: 100%;
-}
-
-.planner-form select:focus,
-.planner-form input:focus {
-    outline: none;
-    border-color: #be185d;
-}
-
-/* Places and stays cards */
-.place-card {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #e4e4e7;
-    border-left: 4px solid #be185d;
-}
-
-.place-card h4 {
-    color: #18181b;
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.place-card .rating {
-    color: #eab308;
-    font-weight: 600;
-    font-size: 13px;
-}
-
-.place-card .reviews-count {
-    color: #71717a;
-    font-size: 12px;
-}
-
-.place-card .comment {
-    color: #52525b;
-    font-style: italic;
-    margin: 8px 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.place-card .safe-badge {
-    display: inline-block;
-    background: #dcfce7;
-    color: #15803d;
-    padding: 3px 8px;
-    border-radius: 12px;
+/* Status Badges */
+.badge-verified {
+    background: var(--status-safe-bg);
+    color: var(--status-safe);
+    border: 1px solid var(--status-safe-border);
+    padding: 2px 8px;
+    border-radius: 4px;
     font-size: 11px;
-    font-weight: 600;
-    margin-top: 4px;
+    font-weight: 700;
+    display: inline-block;
 }
 
-.tour-card {
-    background: #fefcbf;
-    border: 1px solid #fef08a;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+.badge-concern {
+    background: var(--status-concern-bg);
+    color: var(--status-concern);
+    border: 1px solid var(--status-concern-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
 }
 
-.tour-card h4 {
-    color: #854d0e;
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 4px;
+.badge-alert {
+    background: var(--status-alert-bg);
+    color: var(--status-alert);
+    border: 1px solid var(--status-alert-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
 }
