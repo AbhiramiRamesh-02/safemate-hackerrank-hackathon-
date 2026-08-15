@@ -21,6 +21,7 @@ app.use('/api', require('./routes/guides'));
 app.use('/api', require('./routes/safety'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/chat', require('./routes/chat'));
+app.use('/api/travel-groups', require('./routes/pools'));
 
 // Root check endpoint
 app.get('/', (req, res) => {

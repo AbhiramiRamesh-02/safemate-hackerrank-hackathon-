@@ -9,7 +9,7 @@ async function loadTravelGroups() {
         '<p style="color:#555;margin-bottom:20px;">Join other verified women traveling to similar destinations to share cab costs and travel safely together.</p>' +
         
         '<div class="planner-form" style="margin-bottom:25px; padding:15px; border: 1px solid #fbcfe8; background:#fffbfd; border-radius:12px;">' +
-        '<h4>➕ Create Travel Group / Cab Pool</h4>' +
+        '<h4>Create Travel Group / Cab Pool</h4>' +
         '<div class="form-group"><label>Trip Title / Route</label><input type="text" id="groupTitle" placeholder="e.g. Bangalore to Coorg Cab Pool"></div>' +
         '<div class="form-group"><label>Trip Category</label><select id="groupCategory"><option>Cab Pooling</option><option>Group Vacation</option><option>College Shared Travel</option><option>Weekend Trek</option></select></div>' +
         '<div class="form-group"><label>Starting From</label><input type="text" id="groupStarting" placeholder="e.g. Bangalore Majestic"></div>' +
@@ -36,9 +36,9 @@ async function loadTravelGroups() {
             gridHtml += '<div class="service-card">' +
                 '<h4>' + g.title + '</h4>' +
                 '<p class="service-type">' + g.category + '</p>' +
-                '<p>👤 ' + g.members_count + ' women joined</p>' +
-                '<p>📍 Starting from: ' + g.starting_from + '</p>' +
-                '<p>🕐 Date: ' + formattedDate + '</p>' +
+                '<p>Members joined: ' + g.members_count + '</p>' +
+                '<p>Starting from: ' + g.starting_from + '</p>' +
+                '<p>Date: ' + formattedDate + '</p>' +
                 '<button class="booking-btn" onclick="joinTravelGroup(\'' + g._id + '\')">Join Group</button>' +
                 '</div>';
         });
