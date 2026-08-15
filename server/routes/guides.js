@@ -6,19 +6,27 @@ const GuideService = require('../models/GuideService');
 const GuideBooking = require('../models/GuideBooking');
 
 // GET /api/guides — get all available guides
-router.get('/', async (req, res) => {
+router.get('/guides', async (req, res) => {
     try {
         const guides = await User.find({ role: 'guide' }).select('name email phone city age rating');
-        res.json(guides);
+        const services = await GuideService.find({});
+
+        const joinedGuides = guides.map(guide => {
+            const guideObj = guide.toObject();
+            guideObj.services = services.filter(s => s.guide_email === guide.email);
+            return guideObj;
+        });
+
+        res.json(joinedGuides);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-// GET /api/guide-services — get guide services
-router.get('/services', async (req, res) => {
+// GET /api/guide-services/my — get current guide's services
+router.get('/guide-services/my', authMiddleware, async (req, res) => {
     try {
-        const services = await GuideService.find({}).sort({ created_at: -1 });
+        const services = await GuideService.find({ guide_email: req.user.email }).sort({ created_at: -1 });
         res.json(services);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
@@ -26,7 +34,7 @@ router.get('/services', async (req, res) => {
 });
 
 // POST /api/guide-services — create/register a guide service
-router.post('/services', authMiddleware, async (req, res) => {
+router.post('/guide-services', authMiddleware, async (req, res) => {
     try {
         const { service_name, city, service_type, description, price } = req.body;
 

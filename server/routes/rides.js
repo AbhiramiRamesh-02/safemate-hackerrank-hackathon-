@@ -4,6 +4,30 @@ const authMiddleware = require('../middleware/auth');
 const User = require('../models/User');
 const RideRequest = require('../models/RideRequest');
 
+// PUT /api/vehicle — save driver vehicle details
+router.put('/vehicle', authMiddleware, async (req, res) => {
+    try {
+        const { vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride } = req.body;
+
+        await User.updateOne(
+            { email: req.user.email },
+            {
+                $set: {
+                    vehicle_type,
+                    vehicle_brand,
+                    vehicle_number,
+                    city,
+                    price_per_ride
+                }
+            }
+        );
+
+        res.json({ message: 'Vehicle details saved successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // GET /api/drivers — get all available drivers
 router.get('/drivers', async (req, res) => {
     try {

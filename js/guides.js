@@ -132,11 +132,11 @@ function filterGuides() {
             '  <div style="width:40px; height:40px; border-radius:50%; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; border:1px solid #fde68a; flex-shrink:0;">' + initials + '</div>' +
             '  <div>' +
             '    <h4 style="margin:0; font-size:15px;">' + guide.name + '</h4>' +
-            '    <p style="margin:0; font-size:12px; color:#71717a;">⭐ ' + (guide.rating || '4.8') + '</p>' +
+            '    <p style="margin:0; font-size:12px; color:#71717a;">Rating: ' + (guide.rating || '4.8') + '</p>' +
             '  </div>' +
             '</div>' +
             '<p class="service-type">' + serviceName + ' • ' + (guide.city || '') + ' (Age: ' + (guide.age || 'N/A') + ')</p>' +
-            '<p style="color:#10b981;font-size:13px;margin-top:5px;">✓ Available</p>' +
+            '<p style="color:#10b981;font-size:13px;margin-top:5px;">Available</p>' +
             '<button class="booking-btn" onclick="viewGuideDetails(\'' + guide.name + '\', \'' + serviceName + '\', \'' + (guide.rating || '4.8') + '\', \'' + (guide.age || 'N/A') + '\', \'' + (guide.phone || '') + '\', \'Available\', \'' + descStr + '\', \'' + priceStr + '\')">' +
             'View Details</button>' +
             '</div>';
@@ -228,4 +228,48 @@ function closeBookingDetails() {
     var modal = document.getElementById('bookingDetailsModal');
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
+}
+
+async function saveGuideServices() {
+    var serviceName = document.getElementById('guideServiceName').value.trim();
+    var city = document.getElementById('guideServiceCity').value;
+    var serviceType = document.getElementById('guideServiceType').value;
+    var description = document.getElementById('guideServiceDesc').value.trim();
+    var price = document.getElementById('guideServicePrice').value;
+
+    if (!serviceName || !description || !price) {
+        alert('Please fill in all service details!');
+        return;
+    }
+
+    try {
+        await apiCall('POST', '/guide-services', {
+            service_name: serviceName,
+            city: city,
+            service_type: serviceType,
+            description: description,
+            price: price
+        });
+        alert('Service added successfully!');
+        document.getElementById('guideServiceName').value = '';
+        document.getElementById('guideServiceDesc').value = '';
+        document.getElementById('guideServicePrice').value = '';
+
+        // Reload services
+        var services = await apiCall('GET', '/guide-services/my');
+        var html = '<div style="background:#dcfce7;padding:15px;border-radius:10px;margin-top:15px;">' +
+            '<h4 style="color:#166534;margin-bottom:10px;">Your Services</h4>';
+        services.forEach(function(s) {
+            html += '<div style="background:white;padding:12px;border-radius:8px;margin-bottom:10px;">' +
+                '<p style="color:#333;margin:5px 0;font-weight:600;">' + s.service_name + '</p>' +
+                '<p style="color:#666;font-size:13px;margin:5px 0;">Location: ' + s.city + ' • ' + s.service_type + '</p>' +
+                '<p style="color:#555;font-size:13px;margin:5px 0;">' + s.description + '</p>' +
+                '<p style="color:#ec4899;font-weight:600;margin:5px 0;">₹' + s.price + '/person</p>' +
+                '</div>';
+        });
+        html += '</div>';
+        document.getElementById('guideServicesSaved').innerHTML = html;
+    } catch (err) {
+        alert(err.message);
+    }
 }

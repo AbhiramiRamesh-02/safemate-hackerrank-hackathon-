@@ -107,7 +107,7 @@ function filterDrivers() {
             '  <div style="width:40px; height:40px; border-radius:50%; background:#fce7f3; color:#be185d; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; border:1px solid #fbcfe8; flex-shrink:0;">' + initials + '</div>' +
             '  <div>' +
             '    <h4 style="margin:0; font-size:15px;">' + driver.name + '</h4>' +
-            '    <p style="margin:0; font-size:12px; color:#71717a;">⭐ ' + (driver.rating || '4.5') + '</p>' +
+            '    <p style="margin:0; font-size:12px; color:#71717a;">Rating: ' + (driver.rating || '4.5') + '</p>' +
             '  </div>' +
             '</div>' +
             '<p class="service-type">' + (driver.vehicle_type || 'Car') + ' • ' + (driver.city || '') + '</p>' +
@@ -195,7 +195,7 @@ function showDriverDashboard() {
 async function loadDriverStats() {
     try {
         var stats = await apiCall('GET', '/driver/stats');
-        document.getElementById('driverRating').textContent = '⭐ ' + (stats.rating || '4.8');
+        document.getElementById('driverRating').textContent = 'Rating: ' + (stats.rating || '4.8');
         document.getElementById('driverTotalRides').textContent = stats.totalRides + ' rides';
         document.getElementById('driverTodayEarnings').textContent = '₹' + stats.todayEarnings;
         document.getElementById('driverTodayRides').textContent = stats.todayRides + ' rides today';
@@ -203,5 +203,40 @@ async function loadDriverStats() {
         document.getElementById('driverAllTimeRides').textContent = stats.completedRides + ' completed';
     } catch (err) {
         // Silently ignore stats retrieval failures
+    }
+}
+
+async function saveDriverProfile() {
+    var vehicleType = document.getElementById('driverVehicleType').value;
+    var vehicleBrand = document.getElementById('driverVehicleBrand').value.trim();
+    var vehicleNumber = document.getElementById('driverVehicleNumber').value.trim();
+    var city = document.getElementById('driverCity').value;
+    var price = document.getElementById('driverPrice').value;
+
+    if (!vehicleBrand || !vehicleNumber || !price) {
+        alert('Please fill in all vehicle details!');
+        return;
+    }
+
+    try {
+        await apiCall('PUT', '/vehicle', {
+            vehicle_type: vehicleType,
+            vehicle_brand: vehicleBrand,
+            vehicle_number: vehicleNumber,
+            city: city,
+            price_per_ride: price
+        });
+        alert('Vehicle details saved successfully!');
+        document.getElementById('driverProfileSaved').innerHTML =
+            '<div style="background:#dcfce7;padding:15px;border-radius:10px;margin-top:15px;">' +
+            '<h4 style="color:#166534;margin-bottom:10px;">Saved Vehicle Details</h4>' +
+            '<p style="color:#333;margin:5px 0;"><strong>Type:</strong> ' + vehicleType + '</p>' +
+            '<p style="color:#333;margin:5px 0;"><strong>Vehicle:</strong> ' + vehicleBrand + '</p>' +
+            '<p style="color:#333;margin:5px 0;"><strong>Number:</strong> ' + vehicleNumber + '</p>' +
+            '<p style="color:#333;margin:5px 0;"><strong>City:</strong> ' + city + '</p>' +
+            '<p style="color:#333;margin:5px 0;"><strong>Price:</strong> ₹' + price + '</p>' +
+            '</div>';
+    } catch (err) {
+        alert(err.message);
     }
 }

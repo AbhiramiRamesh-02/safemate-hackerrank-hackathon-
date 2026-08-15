@@ -238,10 +238,10 @@ function showTravelerTab(tabName) {
         loadTravelerMyBookings();
     } else if (tabName === 'bookHotel' && typeof loadStays === 'function') {
         loadStays();
-    } else if (tabName === 'bookCab' && typeof loadDrivers === 'function') {
-        loadDrivers();
-    } else if (tabName === 'travelGuide' && typeof loadGuides === 'function') {
-        loadGuides();
+    } else if (tabName === 'bookCab' && typeof loadAvailableDrivers === 'function') {
+        loadAvailableDrivers();
+    } else if (tabName === 'travelGuide' && typeof loadAvailableGuides === 'function') {
+        loadAvailableGuides();
     }
 }
 
