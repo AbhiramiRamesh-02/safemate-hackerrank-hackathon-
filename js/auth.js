@@ -214,30 +214,31 @@ function goBack() {
 
 // Tab Navigation for Traveler Dashboard
 function showTravelerTab(tabName) {
-    var tabContents = document.querySelectorAll('#travelerDashboard .tab-content');
+    var tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(function(content) {
         content.classList.add('hidden');
     });
     
-    var allNavBtns = document.querySelectorAll('.sidebar-nav-item button, .mobile-bottom-nav button, .tab-btn');
-    allNavBtns.forEach(function(btn) {
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(function(btn) {
         btn.classList.remove('active');
     });
     
     var activeContent = document.getElementById('tab-' + tabName);
     if (activeContent) activeContent.classList.remove('hidden');
     
-    var sidebarBtn = document.getElementById('navBtn-' + tabName);
-    if (sidebarBtn) sidebarBtn.classList.add('active');
-
-    var mobBtn = document.getElementById('mobNav-' + tabName);
-    if (mobBtn) mobBtn.classList.add('active');
+    var buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(function(btn) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        }
+    });
 
     if (tabName === 'travelPartner' && typeof loadTravelGroups === 'function') {
         loadTravelGroups();
     } else if (tabName === 'anonymousReports' && typeof loadAnonymousReports === 'function') {
         loadAnonymousReports();
-    } else if ((tabName === 'safeRoutes' || tabName === 'safetyMap') && typeof loadDarkSpots === 'function') {
+    } else if (tabName === 'safeRoutes' && typeof loadDarkSpots === 'function') {
         loadDarkSpots();
     } else if (tabName === 'myBookings' && typeof loadTravelerMyBookings === 'function') {
         loadTravelerMyBookings();

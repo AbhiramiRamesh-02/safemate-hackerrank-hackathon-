@@ -149,28 +149,25 @@ async function saveEmergencyContact() {
 // Display Saved Contacts
 async function displaySavedContacts() {
     var container = document.getElementById('savedContacts');
-    var centerContainer = document.getElementById('emergencyCenterContactsList');
+    if (!container) return;
     try {
         var contacts = await apiCall('GET', '/emergency-contacts');
         if (contacts.length === 0) {
-            if (container) container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:15px;">No emergency contact saved yet.</p>';
-            if (centerContainer) centerContainer.innerHTML = 'No emergency contact saved. <button class="btn-secondary" style="font-size:11px;padding:2px 8px;margin-left:6px;" onclick="showTravelerTab(\'emergencyContact\')">Add Contact</button>';
+            container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">No emergency contact saved yet.</p>';
             return;
         }
         var html = '';
         contacts.forEach(function(c) {
-            html += '<div style="background:var(--bg-surface-subtle);border:1px solid var(--border-color);padding:14px;border-radius:var(--radius-sm);margin-top:10px;">' +
-                '<h4 style="color:var(--text-primary);margin-bottom:4px;">' + c.contact_name + ' (' + c.relationship + ')</h4>' +
-                '<p style="color:var(--text-secondary);font-size:13px;margin:2px 0;"><strong>Phone:</strong> ' + c.phone + '</p>' +
+            html += '<div style="background:#dcfce7;padding:15px;border-radius:10px;margin-top:15px;">' +
+                '<h4 style="color:#166534;margin-bottom:10px;">Emergency Contact</h4>' +
+                '<p style="color:#333;margin:5px 0;"><strong>Name:</strong> ' + c.contact_name + '</p>' +
+                '<p style="color:#333;margin:5px 0;"><strong>Phone:</strong> ' + c.phone + '</p>' +
+                '<p style="color:#666;font-size:13px;margin:5px 0;"><strong>Relationship:</strong> ' + c.relationship + '</p>' +
                 '</div>';
         });
-        if (container) container.innerHTML = html;
-        if (centerContainer) {
-            centerContainer.innerHTML = '<p style="color:var(--status-safe);font-weight:600;margin-bottom:4px;">✓ Primary Contact Configured</p>' +
-                '<p style="color:var(--text-primary);margin:0;"><strong>' + contacts[0].contact_name + '</strong> (' + contacts[0].relationship + ') · ' + contacts[0].phone + '</p>';
-        }
+        container.innerHTML = html;
     } catch (err) {
-        if (container) container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:15px;">Could not load contacts.</p>';
+        container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load contacts.</p>';
     }
 }
 
