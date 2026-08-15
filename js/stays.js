@@ -1,61 +1,4 @@
-var placesData = {
-    "Pondicherry": {
-        "Nature": [
-            { name: "Paradise Beach", rating: "5/5", count: 28, comment: "Beautiful!" },
-            { name: "Auroville Gardens", rating: "4/5", count: 42, comment: "Peaceful" }
-        ],
-        "Cafes": [
-            { name: "Cafe des Arts", rating: "5/5", count: 56, comment: "Great!" },
-            { name: "Coromandel Cafe", rating: "4/5", count: 34, comment: "Nice" }
-        ],
-        "Adventure": [
-            { name: "Scuba Diving", rating: "5/5", count: 19, comment: "Safe" },
-            { name: "Surfing", rating: "4/5", count: 23, comment: "Fun" }
-        ],
-        "Shopping": [
-            { name: "Mission Street", rating: "4/5", count: 67, comment: "Busy" },
-            { name: "Sunday Market", rating: "5/5", count: 89, comment: "Bargains!" }
-        ]
-    },
-    "Coorg": {
-        "Nature": [
-            { name: "Abbey Falls", rating: "5/5", count: 124, comment: "Must visit!" },
-            { name: "Raja's Seat", rating: "4/5", count: 98, comment: "Sunset!" }
-        ],
-        "Cafes": [
-            { name: "Coffee Plantation", rating: "5/5", count: 58, comment: "Best coffee!" },
-            { name: "Beans n Brews", rating: "4/5", count: 41, comment: "Cozy" }
-        ],
-        "Adventure": [
-            { name: "Tadiandamol Trek", rating: "5/5", count: 45, comment: "Safe" },
-            { name: "River Rafting", rating: "4/5", count: 32, comment: "Thrilling" }
-        ],
-        "Shopping": [
-            { name: "Coorg Spice Market", rating: "4/5", count: 73, comment: "Authentic" },
-            { name: "Madikeri Shops", rating: "5/5", count: 89, comment: "Souvenirs" }
-        ]
-    },
-    "Jaipur": {
-        "Nature": [
-            { name: "Sisodia Garden", rating: "4/5", count: 45, comment: "Peaceful" },
-            { name: "Kanak Vrindavan", rating: "5/5", count: 62, comment: "Beautiful" }
-        ],
-        "Cafes": [
-            { name: "Tapri Central", rating: "5/5", count: 89, comment: "Chai!" },
-            { name: "Wind View Cafe", rating: "4/5", count: 67, comment: "Views" }
-        ],
-        "Adventure": [
-            { name: "Fort Cycling", rating: "5/5", count: 38, comment: "Adventure" },
-            { name: "Hot Air Balloon", rating: "5/5", count: 156, comment: "Unforgettable!" }
-        ],
-        "Shopping": [
-            { name: "Bapu Bazaar", rating: "5/5", count: 234, comment: "Textiles!" },
-            { name: "Johari Bazaar", rating: "4/5", count: 187, comment: "Jewelry" }
-        ]
-    }
-};
-
-function createTrip() {
+async function createTrip() {
     var destination = document.getElementById('tripDestination').value;
     var interest = document.getElementById('tripInterest').value;
     var fromDate = document.getElementById('tripFromDate').value;
@@ -96,8 +39,106 @@ function createTrip() {
             '</div>';
     });
 
+    // Integrated Co-Travelers & Groups for Destination
+    var groupsHtml = '<div style="margin-top:25px; padding-top:20px; border-top: 2px solid #e5e7eb;">' +
+        '<h3 style="color:#333; margin-bottom:10px;">Co-Travelers & Groups for ' + destination + '</h3>' +
+        '<p style="color:#555; font-size:13px; margin-bottom:15px;">Do not want to travel alone? Join a verified group or create one below to travel together.</p>';
+        
+    try {
+        var groups = await apiCall('GET', '/travel-groups');
+        var matching = groups.filter(function(g) {
+            var destLower = destination.toLowerCase();
+            return (g.title && g.title.toLowerCase().includes(destLower)) || 
+                   (g.starting_from && g.starting_from.toLowerCase().includes(destLower)) ||
+                   (g.category && g.category.toLowerCase().includes(destLower));
+        });
+        
+        if (matching.length === 0) {
+            groupsHtml += '<p style="color:#666; font-style:italic; padding:10px 0;">No active travel groups found for ' + destination + ' yet.</p>';
+        } else {
+            groupsHtml += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
+            matching.forEach(function(g) {
+                var formattedDate = new Date(g.date).toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'});
+                groupsHtml += '<div class="dashboard-card" style="padding:15px; border:1px solid #e4e4e7; border-radius:10px; background:#fffbfd; display:flex; justify-content:space-between; align-items:center;">' +
+                    '<div>' +
+                    '  <h4 style="margin:0;color:#db2777;">' + g.title + '</h4>' +
+                    '  <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Category: ' + g.category + ' • Starting: ' + g.starting_from + '</p>' +
+                    '  <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Date: ' + formattedDate + ' • Members: ' + g.members_count + '</p>' +
+                    '</div>' +
+                    '<button class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:12px;" onclick="joinTripPlannerGroup(\'' + g._id + '\')">Join</button>' +
+                    '</div>';
+            });
+            groupsHtml += '</div>';
+        }
+    } catch (err) {
+        groupsHtml += '<p style="color:#ef4444; font-size:12px;">Could not load active groups.</p>';
+    }
+
+    groupsHtml += '<div class="planner-form" style="background:#fdf2f8; border: 1px dashed #fbcfe8; padding:15px; border-radius:10px; margin-top:15px;">' +
+        '<h4 style="margin-top:0; color:#be185d;">Create a Travel Group for ' + destination + '</h4>' +
+        '<div class="form-group" style="margin-bottom:10px;">' +
+        '  <label style="font-size:12px;">Trip Title / Route</label>' +
+        '  <input type="text" id="plannerGroupTitle" placeholder="e.g. Girls Trip to ' + destination + '" style="font-size:14px; padding:8px;">' +
+        '</div>' +
+        '<div class="form-group" style="margin-bottom:10px;">' +
+        '  <label style="font-size:12px;">Trip Category</label>' +
+        '  <select id="plannerGroupCategory" style="font-size:14px; padding:8px;">' +
+        '    <option>Group Vacation</option>' +
+        '    <option>Cab Pooling</option>' +
+        '    <option>Weekend Trek</option>' +
+        '  </select>' +
+        '</div>' +
+        '<div class="form-group" style="margin-bottom:10px;">' +
+        '  <label style="font-size:12px;">Starting Location</label>' +
+        '  <input type="text" id="plannerGroupStarting" placeholder="e.g. Bangalore" style="font-size:14px; padding:8px;">' +
+        '</div>' +
+        '<div class="form-group" style="margin-bottom:15px;">' +
+        '  <label style="font-size:12px;">Trip Date</label>' +
+        '  <input type="date" id="plannerGroupDate" style="font-size:14px; padding:8px;">' +
+        '</div>' +
+        '<button class="submit-btn" style="padding:10px; font-size:13px;" onclick="submitPlannerGroup(\'' + destination + '\')">Create & Join Group</button>' +
+        '</div>' +
+        '</div>';
+
+    html += groupsHtml;
+
     document.getElementById('recommendations').innerHTML = html;
     document.getElementById('recommendations').classList.remove('hidden');
+}
+
+async function joinTripPlannerGroup(groupId) {
+    try {
+        await apiCall('PUT', '/travel-groups/' + groupId + '/join');
+        alert('Successfully joined the travel group!');
+        createTrip();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+async function submitPlannerGroup(destination) {
+    var title = document.getElementById('plannerGroupTitle').value.trim();
+    var category = document.getElementById('plannerGroupCategory').value;
+    var starting = document.getElementById('plannerGroupStarting').value.trim();
+    var date = document.getElementById('plannerGroupDate').value;
+    
+    if (!title || !starting || !date) {
+        alert('Please fill out all group details!');
+        return;
+    }
+    
+    try {
+        await apiCall('POST', '/travel-groups', {
+            title: title,
+            category: category,
+            starting_from: starting,
+            date: date
+        });
+        alert('Travel group created successfully!');
+        createTrip();
+    } catch (err) {
+        alert(err.message);
+    }
 }
 
 function toggleStayRegistrationForm() {
@@ -167,7 +208,7 @@ async function loadStays() {
 
         var html = '';
         stays.forEach(function(s) {
-            var measuresList = (s.safety_measures || []).map(m => '<li>✓ ' + m + '</li>').join('');
+            var measuresList = (s.safety_measures || []).map(m => '<li>' + m + '</li>').join('');
             
             html += '<div class="service-card">' +
                 '<h4>' + s.name + ' <span style="font-size:11px; background:#fdf2f8; color:#be185d; padding:2px 6px; border-radius:4px; border:1px solid #fbcfe8; float:right;">' + s.type + '</span></h4>' +
