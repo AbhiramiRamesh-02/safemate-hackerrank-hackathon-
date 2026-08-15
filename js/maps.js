@@ -5,6 +5,13 @@ async function loadDarkSpots() {
     if (!container) return;
     container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Loading active risk zones...</p>';
 
+    // Fix hidden Leaflet container resize distortion
+    if (mapRef !== null) {
+        setTimeout(function() {
+            mapRef.invalidateSize();
+        }, 100);
+    }
+
     try {
         var spots = await apiCall('GET', '/dark-spots');
         if (spots.length === 0) {
@@ -16,7 +23,7 @@ async function loadDarkSpots() {
             var badgeColor = s.risk_level === 'High' ? '#ef4444' : (s.risk_level === 'Medium' ? '#f59e0b' : '#10b981');
             return '<div style="background:#fafafa; border: 1px solid #e5e7eb; border-left: 4px solid ' + badgeColor + '; border-radius:12px; padding:15px; text-align:left;">' +
                 '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">' +
-                '<strong style="color:#333; font-size:15px;">📍 ' + s.title + ' (' + s.city + ')</strong>' +
+                '<strong style="color:#333; font-size:15px;">' + s.title + ' (' + s.city + ')</strong>' +
                 '<span style="background:' + badgeColor + '; color:#fff; font-size:11px; padding:2px 8px; border-radius:10px;">' + s.risk_level + ' Risk</span>' +
                 '</div>' +
                 '<p style="font-size:14px; color:#555; line-height:1.4;">' + s.description + '</p>' +
@@ -94,7 +101,7 @@ function calculateSafeRoute() {
         L.marker(unsafePoints[1], {
             icon: L.divIcon({
                 className: 'custom-div-icon',
-                html: "<div style='background-color:#ef4444; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>⚠️ 3 Dark Spots</div>",
+                html: "<div style='background-color:#ef4444; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>3 Dark Spots</div>",
                 iconSize: [80, 20],
                 iconAnchor: [40, 10]
             })
@@ -109,7 +116,7 @@ function calculateSafeRoute() {
         L.marker(safePoints[1], {
             icon: L.divIcon({
                 className: 'custom-div-icon',
-                html: "<div style='background-color:#22c55e; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>🛡️ Police Patrol</div>",
+                html: "<div style='background-color:#22c55e; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>Police Patrol</div>",
                 iconSize: [90, 20],
                 iconAnchor: [45, 10]
             })
