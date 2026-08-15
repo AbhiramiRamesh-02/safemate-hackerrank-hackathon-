@@ -5,8 +5,9 @@ const DarkSpot = require('../models/DarkSpot');
 const AnonymousReport = require('../models/AnonymousReport');
 const EmergencyContact = require('../models/EmergencyContact');
 
-// GET /api/darkspots — get dark spots
-router.get('/darkspots', async (req, res) => {
+// ─── DARK SPOTS (RISK ZONES) ROUTES ──────────────────────────
+// GET /api/dark-spots — get all reported dark spots
+router.get('/dark-spots', async (req, res) => {
     try {
         const spots = await DarkSpot.find({}).sort({ created_at: -1 });
         res.json(spots);
@@ -15,21 +16,21 @@ router.get('/darkspots', async (req, res) => {
     }
 });
 
-// POST /api/darkspots/report — report a new dark spot
-router.post('/darkspots/report', authMiddleware, async (req, res) => {
+// POST /api/dark-spots — report a new dark spot
+router.post('/dark-spots', authMiddleware, async (req, res) => {
     try {
-        const { latitude, longitude, description, city } = req.body;
-        if (!latitude || !longitude) {
-            return res.status(400).json({ error: 'Coordinates are required' });
+        const { title, city, risk_level, description, latitude, longitude } = req.body;
+        if (!title || !city || !risk_level) {
+            return res.status(400).json({ error: 'Title, City and Risk Level are required' });
         }
 
         const newSpot = new DarkSpot({
-            reporter_name: req.user.name,
-            reporter_email: req.user.email,
-            latitude,
-            longitude,
+            title,
+            city,
+            risk_level,
             description: description || '',
-            city: city || ''
+            latitude: latitude || 0,
+            longitude: longitude || 0
         });
 
         await newSpot.save();
@@ -39,8 +40,9 @@ router.post('/darkspots/report', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/reports/anonymous — get all anonymous community alerts
-router.get('/reports/anonymous', async (req, res) => {
+// ─── ANONYMOUS ABUSE & COMMUNITY REPORTS ────────────────────
+// GET /api/anonymous-reports — get recent community alerts
+router.get('/anonymous-reports', async (req, res) => {
     try {
         const reports = await AnonymousReport.find({}).sort({ created_at: -1 });
         res.json(reports);
@@ -49,47 +51,50 @@ router.get('/reports/anonymous', async (req, res) => {
     }
 });
 
-// POST /api/reports/anonymous — report anonymous community alert
-router.post('/reports/anonymous', authMiddleware, async (req, res) => {
+// POST /api/anonymous-reports — submit a report anonymously
+router.post('/anonymous-reports', async (req, res) => {
     try {
-        const { description, city } = req.body;
-        if (!description) {
-            return res.status(400).json({ error: 'Description is required' });
+        const { category, location, description } = req.body;
+
+        if (!category || !location || !description) {
+            return res.status(400).json({ error: 'Category, Location and Description are required' });
         }
 
         const newReport = new AnonymousReport({
-            description,
-            city: city || ''
+            category,
+            location,
+            description
         });
 
         await newReport.save();
-        res.json({ message: 'Anonymous community report recorded successfully', report: newReport });
+        res.json({ message: 'Report submitted anonymously successfully', report: newReport });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-// GET /api/emergency/contacts — get saved emergency contacts
-router.get('/emergency/contacts', authMiddleware, async (req, res) => {
+// ─── EMERGENCY CONTACTS ROUTES ──────────────────────────────
+// GET /api/emergency-contacts — get saved contacts for the user
+router.get('/emergency-contacts', authMiddleware, async (req, res) => {
     try {
-        const contacts = await EmergencyContact.find({ traveler_email: req.user.email }).sort({ created_at: -1 });
+        const contacts = await EmergencyContact.find({ user_email: req.user.email }).sort({ created_at: -1 });
         res.json(contacts);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-// POST /api/emergency/contacts/save — save an emergency contact
-router.post('/emergency/contacts/save', authMiddleware, async (req, res) => {
+// POST /api/emergency-contacts — save a new emergency contact
+router.post('/emergency-contacts', authMiddleware, async (req, res) => {
     try {
-        const { name, phone, relationship } = req.body;
-        if (!name || !phone) {
-            return res.status(400).json({ error: 'Name and Phone are required' });
+        const { contact_name, phone, relationship } = req.body;
+        if (!contact_name || !phone) {
+            return res.status(400).json({ error: 'Contact name and phone number are required' });
         }
 
         const newContact = new EmergencyContact({
-            traveler_email: req.user.email,
-            name,
+            user_email: req.user.email,
+            contact_name,
             phone,
             relationship: relationship || 'Other'
         });
