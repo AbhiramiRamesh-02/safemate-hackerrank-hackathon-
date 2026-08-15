@@ -324,22 +324,30 @@ app.post('/api/rides', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/rides/pending — get pending ride requests (for driver)
+// GET /api/rides/pending — get pending ride requests
 app.get('/api/rides/pending', authMiddleware, async (req, res) => {
     try {
-        const requests = await RideRequest.find({ status: 'pending' }).sort({ created_at: -1 });
+        let filter = { status: 'pending' };
+        if (req.user.role === 'traveler') {
+            filter.traveler_email = req.user.email;
+        }
+        const requests = await RideRequest.find(filter).sort({ created_at: -1 });
         res.json(requests);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-// GET /api/rides/my — get my completed/accepted rides (for driver)
+// GET /api/rides/my — get completed/accepted rides
 app.get('/api/rides/my', authMiddleware, async (req, res) => {
     try {
-        const requests = await RideRequest.find({
-            status: { $in: ['accepted', 'completed'] }
-        }).sort({ created_at: -1 });
+        let filter = { status: { $in: ['accepted', 'completed'] } };
+        if (req.user.role === 'traveler') {
+            filter.traveler_email = req.user.email;
+        } else if (req.user.role === 'driver') {
+            filter.driver_name = req.user.name;
+        }
+        const requests = await RideRequest.find(filter).sort({ created_at: -1 });
         res.json(requests);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
@@ -486,20 +494,32 @@ app.post('/api/bookings', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/bookings/pending — get pending booking requests (for guide)
+// GET /api/bookings/pending — get pending booking requests
 app.get('/api/bookings/pending', authMiddleware, async (req, res) => {
     try {
-        const bookings = await GuideBooking.find({ status: 'pending' }).sort({ created_at: -1 });
+        let filter = { status: 'pending' };
+        if (req.user.role === 'traveler') {
+            filter.traveler_email = req.user.email;
+        } else if (req.user.role === 'guide') {
+            filter.guide_name = req.user.name;
+        }
+        const bookings = await GuideBooking.find(filter).sort({ created_at: -1 });
         res.json(bookings);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-// GET /api/bookings/my — get accepted bookings (for guide)
+// GET /api/bookings/my — get accepted bookings
 app.get('/api/bookings/my', authMiddleware, async (req, res) => {
     try {
-        const bookings = await GuideBooking.find({ status: 'accepted' }).sort({ created_at: -1 });
+        let filter = { status: 'accepted' };
+        if (req.user.role === 'traveler') {
+            filter.traveler_email = req.user.email;
+        } else if (req.user.role === 'guide') {
+            filter.guide_name = req.user.name;
+        }
+        const bookings = await GuideBooking.find(filter).sort({ created_at: -1 });
         res.json(bookings);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
