@@ -658,6 +658,32 @@
             <div class="dashboard-section">
                 <h3>Emergency Contact & SOS Settings</h3>
                 
+                <!-- Add Emergency Contact -->
+                <div class="card" style="margin-bottom: 24px; padding: 20px;">
+                    <h4>Emergency Contact</h4>
+                    <p style="color:#555;margin-bottom:20px;">Add your contact person who will be notified in case of emergency.</p>
+                    <div class="form-group">
+                        <label>Contact Name</label>
+                        <input type="text" id="emergencyContactName" placeholder="Enter contact name">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="emergencyContactPhone" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>Relationship</label>
+                        <select id="emergencyContactRelation">
+                            <option>Parent</option>
+                            <option>Spouse</option>
+                            <option>Sibling</option>
+                            <option>Friend</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <button class="submit-btn" onclick="saveEmergencyContact()">Save Contact</button>
+                    <div id="savedContacts" style="margin-top:20px"></div>
+                </div>
+
                 <!-- Acoustic Scream Settings -->
                 <div class="card" style="background:#fffcfc; border: 1px solid #fee2e2; margin-bottom: 24px; padding: 20px;">
                     <h4 style="color:#ef4444; margin-bottom:8px; display:flex; align-items:center; gap:8px;">Acoustic Scream Detection</h4>
@@ -1030,6 +1056,7 @@
 
     <!-- Modular JavaScript Controllers -->
     <script src="js/auth.js"></script>
+    <script src="js/ocr.js"></script>
     <script src="js/maps.js"></script>
     <script src="js/stays.js"></script>
     <script src="js/rides.js"></script>

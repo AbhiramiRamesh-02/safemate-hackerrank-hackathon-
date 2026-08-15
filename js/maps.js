@@ -121,3 +121,124 @@ function calculateSafeRoute() {
         mapRef.invalidateSize();
     }, 100);
 }
+
+// ─── TOILET FINDER FEATURES ─────────────────────────────────
+var toiletsData = {
+    "Pondicherry": [
+        { name: "Paradise Beach Public Toilet", type: "Public Toilet", address: "Paradise Beach Road", distance: "0.5 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Promenade Beach Toilet", type: "Public Toilet", address: "Promenade Beach", distance: "1.2 km", rating: "5/5", clean: true, womenOnly: true },
+        { name: "Auroville Public Toilet", type: "Public Toilet", address: "Auroville Main Road", distance: "2.5 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Le Cafe Toilet", type: "Hotel/Restaurant", address: "Beach Road", distance: "0.8 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Pondicherry Railway Station", type: "Railway Station", address: "Railway Station Road", distance: "3 km", rating: "3/5", clean: false, womenOnly: false }
+    ],
+    "Coorg": [
+        { name: "Madikeri Bus Stand Toilet", type: "Bus Stand", address: "Madikeri Bus Stand", distance: "0.3 km", rating: "3/5", clean: true, womenOnly: false },
+        { name: "Abbey Falls Toilet", type: "Public Toilet", address: "Abbey Falls Road", distance: "5 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Raja's Seat Toilet", type: "Public Toilet", address: "Raja's Seat Garden", distance: "1 km", rating: "4/5", clean: true, womenOnly: true },
+        { name: "Coorg Coffee Resort Toilet", type: "Hotel/Restaurant", address: "Coffee Plantations", distance: "4 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Kushalnagar Toilet", type: "Public Toilet", address: "Kushalnagar Main Road", distance: "8 km", rating: "3/5", clean: false, womenOnly: false }
+    ],
+    "Jaipur": [
+        { name: "Hawa Mahal Public Toilet", type: "Public Toilet", address: "Hawa Mahal Road", distance: "0.5 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "City Palace Toilet", type: "Public Toilet", address: "City Palace Complex", distance: "1 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Amber Fort Toilet", type: "Public Toilet", address: "Amber Fort Entrance", distance: "6 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Rajmandir Cinema Toilet", type: "Private/Paid", address: "C Scheme", distance: "2 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Jaipur Railway Station", type: "Railway Station", address: "Railway Station Road", distance: "3 km", rating: "3/5", clean: false, womenOnly: false },
+        { name: "Jantar Mantar Toilet", type: "Public Toilet", address: "Jantar Mantar Road", distance: "1.5 km", rating: "4/5", clean: true, womenOnly: true }
+    ],
+    "Bangalore": [
+        { name: "MG Road Public Toilet", type: "Public Toilet", address: "MG Road", distance: "0.5 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Koramangala Toilet", type: "Public Toilet", address: "Koramangala 5th Block", distance: "2 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "UB City Mall Toilet", type: "Private/Paid", address: "Vittal Mallya Road", distance: "1.5 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Bangalore Railway Station", type: "Railway Station", address: "Railway Station Road", distance: "4 km", rating: "3/5", clean: false, womenOnly: false },
+        { name: "Majestic Bus Stand", type: "Bus Stand", address: "Shivaji Nagar", distance: "3 km", rating: "3/5", clean: false, womenOnly: false }
+    ],
+    "Chennai": [
+        { name: "Marina Beach Toilet", type: "Public Toilet", address: "Marina Beach Road", distance: "0.8 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "T Nagar Public Toilet", type: "Public Toilet", address: "T Nagar", distance: "2 km", rating: "4/5", clean: true, womenOnly: false },
+        { name: "Express Avenue Mall", type: "Private/Paid", address: "Royapettah", distance: "3 km", rating: "5/5", clean: true, womenOnly: false },
+        { name: "Chennai Central Railway", type: "Railway Station", address: "Broadway", distance: "4 km", rating: "3/5", clean: false, womenOnly: false },
+        { name: "Anna Square Toilet", type: "Public Toilet", address: "Anna Square", distance: "1.5 km", rating: "4/5", clean: true, womenOnly: true }
+    ]
+};
+
+function findNearbyToilets() {
+    var location = document.getElementById('toiletLocation').value;
+    var type = document.getElementById('toiletType').value;
+    
+    var toilets = toiletsData[location];
+    var filteredToilets = toilets;
+    
+    if (type !== "All Types") {
+        filteredToilets = toilets.filter(function(t) {
+            return t.type === type;
+        });
+    }
+    
+    var html = '<h3 style="color:#333;margin-bottom:15px">Toilets in ' + location + '</h3>';
+    
+    if (filteredToilets.length === 0) {
+        html += '<p style="color:#666;padding:20px;text-align:center;">No toilets found for selected type.</p>';
+    } else {
+        filteredToilets.forEach(function(toilet) {
+            var badges = '';
+            if (toilet.clean) {
+                badges += '<span class="clean-badge">Clean</span>';
+            }
+            if (toilet.womenOnly) {
+                badges += '<span class="women-only-badge">Women Only</span>';
+            }
+            
+            html += '<div class="toilet-card">' +
+                '<h4>' + toilet.name + '</h4>' +
+                '<p class="toilet-type">' + toilet.type + '</p>' +
+                '<p class="toilet-address">Address: ' + toilet.address + '</p>' +
+                '<p class="toilet-distance">Distance: ' + toilet.distance + ' away</p>' +
+                '<p class="toilet-rating">Rating: ' + toilet.rating + '</p>' +
+                badges +
+                '</div>';
+        });
+    }
+    
+    document.getElementById('toiletResults').innerHTML = html;
+    document.getElementById('toiletResults').classList.remove('hidden');
+}
+
+function useCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                
+                var cities = [
+                    { name: "Bangalore", lat: 12.9716, lon: 77.5946 },
+                    { name: "Chennai", lat: 13.0827, lon: 80.2707 },
+                    { name: "Jaipur", lat: 26.9124, lon: 75.7873 },
+                    { name: "Pondicherry", lat: 11.9416, lon: 79.8083 },
+                    { name: "Coorg", lat: 12.3375, lon: 75.8069 }
+                ];
+                
+                var nearestCity = cities[0];
+                var minDistance = Infinity;
+                
+                cities.forEach(function(city) {
+                    var distance = Math.sqrt(Math.pow(city.lat - lat, 2) + Math.pow(city.lon - lon, 2));
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        nearestCity = city;
+                    }
+                });
+                
+                document.getElementById('toiletLocation').value = nearestCity.name;
+                alert("Located near " + nearestCity.name + ". Loading nearby toilets...");
+                findNearbyToilets();
+            },
+            function(error) {
+                alert("Could not retrieve GPS coordinates. Please select a city manually.");
+            }
+        );
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}

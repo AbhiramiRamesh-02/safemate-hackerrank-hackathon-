@@ -159,24 +159,136 @@ async function signup() {
 function showDashboard(role) {
     var dashboards = ['travelerDashboard', 'driverDashboard', 'guideDashboard'];
     dashboards.forEach(function(id) {
-        document.getElementById(id).classList.add('hidden');
+        var el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
     });
     
     if (role === 'traveler') {
-        document.getElementById('travelerDashboard').classList.remove('hidden');
+        var travDash = document.getElementById('travelerDashboard');
+        if (travDash) travDash.classList.remove('hidden');
         showTravelerTab('planTrip');
-        loadReviews();
+        if (typeof loadReviews === 'function') loadReviews();
     } else if (role === 'driver') {
-        document.getElementById('driverDashboard').classList.remove('hidden');
-        loadDriverRideRequests();
-        loadDriverStats();
+        var drivDash = document.getElementById('driverDashboard');
+        if (drivDash) drivDash.classList.remove('hidden');
+        if (typeof loadDriverRideRequests === 'function') loadDriverRideRequests();
+        if (typeof loadDriverStats === 'function') loadDriverStats();
     } else if (role === 'guide') {
-        document.getElementById('guideDashboard').classList.remove('hidden');
+        var guidDash = document.getElementById('guideDashboard');
+        if (guidDash) guidDash.classList.remove('hidden');
     } else {
-        document.getElementById('guideDashboard').classList.remove('hidden');
+        var guidDash = document.getElementById('guideDashboard');
+        if (guidDash) guidDash.classList.remove('hidden');
     }
     
-    document.getElementById('logoutBtn').classList.remove('hidden');
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.classList.remove('hidden');
+}
+
+// Show About Us page
+function showAboutUs() {
+    var pages = ['home', 'loginPage', 'travelerDashboard', 'driverDashboard', 'guideDashboard'];
+    pages.forEach(function(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            element.classList.add('hidden');
+        }
+    });
+    var aboutEl = document.getElementById('aboutUs');
+    if (aboutEl) aboutEl.classList.remove('hidden');
+}
+
+// Go back to home from About Us
+function goBack() {
+    var aboutEl = document.getElementById('aboutUs');
+    if (aboutEl) aboutEl.classList.add('hidden');
+    var homeEl = document.getElementById('home');
+    if (homeEl) homeEl.classList.remove('hidden');
+}
+
+// Tab Navigation for Traveler Dashboard
+function showTravelerTab(tabName) {
+    var tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(function(content) {
+        content.classList.add('hidden');
+    });
+    
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    
+    var activeContent = document.getElementById('tab-' + tabName);
+    if (activeContent) activeContent.classList.remove('hidden');
+    
+    var buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(function(btn) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        }
+    });
+
+    if (tabName === 'travelPartner' && typeof loadTravelGroups === 'function') {
+        loadTravelGroups();
+    } else if (tabName === 'anonymousReports' && typeof loadAnonymousReports === 'function') {
+        loadAnonymousReports();
+    } else if (tabName === 'safeRoutes' && typeof loadDarkSpots === 'function') {
+        loadDarkSpots();
+    } else if (tabName === 'myBookings' && typeof loadTravelerMyBookings === 'function') {
+        loadTravelerMyBookings();
+    } else if (tabName === 'bookHotel' && typeof loadStays === 'function') {
+        loadStays();
+    } else if (tabName === 'bookCab' && typeof loadDrivers === 'function') {
+        loadDrivers();
+    } else if (tabName === 'travelGuide' && typeof loadGuides === 'function') {
+        loadGuides();
+    }
+}
+
+// Tab Navigation for Driver Dashboard
+function showDriverTab(tabName) {
+    var driverTabs = document.querySelectorAll('#driverDashboard .tab-content');
+    driverTabs.forEach(function(content) {
+        content.classList.add('hidden');
+    });
+    
+    var driverButtons = document.querySelectorAll('#driverDashboard .tab-btn');
+    driverButtons.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    
+    var activeContent = document.getElementById('driverTab-' + tabName);
+    if (activeContent) activeContent.classList.remove('hidden');
+    
+    var buttons = document.querySelectorAll('#driverDashboard .tab-btn');
+    buttons.forEach(function(btn) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Tab Navigation for Guide Dashboard
+function showGuideTab(tabName) {
+    var guideTabs = document.querySelectorAll('#guideDashboard .tab-content');
+    guideTabs.forEach(function(content) {
+        content.classList.add('hidden');
+    });
+    
+    var guideButtons = document.querySelectorAll('#guideDashboard .tab-btn');
+    guideButtons.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    
+    var activeContent = document.getElementById('guideTab-' + tabName);
+    if (activeContent) activeContent.classList.remove('hidden');
+    
+    var buttons = document.querySelectorAll('#guideDashboard .tab-btn');
+    buttons.forEach(function(btn) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 function logout() {
