@@ -102,25 +102,14 @@ async function calculateSafeRoute() {
 
     try {
         var shortestPathEl = document.getElementById('shortestRoutePath');
-        var shortestStatsEl = document.getElementById('shortestRouteStats');
         var shortestRiskEl = document.getElementById('shortestRouteRiskCount');
-        
         var safePathEl = document.getElementById('safeRoutePath');
-        var safeStatsEl = document.getElementById('safeRouteStats');
-
-        var journeyHeader = document.getElementById('journeyHeader');
-        var safetyNumber = document.getElementById('safetyScoreNumber');
-        var safetyBadge = document.getElementById('safetyRiskBadge');
-        var safetyContainer = document.getElementById('safetyScoreContainer');
+        var safeStatusEl = document.getElementById('safeRouteStatus');
 
         if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> Calculating shortest path coordinates...";
         if (safePathEl) safePathEl.innerHTML = "<strong>Path:</strong> Applying safety weights...";
 
         document.getElementById('routeResultsDiv').classList.remove('hidden');
-
-        if (journeyHeader) {
-            journeyHeader.innerHTML = "Your Journey: <span style='color:#be185d;'>" + start + "</span> &rarr; <span style='color:#be185d;'>" + end + "</span>";
-        }
 
         // 1. Geocode Start
         var startLat = 12.9716, startLng = 77.5946;
@@ -172,12 +161,6 @@ async function calculateSafeRoute() {
         }
 
         var shortestCoords = routeData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-        var shortestDistVal = (routeData.routes[0].distance / 1000).toFixed(1);
-        var shortestDurVal = Math.round(routeData.routes[0].duration / 60);
-
-        if (shortestStatsEl) {
-            shortestStatsEl.textContent = shortestDurVal + " min • " + shortestDistVal + " km";
-        }
 
         // Distance utility
         function getDistance(lat1, lon1, lat2, lon2) {
@@ -203,10 +186,7 @@ async function calculateSafeRoute() {
                     html: "<div style='background-color:#dc2626; color:white; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold; border:1px solid white; white-space:nowrap;'>" + s.title + "</div>"
                 })
             }).addTo(mapRef);
-            
-            spotMarker.on('click', function() {
-                openHazardSheet(s);
-            });
+            spotMarker.bindPopup("<strong>Unsafe Spot:</strong> " + s.title + "<br>Risk: " + s.risk_level + "<br>" + s.description);
 
             for (var i = 0; i < shortestCoords.length; i++) {
                 if (getDistance(shortestCoords[i][0], shortestCoords[i][1], s.latitude, s.longitude) < 600) {
@@ -220,9 +200,6 @@ async function calculateSafeRoute() {
         var shortestPoly = L.polyline(shortestCoords, {color: '#ef4444', weight: 4, dashArray: '5, 10'}).addTo(mapRef);
 
         var finalSafeCoords = shortestCoords;
-        var safeDistVal = shortestDistVal;
-        var safeDurVal = shortestDurVal;
-
         if (dangerousSpotsAlongRoute.length > 0) {
             var sumLat = 0, sumLng = 0;
             dangerousSpotsAlongRoute.forEach(s => { sumLat += s.latitude; sumLng += s.longitude; });
@@ -240,9 +217,7 @@ async function calculateSafeRoute() {
                 var safeData = await safeRes.json();
                 if (safeData.routes && safeData.routes.length > 0) {
                     finalSafeCoords = safeData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-                    safeDistVal = (safeData.routes[0].distance / 1000).toFixed(1);
-                    safeDurVal = Math.round(safeData.routes[0].duration / 60);
-
+                    
                     var midIndex = Math.floor(finalSafeCoords.length / 2);
                     L.marker(finalSafeCoords[midIndex], {
                         icon: L.divIcon({
@@ -258,59 +233,28 @@ async function calculateSafeRoute() {
 
         var safePoly = L.polyline(finalSafeCoords, {color: '#22c55e', weight: 6}).addTo(mapRef);
 
-        if (safeStatsEl) {
-            safeStatsEl.textContent = safeDurVal + " min • " + safeDistVal + " km";
-        }
-
         var bounds = L.latLngBounds([ [startLat, startLng], [endLat, endLng] ]);
         mapRef.fitBounds(bounds, { padding: [30, 30] });
 
         L.marker([startLat, startLng]).addTo(mapRef).bindPopup("Start: " + start);
         L.marker([endLat, endLng]).addTo(mapRef).bindPopup("Destination: " + end);
 
-        // 7. Update Safety Score UI Indicators
-        var score = 95;
-        var riskText = "LOWER RISK";
-        var riskColor = "#15803d";
-        var containerBorderColor = "#22c55e";
-
-        if (dangerousSpotsAlongRoute.length === 1) {
-            score = 78;
-            riskText = "MODERATE RISK";
-            riskColor = "#d97706";
-            containerBorderColor = "#f59e0b";
-        } else if (dangerousSpotsAlongRoute.length >= 2) {
-            score = 45;
-            riskText = "HIGHER RISK";
-            riskColor = "#b91c1c";
-            containerBorderColor = "#ef4444";
-        }
-
-        if (safetyNumber) safetyNumber.textContent = score;
-        if (safetyBadge) {
-            safetyBadge.textContent = riskText;
-            safetyBadge.style.color = riskColor;
-        }
-        if (safetyContainer) {
-            safetyContainer.style.borderColor = containerBorderColor;
-        }
-
-        // 8. Update Route details texts
-        if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> Shortest route from " + start + " to " + end;
+        // 7. Update UI results text dynamically
+        if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> " + start + " to " + end + " via shortest OSRM path";
         if (shortestRiskEl) {
-            if (dangerousSpotsAlongRoute.length > 0) {
-                shortestRiskEl.innerHTML = "⚠ Passes through " + dangerousSpotsAlongRoute.length + " community-reported safety concern zones!";
-                shortestRiskEl.style.color = "#dc2626";
-            } else {
-                shortestRiskEl.innerHTML = "✓ Shortest route is safe! No community concerns reported.";
-                shortestRiskEl.style.color = "#16a34a";
-            }
+            shortestRiskEl.textContent = dangerousSpotsAlongRoute.length + " Dark Spots detected in 600m routing radius!";
+            shortestRiskEl.style.color = dangerousSpotsAlongRoute.length > 0 ? "#dc2626" : "#16a34a";
         }
 
         if (safePathEl) {
             safePathEl.innerHTML = dangerousSpotsAlongRoute.length > 0 
-                ? "<strong>Path:</strong> Safety-weighted ML routing detoured around hazards."
-                : "<strong>Path:</strong> Shortest route is already optimized and safe.";
+                ? "<strong>Path:</strong> Detoured route avoiding dangerous coordinates" 
+                : "<strong>Path:</strong> Shortest route (No active dark spots detected)";
+        }
+        if (safeStatusEl) {
+            safeStatusEl.textContent = dangerousSpotsAlongRoute.length > 0 
+                ? "Safe route generated around reported risks. Well-lit streets prioritizing active patrols."
+                : "Route is clear! MG Road & main highways are fully lit.";
         }
 
         setTimeout(function() {
@@ -321,81 +265,6 @@ async function calculateSafeRoute() {
         console.error(err);
         alert("Error plotting safe route: " + err.message);
     }
-}
-
-// ─── INTERACTIVE MAP BOTTOM SHEET PANEL ─────────────────────
-var currentSelectedHazard = null;
-function openHazardSheet(spot) {
-    currentSelectedHazard = spot;
-    var sheet = document.getElementById('mapHazardSheet');
-    if (!sheet) return;
-    
-    sheet.classList.remove('hidden');
-    
-    var badge = document.getElementById('hazardStatusBadge');
-    var title = document.getElementById('hazardTitle');
-    var confidence = document.getElementById('hazardConfidence');
-    var reports = document.getElementById('hazardReportsCount');
-    var desc = document.getElementById('hazardDesc');
-    
-    if (title) title.textContent = spot.title;
-    if (desc) desc.textContent = spot.description || "No description provided.";
-    
-    if (spot.risk_level === 'High') {
-        if (badge) {
-            badge.textContent = "VERIFIED SAFETY CONCERN";
-            badge.style.background = "#fee2e2";
-            badge.style.color = "#b91c1c";
-            badge.style.border = "1px solid #fca5a5";
-        }
-        if (confidence) confidence.textContent = "Confidence: High";
-        if (reports) reports.textContent = "Confirmed through multiple independent reports and safety signals.";
-        sheet.style.borderLeft = "5px solid #ef4444";
-    } else {
-        if (badge) {
-            badge.textContent = "COMMUNITY CONCERN";
-            badge.style.background = "#fef3c7";
-            badge.style.color = "#d97706";
-            badge.style.border = "1px solid #fcd34d";
-        }
-        if (confidence) confidence.textContent = "Confidence: Medium";
-        if (reports) reports.textContent = "3 independent community reports received recently.";
-        sheet.style.borderLeft = "5px solid #f59e0b";
-    }
-}
-
-function closeHazardSheet() {
-    var sheet = document.getElementById('mapHazardSheet');
-    if (sheet) sheet.classList.add('hidden');
-}
-
-function confirmSimilarHazard() {
-    if (currentSelectedHazard) {
-        alert("Thank you! You have confirmed similar concern. Your verification helps keep SafeMate accurate.");
-        closeHazardSheet();
-    }
-}
-
-function startSafeNavigation() {
-    alert("Safe Navigation started! Location tracking is active. Stay safe!");
-}
-
-function viewShortestRouteOnMap() {
-    alert("Showing shortest route (Red dotted line) on the map. Use caution due to unlit areas.");
-}
-
-function triggerSafeRouteSearch() {
-    var start = document.getElementById('dashboardRouteStart').value.trim();
-    var end = document.getElementById('dashboardRouteEnd').value.trim();
-    
-    var pageStart = document.getElementById('routeStart');
-    var pageEnd = document.getElementById('routeEnd');
-    
-    if (pageStart) pageStart.value = start;
-    if (pageEnd) pageEnd.value = end;
-    
-    showTravelerTab('safeRoutes');
-    calculateSafeRoute();
 }
 
 // ─── TOILET FINDER FEATURES ─────────────────────────────────

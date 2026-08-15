@@ -23,7 +23,7 @@
             <span class="logo-text">Safemate</span>
         </div>
         <div class="header-right">
-            <a href="#" onclick="showAboutUs()" style="color:var(--primary);font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
+            <a href="#" onclick="showAboutUs()" style="color:#ec4899;font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
             <button class="logout-btn hidden" id="logoutBtn" onclick="logout()">Logout</button>
         </div>
     </header>
@@ -31,20 +31,20 @@
     <!-- About Us Page -->
     <div class="container hidden" id="aboutUs">
         <div class="card">
-            <h2 style="color:var(--primary);font-size:24px;margin-bottom:20px;text-align:center;">About Safemate</h2>
-            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
+            <h2 style="color:#ec4899;font-size:24px;margin-bottom:20px;text-align:center;">About Safemate</h2>
+            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
                 Safemate is a platform designed to make travel safer, easier, and more comfortable for women. Our mission is to create a trusted environment where women can explore new places with confidence. Through our platform, travelers can connect with verified women drivers, experienced travel guides, safe hotels and PGs, and trusted travel partners.
             </p>
-            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
+            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
                 We believe that every woman deserves the freedom to travel without fear. Safemate focuses on building a supportive community where women can plan trips, share experiences, and help each other travel safely.
             </p>
-            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
+            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
                 One of our unique features is the Nearby Toilets Finder, which helps travelers quickly locate clean and safe restrooms around them. This feature is especially helpful for foreign tourists who may not be familiar with the area or local facilities. By providing easy access to essential services like restrooms, we aim to make travel more comfortable and stress-free.
             </p>
-            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
+            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
                 In addition, our platform includes safety tools such as emergency alerts, verified reviews, and women-only travel groups, ensuring that every journey is safe, enjoyable, and empowering.
             </p>
-            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:20px;">
+            <p style="color:#555;line-height:1.8;margin-bottom:20px;">
                 At Safemate, we are not just building a travel service — we are building a community that empowers women to travel freely, safely, and confidently anywhere in the world.
             </p>
             <button class="submit-btn" onclick="goBack()">Back to Home</button>
@@ -213,87 +213,20 @@
         
         <!-- Traveler Tab Navigation -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="showTravelerTab('home')">Home</button>
-            <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">Safe Routes</button>
-            <button class="tab-btn" onclick="showTravelerTab('bookCab')">Book Cab</button>
-            <button class="tab-btn" onclick="showTravelerTab('travelPartner')">Travel Companion</button>
-            <button class="tab-btn" onclick="showTravelerTab('bookHotel')">Safe Stays</button>
+            <button class="tab-btn active" onclick="showTravelerTab('planTrip')">Plan Your Trip</button>
+            <button class="tab-btn" onclick="showTravelerTab('bookCab')">Book a Cab</button>
+            <button class="tab-btn" onclick="showTravelerTab('bookHotel')">Hotels & PG</button>
+            <button class="tab-btn" onclick="showTravelerTab('travelPartner')">Cab Pooling</button>
             <button class="tab-btn" onclick="showTravelerTab('travelGuide')">Travel Guides</button>
             <button class="tab-btn" onclick="showTravelerTab('nearbyToilets')">Toilet Finder</button>
-            <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">Report Issue</button>
-            <button class="tab-btn" onclick="showTravelerTab('planTrip')">Plan Trip</button>
+            <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">Safe Routes</button>
+            <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">Anonymous Alerts</button>
             <button class="tab-btn" onclick="showTravelerTab('myBookings')">My Bookings</button>
             <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">SOS Settings</button>
         </div>
-
-        <!-- Tab: Home Dashboard -->
-        <div id="tab-home" class="tab-content">
-            <!-- Hero Section -->
-            <div class="dashboard-section hero-section" style="background: linear-gradient(135deg, #fdf2f8, #fbcfe8); border-radius: 16px; padding: 30px; margin-bottom: 25px; text-align: center; border: 1px solid #fbcfe8;">
-                <h1 style="color:#be185d; font-size: 28px; font-weight:800; margin-bottom: 5px;" id="travelerGreeting">Hi, Traveler</h1>
-                <p style="color:#4b5563; font-size:16px; margin-bottom:20px; font-weight:500;">Where are you travelling today?</p>
-                
-                <div class="planner-form" style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; max-width: 600px; margin: 0 auto; border: 1px solid #f3f4f6;">
-                    <div class="form-group">
-                        <label style="font-weight:600; color:#374151;">Starting Point</label>
-                        <input type="text" id="dashboardRouteStart" placeholder="e.g. Majestic Bus Stand, Bangalore" value="Majestic Bus Stand, Bangalore" style="padding:12px; border:1px solid #d1d5db; border-radius:8px; width:100%; font-size:14px;">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:600; color:#374151;">Destination</label>
-                        <input type="text" id="dashboardRouteEnd" placeholder="e.g. Koramangala, Bangalore" value="Koramangala, Bangalore" style="padding:12px; border:1px solid #d1d5db; border-radius:8px; width:100%; font-size:14px;">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:600; color:#374151;">Travel Time</label>
-                        <select id="dashboardRouteTime" style="padding:12px; border:1px solid #d1d5db; border-radius:8px; width:100%; font-size:14px; height: 45px; background: white;">
-                            <option value="now">Now</option>
-                            <option value="later">Later</option>
-                        </select>
-                    </div>
-                    <button class="submit-btn" style="background:#be185d; color:white; font-size:15px; font-weight:700; width:100%; padding:14px; border-radius:8px; border:none; cursor:pointer;" onclick="triggerSafeRouteSearch()">Find My Safest Route</button>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 30px;">
-                <button onclick="triggerEmergencySOS()" style="background:#ef4444; color:white; border:none; padding:15px; border-radius:12px; font-weight:700; font-size:14px; cursor:pointer; box-shadow:0 4px 10px rgba(239, 68, 68, 0.2); transition: transform 0.2s;">Emergency SOS</button>
-                <button onclick="triggerReportIncident()" style="background:#f59e0b; color:white; border:none; padding:15px; border-radius:12px; font-weight:700; font-size:14px; cursor:pointer; box-shadow:0 4px 10px rgba(245, 158, 11, 0.2); transition: transform 0.2s;">Report Safety Issue</button>
-                <button onclick="showTravelerTab('travelPartner')" style="background:#db2777; color:white; border:none; padding:15px; border-radius:12px; font-weight:700; font-size:14px; cursor:pointer; box-shadow:0 4px 10px rgba(219, 39, 119, 0.2); transition: transform 0.2s;">Find Travel Companion</button>
-            </div>
-
-            <!-- Explore Section -->
-            <div class="dashboard-section">
-                <h3 style="color:#1f2937; margin-bottom:15px; font-size:18px;">Explore SafeMate Supporting Services</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px;">
-                    <div onclick="showTravelerTab('bookCab')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Verified Drivers</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Request secure rides</p>
-                    </div>
-                    <div onclick="showTravelerTab('travelGuide')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Travel Guides</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Hire local experts</p>
-                    </div>
-                    <div onclick="showTravelerTab('bookHotel')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Safe Stays / PGs</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Female-friendly rentals</p>
-                    </div>
-                    <div onclick="showTravelerTab('nearbyToilets')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Toilet Finder</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Locate clean restrooms</p>
-                    </div>
-                    <div onclick="showTravelerTab('travelPartner')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Cab Pooling</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Share rides safely</p>
-                    </div>
-                    <div onclick="showTravelerTab('planTrip')" style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);" class="explore-card">
-                        <h4 style="margin: 0; color:#be185d; font-size:15px; font-weight:600;">Trip Planner</h4>
-                        <p style="margin:5px 0 0 0; color:#6b7280; font-size:12px;">Get recommendations</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         
         <!-- Tab: Plan Your Trip -->
-        <div id="tab-planTrip" class="tab-content hidden">
+        <div id="tab-planTrip" class="tab-content">
             <div class="dashboard-section">
                 <h3>Plan Your Trip</h3>
                 <div class="planner-form">
@@ -554,72 +487,20 @@
 
                 <!-- Route Results Display -->
                 <div id="routeResultsDiv" class="hidden" style="margin-top:20px;">
-                    <h3 style="color:#1f2937; margin-bottom:15px;" id="journeyHeader">Your Journey</h3>
-
-                    <!-- Safety Score Circular Indicator -->
-                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
-                        <div id="safetyScoreContainer" style="display: flex; width: 120px; height: 120px; border-radius: 50%; border: 8px solid #22c55e; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 15px auto;">
-                            <span id="safetyScoreNumber" style="font-size: 28px; font-weight: 800; color: #111827;">87</span>
-                            <span style="font-size: 10px; color: #6b7280; font-weight: 600; text-transform: uppercase;">SafeScore</span>
-                        </div>
-                        <div id="safetyRiskBadge" style="font-size: 14px; font-weight: 700; color: #15803d; text-transform: uppercase; margin-bottom: 15px;">LOWER RISK</div>
-                        
-                        <details style="text-align: left; border-top: 1px solid #f3f4f6; padding-top: 12px;">
-                            <summary style="font-size: 13px; font-weight: 600; color: #be185d; cursor: pointer; user-select: none; outline: none;">How is this score calculated?</summary>
-                            <div style="font-size: 12px; color: #4b5563; line-height: 1.5; margin-top: 8px; padding-left: 5px;">
-                                <p style="margin: 4px 0;">✓ <strong>Time of travel:</strong> Checked for night-time safety weights.</p>
-                                <p style="margin: 4px 0;">✓ <strong>Historical area safety data:</strong> Analyzed incident statistics in the zone.</p>
-                                <p style="margin: 4px 0;">✓ <strong>Verified community reports:</strong> Avoids reported dark spots and concern zones.</p>
-                                <p style="margin: 4px 0;">✓ <strong>Route context:</strong> Evaluates street lighting density and police patrol frequency.</p>
-                            </div>
-                        </details>
+                    <div style="background:#fee2e2; border-left: 5px solid #ef4444; padding:15px; border-radius:10px; margin-bottom:15px;">
+                        <span style="font-size:10px; font-weight:700; background:#fecaca; border:1px solid #f87171; padding:2px 6px; border-radius:4px; margin-bottom:8px; display:inline-block; color:#991b1b; text-transform:uppercase;">ML A* Pathfinder</span>
+                        <h4 style="color:#b91c1c; margin-bottom:5px; margin-top:0;">Shortest Route (High Risk)</h4>
+                        <p id="shortestRoutePath" style="color:#3f3f46; font-size:14px;"><strong>Path:</strong> Calculating...</p>
+                        <p id="shortestRouteRiskCount" style="color:#b91c1c; font-size:13px; font-weight:600; margin-top:5px;">Scanning route for dark spots...</p>
                     </div>
-
-                    <!-- Route Comparison Cards -->
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;" id="routeComparisonCards">
-                        <!-- Recommended Safe Route Card -->
-                        <div style="background:#dcfce7; border-left: 5px solid #22c55e; padding:15px; border-radius:10px; border: 1px solid #bbf7d0; text-align: left;">
-                            <span style="font-size:10px; font-weight:700; background:#bbf7d0; border:1px solid #86efac; padding:2px 6px; border-radius:4px; margin-bottom:8px; display:inline-block; color:#166534; text-transform:uppercase;">SafeMate Recommended</span>
-                            <h4 style="color:#15803d; margin-bottom:5px; margin-top:0;">Safer Detour Option</h4>
-                            <p style="color:#4b5563; font-size:13px; margin: 4px 0;" id="safeRoutePath">Calculating...</p>
-                            <p style="color:#4b5563; font-size:13px; margin: 4px 0;" id="safeRouteStats">28 min • 14.2 km</p>
-                            <p style="color:#15803d; font-size:13px; font-weight:600; margin-top:5px; line-height: 1.4;">
-                                Lower estimated risk based on available data and community reports.<br>
-                                ✓ Avoids reported dark spots<br>
-                                ✓ Active commercial road segment<br>
-                                ✓ Police patrol active along this route
-                            </p>
-                            <button class="booking-btn" style="background:#16a34a; color:white; width:100%; font-weight:700; border-radius:6px; margin-top:10px; font-size:13px; border:none; padding:10px; cursor:pointer;" onclick="startSafeNavigation()">Start Safe Navigation</button>
-                        </div>
-                        
-                        <!-- Fastest Route Card -->
-                        <div style="background:#fee2e2; border-left: 5px solid #ef4444; padding:15px; border-radius:10px; border: 1px solid #fecaca; text-align: left;">
-                            <span style="font-size:10px; font-weight:700; background:#fecaca; border:1px solid #fca5a5; padding:2px 6px; border-radius:4px; margin-bottom:8px; display:inline-block; color:#991b1b; text-transform:uppercase;">Alternative Option</span>
-                            <h4 style="color:#b91c1c; margin-bottom:5px; margin-top:0;">Fastest Route (Higher Risk)</h4>
-                            <p style="color:#4b5563; font-size:13px; margin: 4px 0;" id="shortestRoutePath">Calculating...</p>
-                            <p style="color:#4b5563; font-size:13px; margin: 4px 0;" id="shortestRouteStats">22 min • 12.8 km</p>
-                            <p style="color:#b91c1c; font-size:13px; font-weight:600; margin-top:5px; line-height: 1.4;" id="shortestRouteRiskCount">
-                                ⚠ Passes through community-reported safety concern zones!
-                            </p>
-                            <button class="booking-btn" style="background:#dc2626; color:white; width:100%; font-weight:700; border-radius:6px; margin-top:10px; font-size:13px; border:none; padding:10px; cursor:pointer;" onclick="viewShortestRouteOnMap()">View Route</button>
-                        </div>
+                    <div style="background:#dcfce7; border-left: 5px solid #22c55e; padding:15px; border-radius:10px; margin-bottom:15px;">
+                        <span style="font-size:10px; font-weight:700; background:#bbf7d0; border:1px solid #4ade80; padding:2px 6px; border-radius:4px; margin-bottom:8px; display:inline-block; color:#166534; text-transform:uppercase;">ML A* Pathfinder</span>
+                        <h4 style="color:#15803d; margin-bottom:5px; margin-top:0;">Safe Route (Recommended)</h4>
+                        <p id="safeRoutePath" style="color:#3f3f46; font-size:14px;"><strong>Path:</strong> Calculating detour...</p>
+                        <p id="safeRouteStatus" style="color:#15803d; font-size:13px; font-weight:600; margin-top:5px;">Calculating safety parameters...</p>
                     </div>
-
                     <!-- Leaflet map container -->
-                    <div id="map" style="height: 280px; border-radius: 12px; border: 1px solid #e4e4e7; z-index: 1; margin-bottom: 20px;"></div>
-
-                    <!-- Map Hazard Bottom Sheet -->
-                    <div id="mapHazardSheet" class="hidden" style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 15px; margin-top: 15px; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid #ef4444;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                            <span id="hazardStatusBadge" style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; text-transform:uppercase;">COMMUNITY CONCERN</span>
-                            <button onclick="closeHazardSheet()" style="background:none; border:none; color:#9ca3af; font-size:18px; cursor:pointer; font-weight:bold;">×</button>
-                        </div>
-                        <h4 style="margin: 0 0 5px 0; color:#111827; font-size:15px;" id="hazardTitle">Unlit Alley</h4>
-                        <p style="margin: 3px 0; font-size:12px; color:#4b5563;" id="hazardConfidence">Confidence: Medium</p>
-                        <p style="margin: 3px 0; font-size:12px; color:#4b5563;" id="hazardReportsCount">3 independent reports in last 14 days</p>
-                        <p style="margin: 8px 0; font-size:13px; color:#374151;" id="hazardDesc">Poor lighting reported in this area.</p>
-                        <button class="booking-btn" style="background:#be185d; color:white; width:100%; font-size:12px; margin-top:10px; padding:8px; border-radius:6px; border:none; cursor:pointer;" onclick="confirmSimilarHazard()">Confirm similar concern</button>
-                    </div>
+                    <div id="map" style="height: 250px; border-radius: 12px; border: 1px solid #e4e4e7; z-index: 1;"></div>
                 </div>
 
                 <hr style="border:0; border-top:1px solid #e5e7eb; margin:25px 0;">
@@ -665,126 +546,35 @@
         <!-- Tab: Anonymous Abuse Reports -->
         <div id="tab-anonymousReports" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>Anonymous Safety Incident Portal</h3>
+                <h3>Anonymous Abuse & Harassment Portal</h3>
+                <p style="color:#555; margin-bottom:20px;">Report safety incidents, stalking, predatory behavior, or harassment. Your identity remains 100% anonymous (no email or name will be associated with this report).</p>
                 
-                <!-- Reporting Wizard -->
-                <div class="planner-form" id="reportingWizard" style="margin-bottom:25px; padding:20px; border-radius:12px; border:1px solid #e4e4e7; background:white; position:relative;">
-                    
-                    <!-- Progress Bar Indicator -->
-                    <div style="background:#e4e4e7; height:4px; border-radius:2px; margin-bottom:20px; overflow:hidden;">
-                        <div id="wizardProgress" style="background:#be185d; height:100%; width:20%; transition: width 0.3s;"></div>
+                <!-- Report Form -->
+                <div class="planner-form" style="margin-bottom:20px;">
+                    <div class="form-group">
+                        <label>Category of Incident</label>
+                        <select id="reportCategory">
+                            <option>Stalking & Following</option>
+                            <option>Unsafe Cab/Driver Behavior</option>
+                            <option>Physical Assault</option>
+                            <option>Verbal Harassment</option>
+                            <option>Unsafe Facility/Restroom</option>
+                            <option>Other Concern</option>
+                        </select>
                     </div>
-                    
-                    <!-- Wizard Step 1: Category -->
-                    <div id="step-1" class="wizard-step">
-                        <h4 style="margin-top:0; color:#374151; margin-bottom: 15px;">Step 1: What would you like to report?</h4>
-                        <div style="display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px;">
-                            <div class="category-card" onclick="selectReportCategory('Harassment', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Harassment
-                            </div>
-                            <div class="category-card" onclick="selectReportCategory('Poor Lighting', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Poor Lighting
-                            </div>
-                            <div class="category-card" onclick="selectReportCategory('Isolated / Dark Area', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Isolated / Dark Area
-                            </div>
-                            <div class="category-card" onclick="selectReportCategory('Suspicious Activity', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Suspicious Activity
-                            </div>
-                            <div class="category-card" onclick="selectReportCategory('Other Safety Concern', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Other Safety Concern
-                            </div>
-                        </div>
-                        <div style="display:flex; justify-content:flex-end;">
-                            <button class="submit-btn" style="width:auto; padding:10px 25px;" onclick="wizardNext(2)">Next</button>
-                        </div>
+                    <div class="form-group">
+                        <label>Incident Location (City/Street)</label>
+                        <input type="text" id="reportLocation" placeholder="e.g. Near Jaipur Metro Station">
                     </div>
-
-                    <!-- Wizard Step 2: Location -->
-                    <div id="step-2" class="wizard-step hidden">
-                        <h4 style="margin-top:0; color:#374151; margin-bottom: 15px;">Step 2: Confirm Location</h4>
-                        <div class="form-group">
-                            <label>Location Area Name / Street Address</label>
-                            <input type="text" id="wizardLocationInput" placeholder="e.g. Near Jaipur Metro Station" style="padding:12px; font-size:14px; width:100%; border:1px solid #e4e4e7; border-radius:6px;">
-                        </div>
-                        <div style="margin-bottom:20px;">
-                            <button class="booking-btn" style="margin-top:0; width:auto; background:#10b981; color:white; padding:8px 16px; font-size:12px;" onclick="useCurrentLocationForReport()">Use Current GPS Location</button>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; width:100%;">
-                            <button class="emergency-close-btn" style="margin-top:0; width:auto; padding:10px 25px; border-radius:6px;" onclick="wizardNext(1)">Back</button>
-                            <button class="submit-btn" style="width:auto; padding:10px 25px; margin-top:0; border-radius:6px;" onclick="wizardNext(3)">Next</button>
-                        </div>
+                    <div class="form-group">
+                        <label>Detailed Description</label>
+                        <textarea id="reportDescription" placeholder="Provide details of the incident to alert other travelers..." style="width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:10px;min-height:80px;"></textarea>
                     </div>
-
-                    <!-- Wizard Step 3: Timing -->
-                    <div id="step-3" class="wizard-step hidden">
-                        <h4 style="margin-top:0; color:#374151; margin-bottom: 15px;">Step 3: When did this happen?</h4>
-                        <div style="display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px;">
-                            <div class="time-card" onclick="selectReportTime('Now', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Now
-                            </div>
-                            <div class="time-card" onclick="selectReportTime('Today', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Today
-                            </div>
-                            <div class="time-card" onclick="selectReportTime('Earlier', this)" style="border:2px solid #e4e4e7; border-radius:8px; padding:15px; cursor:pointer; font-weight:600; text-align:left; transition: all 0.2s;">
-                                Earlier
-                            </div>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; width:100%;">
-                            <button class="emergency-close-btn" style="margin-top:0; width:auto; padding:10px 25px; border-radius:6px;" onclick="wizardNext(2)">Back</button>
-                            <button class="submit-btn" style="width:auto; padding:10px 25px; margin-top:0; border-radius:6px;" onclick="wizardNext(4)">Next</button>
-                        </div>
-                    </div>
-
-                    <!-- Wizard Step 4: Details -->
-                    <div id="step-4" class="wizard-step hidden">
-                        <h4 style="margin-top:0; color:#374151; margin-bottom: 15px;">Step 4: Optional Details</h4>
-                        <div class="form-group">
-                            <label>Description of Incident</label>
-                            <textarea id="wizardDescInput" placeholder="Provide details of the incident to alert other travelers..." style="width:100%; padding:12px; border:2px solid #e5e7eb; border-radius:10px; min-height:80px; font-family:inherit; font-size:13px;"></textarea>
-                        </div>
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label>Add Photo/Evidence (Optional)</label>
-                            <input type="file" id="wizardPhotoInput" style="width:100%; font-size:12px;">
-                        </div>
-                        <div style="display:flex; justify-content:space-between; width:100%;">
-                            <button class="emergency-close-btn" style="margin-top:0; width:auto; padding:10px 25px; border-radius:6px;" onclick="wizardNext(3)">Back</button>
-                            <button class="submit-btn" style="width:auto; padding:10px 25px; margin-top:0; border-radius:6px;" onclick="wizardNext(5)">Next</button>
-                        </div>
-                    </div>
-
-                    <!-- Wizard Step 5: Privacy Disclaimer & Submit -->
-                    <div id="step-5" class="wizard-step hidden">
-                        <h4 style="margin-top:0; color:#374151; margin-bottom: 15px;">Step 5: Review & Submit</h4>
-                        <div style="background:#f9fafb; padding:15px; border-radius:8px; border:1px solid #e5e7eb; margin-bottom:20px; font-size:13px; text-align:left;">
-                            <p style="margin:5px 0;"><strong>Category:</strong> <span id="reviewCategory">-</span></p>
-                            <p style="margin:5px 0;"><strong>Location:</strong> <span id="reviewLocation">-</span></p>
-                            <p style="margin:5px 0;"><strong>When:</strong> <span id="reviewTime">-</span></p>
-                            <p style="margin:5px 0;"><strong>Details:</strong> <span id="reviewDesc">-</span></p>
-                        </div>
-                        
-                        <div style="margin-bottom:20px; font-weight:700; color:#059669; font-size:14px; text-align:center;">
-                            🔒 Your identity will remain private.
-                        </div>
-                        
-                        <div style="display:flex; justify-content:space-between; width:100%;">
-                            <button class="emergency-close-btn" style="margin-top:0; width:auto; padding:10px 25px; border-radius:6px;" onclick="wizardNext(4)">Back</button>
-                            <button class="submit-btn" style="width:auto; padding:10px 25px; margin-top:0; border-radius:6px; background:#059669;" onclick="submitWizardReport()">Submit Report</button>
-                        </div>
-                    </div>
-
-                    <!-- Wizard Step 6: Success State -->
-                    <div id="step-success" class="wizard-step hidden" style="text-align:center; padding:15px;">
-                        <h4 style="color:#059669; font-size:18px; margin-bottom:10px;">Report Received</h4>
-                        <p style="color:#4b5563; font-size:14px; line-height:1.5; margin-bottom:20px;">
-                            Your report is being validated and may be combined with other independent community reports before affecting the SafeMate safety map.
-                        </p>
-                        <button class="submit-btn" style="width:auto; padding:10px 25px;" onclick="resetWizardForm()">Submit Another Report</button>
-                    </div>
+                    <button class="submit-btn" onclick="submitAnonymousReport()">Submit Anonymously</button>
                 </div>
 
-                <!-- Feed -->
-                <h4 style="color:#374151; margin-bottom: 15px;">Recent Verified Alerts & Concerns</h4>
+                <!-- Abuse Reports Feed -->
+                <h4>Recent Community Alerts</h4>
                 <div id="anonymousReportsList" style="margin-top:15px; display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
         </div>
@@ -927,24 +717,18 @@
         <!-- Emergency Button -->
         <button class="emergency-btn" onclick="showEmergencyModal()">SOS</button>
         
-        <!-- Emergency Modal (Redesigned) -->
+        <!-- Emergency Modal -->
         <div id="emergencyModal" class="emergency-modal">
-            <div class="emergency-modal-content" style="max-width: 420px; border-radius: 20px; padding: 40px 20px; text-align: center; background: #fff5f5; border: 3px solid #fecaca;">
-                <h2 style="color: #dc2626; font-size: 24px; font-weight: 800; margin-bottom: 10px;">🚨 EMERGENCY SOS</h2>
-                <p style="color: #4b5563; font-size: 14px; margin-bottom: 30px; font-weight: 600;">HOLD FOR 3 SECONDS TO ACTIVATE</p>
-                
-                <!-- Circular Hold Trigger Button -->
-                <div id="sosHoldBtn" onmousedown="startSOSHold()" onmouseup="cancelSOSHold()" onmouseleave="cancelSOSHold()" ontouchstart="startSOSHold(event)" ontouchend="cancelSOSHold(event)" style="width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, #ef4444, #be185d); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 30px auto; cursor: pointer; user-select: none; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4); border: 8px solid rgba(255, 255, 255, 0.6); position: relative; transition: transform 0.1s;">
-                    <span>SOS</span>
+            <div class="emergency-modal-content">
+                <h2>Emergency</h2>
+                <p>Choose an action:</p>
+                <div class="emergency-actions">
+                    <button class="emergency-call-btn" onclick="callEmergency()">Call Emergency Contact</button>
+                    <button class="emergency-message-btn" onclick="sendEmergencyMessage()">Send Message to Emergency Contact</button>
+                    <button class="emergency-alert-btn" onclick="alertNearbyDrivers()">Alert Nearby Drivers</button>
+                    <button class="emergency-police-btn" onclick="window.location.href='tel:100'">Call Police (100)</button>
+                    <button class="emergency-close-btn" onclick="closeEmergencyModal()">Close</button>
                 </div>
-
-                <!-- Active Progress Status Bar -->
-                <div id="sosProgressBarContainer" style="width: 80%; background: #e5e7eb; height: 10px; border-radius: 5px; margin: 0 auto 30px auto; overflow: hidden; display: none;">
-                    <div id="sosProgressBar" style="width: 0%; height: 100%; background: #ef4444;"></div>
-                </div>
-                
-                <!-- Cancel Option / Close -->
-                <button class="emergency-close-btn" style="background: #4b5563; color: white; font-weight: 600; padding: 12px 30px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer;" onclick="closeEmergencyModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -965,37 +749,19 @@
             <div class="dashboard-section">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <h4>Safety Rating</h4>
-                        <div class="value" id="driverRating">4.8 / 5.0</div>
-                        <p id="driverTotalRides">24 verified rides</p>
+                        <h4>Your Rating</h4>
+                        <div class="value" id="driverRating">0.0</div>
+                        <p id="driverTotalRides">0 rides</p>
                     </div>
                     <div class="stat-card">
                         <h4>Today's Earnings</h4>
-                        <div class="value" id="driverTodayEarnings">₹1,250</div>
-                        <p id="driverTodayRides">4 completed trips</p>
+                        <div class="value" id="driverTodayEarnings">₹0</div>
+                        <p id="driverTodayRides">0 rides today</p>
                     </div>
                     <div class="stat-card">
-                        <h4>Pending Requests</h4>
-                        <div class="value" id="driverPendingRequests">2</div>
-                        <p id="driverPendingText">Active travelers waiting</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upcoming Trip Card -->
-            <div class="dashboard-section">
-                <h3>Upcoming Scheduled Trip</h3>
-                <div class="dashboard-card" style="background: white; border: 1px solid #e4e4e7; border-left: 5px solid #be185d; border-radius: 12px; padding: 20px; text-align: left;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <h4 style="margin: 0; color: #111827; font-size: 16px;">Trip with Ananya S.</h4>
-                        <span style="font-size: 11px; font-weight: 700; background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 12px; border: 1px solid #bbf7d0;">✓ Verified SafeMate Traveler</span>
-                    </div>
-                    <p style="margin: 6px 0; font-size: 13px; color: #4b5563;"><strong>Pickup:</strong> MG Road Metro Station Gate 2, Bangalore</p>
-                    <p style="margin: 6px 0; font-size: 13px; color: #4b5563;"><strong>Destination:</strong> Indiranagar 100ft Road</p>
-                    <p style="margin: 6px 0; font-size: 13px; color: #be185d; font-weight: 600;"><strong>Pickup Time:</strong> Today at 07:30 PM (In 45 mins)</p>
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button class="booking-btn" style="background: #be185d; color: white; margin-top: 0; width: auto; padding: 8px 16px; font-size: 13px; border-radius: 6px; border: none; cursor: pointer;" onclick="alert('Navigation to pickup started!')">Start Navigation</button>
-                        <button class="booking-btn" style="background: #f3f4f6; color: #374151; margin-top: 0; width: auto; padding: 8px 16px; font-size: 13px; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer;" onclick="alert('Contacting passenger: +91 98765 43210')">Call Passenger</button>
+                        <h4>Total Earnings</h4>
+                        <div class="value" id="driverTotalEarnings">₹0</div>
+                        <p id="driverAllTimeRides">All time</p>
                     </div>
                 </div>
             </div>
@@ -1168,24 +934,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Upcoming Booked Tour -->
-            <div class="dashboard-section">
-                <h3>Upcoming Guided Tour</h3>
-                <div class="dashboard-card" style="background: white; border: 1px solid #e4e4e7; border-left: 5px solid #be185d; border-radius: 12px; padding: 20px; text-align: left;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <h4 style="margin: 0; color: #111827; font-size: 16px;">Jaipur Heritage & Palace Tour</h4>
-                        <span style="font-size: 11px; font-weight: 700; background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 12px; border: 1px solid #bbf7d0;">✓ Confirmed Booking</span>
-                    </div>
-                    <p style="margin: 6px 0; font-size: 13px; color: #4b5563;"><strong>Traveler:</strong> Priya Sharma (2 Travelers)</p>
-                    <p style="margin: 6px 0; font-size: 13px; color: #4b5563;"><strong>Meeting Point:</strong> Hawa Mahal Main Entrance</p>
-                    <p style="margin: 6px 0; font-size: 13px; color: #be185d; font-weight: 600;"><strong>Date & Time:</strong> Tomorrow at 09:00 AM (Full Day Tour)</p>
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button class="booking-btn" style="background: #be185d; color: white; margin-top: 0; width: auto; padding: 8px 16px; font-size: 13px; border-radius: 6px; border: none; cursor: pointer;" onclick="alert('Tour itinerary sent to traveler!')">View Tour Plan</button>
-                        <button class="booking-btn" style="background: #f3f4f6; color: #374151; margin-top: 0; width: auto; padding: 8px 16px; font-size: 13px; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer;" onclick="alert('Contacting traveler: +91 91234 56789')">Contact Traveler</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Guide My Services Tab -->
@@ -1312,20 +1060,20 @@
     </script>
 
     <!-- Global Floating Chat Components -->
-    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:var(--primary-gradient); color:white; border:none; box-shadow:var(--primary-glow); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
+    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:#be185d; color:white; border:none; box-shadow:0 4px 15px rgba(190, 24, 93, 0.3); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
 
-    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:var(--bg-surface-elevated); border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--shadow-elevated); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
+    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:white; border-radius:12px; border:1px solid #e4e4e7; box-shadow:0 10px 25px rgba(0,0,0,0.15); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
         <!-- Chat Header -->
-        <div style="background:var(--primary-gradient); color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
+        <div style="background:#be185d; color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
             <span id="chatDriverName">Chat</span>
             <span style="cursor:pointer; font-size:16px;" onclick="toggleChatWindow()">✕</span>
         </div>
         <!-- Chat Messages Container -->
-        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:var(--bg-canvas);"></div>
+        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:#fafafb;"></div>
         <!-- Chat Input Bar -->
-        <div style="display:flex; border-top:1px solid var(--border-color); padding:8px; background:var(--bg-surface-elevated);">
-            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; outline:none; background:var(--bg-input); color:var(--text-primary);" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendChatMessage()" style="background:var(--primary); color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
+        <div style="display:flex; border-top:1px solid #e4e4e7; padding:8px; background:white;">
+            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid #d4d4d8; border-radius:6px; font-size:13px; outline:none;" onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendChatMessage()" style="background:#be185d; color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
         </div>
     </div>
 

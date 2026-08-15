@@ -166,12 +166,7 @@ function showDashboard(role) {
     if (role === 'traveler') {
         var travDash = document.getElementById('travelerDashboard');
         if (travDash) travDash.classList.remove('hidden');
-        var user = getCurrentUser();
-        var greetingEl = document.getElementById('travelerGreeting');
-        if (greetingEl) {
-            greetingEl.textContent = 'Hi, ' + (user && user.name ? user.name : 'Traveler');
-        }
-        showTravelerTab('home');
+        showTravelerTab('planTrip');
         if (typeof loadReviews === 'function') loadReviews();
     } else if (role === 'driver') {
         var drivDash = document.getElementById('driverDashboard');
@@ -214,24 +209,22 @@ function goBack() {
 
 // Tab Navigation for Traveler Dashboard
 function showTravelerTab(tabName) {
-    var tabContents = document.querySelectorAll('#travelerDashboard .tab-content');
+    var tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(function(content) {
         content.classList.add('hidden');
     });
     
-    var tabBtns = document.querySelectorAll('#travelerDashboard .tab-btn');
+    var tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(function(btn) {
         btn.classList.remove('active');
     });
     
     var activeContent = document.getElementById('tab-' + tabName);
-    if (activeContent) {
-        activeContent.classList.remove('hidden');
-    }
+    if (activeContent) activeContent.classList.remove('hidden');
     
-    var buttons = document.querySelectorAll('#travelerDashboard .tab-btn');
+    var buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(function(btn) {
-        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + tabName + "'")) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
             btn.classList.add('active');
         }
     });
@@ -250,8 +243,6 @@ function showTravelerTab(tabName) {
         loadAvailableDrivers();
     } else if (tabName === 'travelGuide' && typeof loadAvailableGuides === 'function') {
         loadAvailableGuides();
-    } else if (tabName === 'emergencyContact' && typeof displaySavedContacts === 'function') {
-        displaySavedContacts();
     }
 }
 
