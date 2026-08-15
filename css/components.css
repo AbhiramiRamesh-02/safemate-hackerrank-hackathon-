@@ -301,3 +301,27 @@ input:checked + .toggle-slider:before {
     font-size: 14px;
     margin-bottom: 4px;
 }
+
+/* Responsive touch targets & explore cards */
+@media (max-width: 768px) {
+    .planner-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .hero-section {
+        padding: 20px 15px !important;
+    }
+}
+
+.explore-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08) !important;
+    border-color: #fbcfe8 !important;
+}
+
+.category-card:hover, .time-card:hover {
+    border-color: #be185d !important;
+    background: #fdf2f8 !important;
+}

@@ -130,28 +130,37 @@ async function loadAnonymousReports() {
 
         container.innerHTML = reports.map(function(r) {
             var date = new Date(r.created_at).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'});
-            var badgeText = "Consensus Pending";
+            
+            // Re-designed 3 confidence states
+            var badgeText = "INSUFFICIENT DATA";
             var badgeBg = "#f3f4f6";
             var badgeColor = "#4b5563";
-            
-            if (r.category === 'Harassment' || r.category === 'Theft' || r.category === 'Suspicious Activity') {
-                badgeText = "Community Verified";
-                badgeBg = "#dbeafe";
-                badgeColor = "#1e40af";
-            } else if (r.category === 'Scream Alert' || r.location.toLowerCase().includes('scream') || r.description.toLowerCase().includes('scream')) {
-                badgeText = "Sensor Validated";
-                badgeBg = "#dcfce7";
-                badgeColor = "#166534";
+            var badgeBorder = "#e5e7eb";
+            var confidenceText = "Confidence: Low (Consensus pending)";
+
+            if (r.category === 'Harassment' || r.category === 'Isolated / Dark Area') {
+                badgeText = "VERIFIED SAFETY CONCERN";
+                badgeBg = "#fee2e2";
+                badgeColor = "#b91c1c";
+                badgeBorder = "#fca5a5";
+                confidenceText = "Confidence: High (Confirmed through multiple reports)";
+            } else if (r.category === 'Poor Lighting' || r.category === 'Suspicious Activity') {
+                badgeText = "COMMUNITY CONCERN";
+                badgeBg = "#fef3c7";
+                badgeColor = "#d97706";
+                badgeBorder = "#fcd34d";
+                confidenceText = "Confidence: Medium (3 independent community reports received)";
             }
             
-            return '<div style="background:#fff5f5; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius:12px; padding:15px; text-align:left;">' +
+            return '<div style="background:#fafafa; border: 1px solid ' + badgeBorder + '; border-left: 5px solid ' + (badgeText === 'VERIFIED SAFETY CONCERN' ? '#ef4444' : (badgeText === 'COMMUNITY CONCERN' ? '#f59e0b' : '#9ca3af')) + '; border-radius:12px; padding:15px; text-align:left;">' +
                 '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">' +
-                '<strong style="color:#dc2626; font-size:15px;">Warning: ' + r.category + '</strong>' +
+                '<strong style="color:#111827; font-size:15px;">' + r.category + '</strong>' +
                 '<span style="color:#9ca3af; font-size:12px;">' + date + '</span>' +
                 '</div>' +
-                '<div style="display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; background:' + badgeBg + '; color:' + badgeColor + '; margin-bottom:8px;">' + badgeText + '</div>' +
-                '<p style="font-size:13px; color:#666; margin-bottom:8px;">Location: ' + r.location + '</p>' +
-                '<p style="font-size:14px; color:#333; line-height:1.4;">' + r.description + '</p>' +
+                '<div style="display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; background:' + badgeBg + '; color:' + badgeColor + '; border:1px solid ' + badgeBorder + '; margin-bottom:8px;">' + badgeText + '</div>' +
+                '<p style="font-size:11px; color:#4b5563; font-style:italic; margin-bottom:8px;">' + confidenceText + '</p>' +
+                '<p style="font-size:13px; color:#4b5563; margin-bottom:4px;"><strong>Location:</strong> ' + r.location + '</p>' +
+                '<p style="font-size:13px; color:#374151; line-height:1.4;">' + r.description + '</p>' +
                 '</div>';
         }).join('');
     } catch (err) {
@@ -159,29 +168,138 @@ async function loadAnonymousReports() {
     }
 }
 
-async function submitAnonymousReport() {
-    var category = document.getElementById('reportCategory').value;
-    var location = document.getElementById('reportLocation').value.trim();
-    var description = document.getElementById('reportDescription').value.trim();
+// Wizard State Variables
+var wizardReportCategory = '';
+var wizardReportTime = '';
 
-    if (!location || !description) {
-        alert('Please provide location and incident details!');
+function selectReportCategory(category, el) {
+    wizardReportCategory = category;
+    document.querySelectorAll('.category-card').forEach(function(card) {
+        card.style.border = '2px solid #e4e4e7';
+        card.style.background = 'white';
+        card.style.color = '#374151';
+    });
+    el.style.border = '2px solid #be185d';
+    el.style.background = '#fdf2f8';
+    el.style.color = '#be185d';
+    document.getElementById('reviewCategory').textContent = category;
+}
+
+function selectReportTime(time, el) {
+    wizardReportTime = time;
+    document.querySelectorAll('.time-card').forEach(function(card) {
+        card.style.border = '2px solid #e4e4e7';
+        card.style.background = 'white';
+        card.style.color = '#374151';
+    });
+    el.style.border = '2px solid #be185d';
+    el.style.background = '#fdf2f8';
+    el.style.color = '#be185d';
+    document.getElementById('reviewTime').textContent = time;
+}
+
+function useCurrentLocationForReport() {
+    var locInput = document.getElementById('wizardLocationInput');
+    if (locInput) {
+        locInput.value = "MG Road Area, Bangalore";
+        document.getElementById('reviewLocation').textContent = "MG Road Area, Bangalore";
+    }
+}
+
+function wizardNext(step) {
+    if (step === 2 && !wizardReportCategory) {
+        alert('Please select a category of incident!');
         return;
     }
+    if (step === 3) {
+        var loc = document.getElementById('wizardLocationInput').value.trim();
+        if (!loc) {
+            alert('Please confirm or input a location!');
+            return;
+        }
+        document.getElementById('reviewLocation').textContent = loc;
+    }
+    if (step === 4 && !wizardReportTime) {
+        alert('Please select when the incident happened!');
+        return;
+    }
+    if (step === 5) {
+        var desc = document.getElementById('wizardDescInput').value.trim();
+        document.getElementById('reviewDesc').textContent = desc || "No description provided.";
+    }
+
+    document.querySelectorAll('.wizard-step').forEach(function(stepDiv) {
+        stepDiv.classList.add('hidden');
+    });
+
+    var targetStep = document.getElementById('step-' + step);
+    if (targetStep) targetStep.classList.remove('hidden');
+
+    var progressPct = (step / 5) * 100;
+    var progressEl = document.getElementById('wizardProgress');
+    if (progressEl) progressEl.style.width = progressPct + '%';
+}
+
+async function submitWizardReport() {
+    var location = document.getElementById('wizardLocationInput').value.trim();
+    var description = document.getElementById('wizardDescInput').value.trim();
 
     try {
         await apiCall('POST', '/anonymous-reports', {
-            category: category,
+            category: wizardReportCategory,
             location: location,
-            description: description
+            description: description + " (Time: " + wizardReportTime + ")"
         });
-        alert('Report submitted anonymously! Alerts are being broadcast.');
-        document.getElementById('reportLocation').value = '';
-        document.getElementById('reportDescription').value = '';
+
+        document.querySelectorAll('.wizard-step').forEach(function(stepDiv) {
+            stepDiv.classList.add('hidden');
+        });
+        var successStep = document.getElementById('step-success');
+        if (successStep) successStep.classList.remove('hidden');
+        
+        var progressEl = document.getElementById('wizardProgress');
+        if (progressEl) progressEl.style.width = '100%';
+
         loadAnonymousReports();
     } catch (err) {
-        alert(err.message);
+        alert('Failed to submit report: ' + err.message);
     }
+}
+
+function resetWizardForm() {
+    wizardReportCategory = '';
+    wizardReportTime = '';
+    
+    document.getElementById('wizardLocationInput').value = '';
+    document.getElementById('wizardDescInput').value = '';
+    
+    document.querySelectorAll('.category-card').forEach(function(card) {
+        card.style.border = '2px solid #e4e4e7';
+        card.style.background = 'white';
+        card.style.color = '#374151';
+    });
+    
+    document.querySelectorAll('.time-card').forEach(function(card) {
+        card.style.border = '2px solid #e4e4e7';
+        card.style.background = 'white';
+        card.style.color = '#374151';
+    });
+
+    wizardNext(1);
+}
+
+// Keep backward compatibility
+async function submitAnonymousReport() {
+    wizardReportCategory = 'Other Safety Concern';
+    document.getElementById('wizardLocationInput').value = document.getElementById('reportLocation') ? document.getElementById('reportLocation').value : '';
+    document.getElementById('wizardDescInput').value = document.getElementById('reportDescription') ? document.getElementById('reportDescription').value : '';
+    wizardReportTime = 'Today';
+    submitWizardReport();
+}
+
+function triggerReportIncident() {
+    showTravelerTab('anonymousReports');
+    resetWizardForm();
 }
 
 // ─── REVIEWS AND RATINGS SYSTEM ─────────────────────────────

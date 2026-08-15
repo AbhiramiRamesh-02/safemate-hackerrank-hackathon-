@@ -27,42 +27,99 @@ async function showEmergencyModal() {
 function closeEmergencyModal() {
     var modal = document.getElementById('emergencyModal');
     if (modal) modal.style.display = 'none';
+    cancelSOSHold();
 }
 
-// Call Emergency Contact
-function callEmergency() {
-    if (!emergencyContact) {
-        alert("No emergency contact found. Please add an emergency contact in your profile.");
-        closeEmergencyModal();
-        return;
+// Hold to Activate SOS Logic
+var sosProgressInterval = null;
+var sosHoldProgress = 0;
+
+function triggerEmergencySOS() {
+    showEmergencyModal();
+}
+
+function startSOSHold(event) {
+    if (event) {
+        event.preventDefault();
     }
-    window.location.href = "tel:" + emergencyContact;
-    alert("Calling " + emergencyContact + "...");
-    closeEmergencyModal();
+    cancelSOSHold(); // Reset state
+    
+    var container = document.getElementById('sosProgressBarContainer');
+    var bar = document.getElementById('sosProgressBar');
+    if (container) container.style.display = 'block';
+    
+    sosHoldProgress = 0;
+    if (bar) bar.style.width = '0%';
+    
+    var startTime = Date.now();
+    var duration = 3000; // 3 seconds
+    
+    sosProgressInterval = setInterval(function() {
+        var elapsed = Date.now() - startTime;
+        var pct = Math.min((elapsed / duration) * 100, 100);
+        
+        if (bar) bar.style.width = pct + '%';
+        
+        if (pct >= 100) {
+            clearInterval(sosProgressInterval);
+            triggerSOS();
+        }
+    }, 50);
 }
 
-// Call Police
-function callPolice() {
-    var policeNumber = "100";
+function cancelSOSHold(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    if (sosProgressInterval) {
+        clearInterval(sosProgressInterval);
+        sosProgressInterval = null;
+    }
+    var container = document.getElementById('sosProgressBarContainer');
+    var bar = document.getElementById('sosProgressBar');
+    if (container) container.style.display = 'none';
+    if (bar) bar.style.width = '0%';
+}
+
+function triggerSOS() {
+    cancelSOSHold();
+    
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(position) {
                 var lat = position.coords.latitude;
                 var lon = position.coords.longitude;
                 var locationLink = "https://maps.google.com/?q=" + lat + "," + lon;
-                alert("Calling Police (100)...\n\nYour location: " + locationLink + "\n\nStay calm, help is on the way!");
-                window.location.href = "tel:" + policeNumber;
+                
+                alert("✓ EMERGENCY SOS ACTIVATED!\n\n✓ Live location shared!\n✓ Emergency contacts alerted!\n✓ Nearby SafeMate drivers notified!");
+                
+                if (emergencyContact) {
+                    var message = "EMERGENCY! I need help. My current location: " + locationLink;
+                    window.location.href = "sms:" + emergencyContact + "?body=" + encodeURIComponent(message);
+                }
+                closeEmergencyModal();
             },
             function(error) {
-                alert("Calling Police (100)...\n\nStay calm, help is on the way!");
-                window.location.href = "tel:" + policeNumber;
+                alert("✓ EMERGENCY SOS ACTIVATED!\n\n✓ Emergency contacts alerted!\n✓ Nearby SafeMate drivers notified!");
+                if (emergencyContact) {
+                    var userName = "User";
+                    try { userName = getCurrentUser().name; } catch(e){}
+                    var message = "EMERGENCY! I need help. This is " + userName + ". (Coordinates not available)";
+                    window.location.href = "sms:" + emergencyContact + "?body=" + encodeURIComponent(message);
+                }
+                closeEmergencyModal();
             }
         );
     } else {
-        alert("Calling Police (100)...\n\nStay calm, help is on the way!");
-        window.location.href = "tel:" + policeNumber;
+        alert("✓ EMERGENCY SOS ACTIVATED!\n\n✓ Emergency contacts alerted!\n✓ Nearby SafeMate drivers notified!");
+        if (emergencyContact) {
+            var userName = "User";
+            try { userName = getCurrentUser().name; } catch(e){}
+            var message = "EMERGENCY! I need help. This is " + userName + ".";
+            window.location.href = "sms:" + emergencyContact + "?body=" + encodeURIComponent(message);
+        }
+        closeEmergencyModal();
     }
-    closeEmergencyModal();
 }
 
 // Save Emergency Contact

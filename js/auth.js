@@ -166,7 +166,12 @@ function showDashboard(role) {
     if (role === 'traveler') {
         var travDash = document.getElementById('travelerDashboard');
         if (travDash) travDash.classList.remove('hidden');
-        showTravelerTab('planTrip');
+        var user = getCurrentUser();
+        var greetingEl = document.getElementById('travelerGreeting');
+        if (greetingEl) {
+            greetingEl.textContent = 'Hi, ' + (user && user.name ? user.name : 'Traveler');
+        }
+        showTravelerTab('home');
         if (typeof loadReviews === 'function') loadReviews();
     } else if (role === 'driver') {
         var drivDash = document.getElementById('driverDashboard');
