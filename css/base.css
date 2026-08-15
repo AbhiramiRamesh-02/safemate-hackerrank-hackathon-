@@ -35,10 +35,37 @@ header {
     border: 1px solid #e4e4e7;
 }
 
-header h1 {
+/* Logo Styling */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+}
+
+.logo-shield {
+    background: linear-gradient(135deg, #be185d, #db2777);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(190, 24, 93, 0.3);
+}
+
+.logo-s {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1;
+}
+
+.logo-text {
     color: #be185d;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.5px;
 }
 
@@ -187,15 +214,18 @@ header h1 {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.25);
     transition: all 0.15s ease;
 }
 
 .submit-btn:hover {
     background: #9d174d;
+    box-shadow: 0 6px 16px rgba(190, 24, 93, 0.35);
+    transform: translateY(-1px);
 }
 
 .submit-btn:active {
-    transform: scale(0.98);
+    transform: translateY(1px) scale(0.98);
 }
 
 .switch-link {

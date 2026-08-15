@@ -199,11 +199,14 @@ input:checked + .toggle-slider:before {
     font-size: 13px;
     cursor: pointer;
     margin-top: 12px;
-    transition: background 0.15s;
+    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.2);
+    transition: all 0.15s ease;
 }
 
 .booking-btn:hover {
     background: #9d174d;
+    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.3);
+    transform: translateY(-1px);
 }
 
 /* Forms in tabs */

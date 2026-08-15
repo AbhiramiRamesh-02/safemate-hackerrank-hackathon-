@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safemate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
@@ -16,7 +16,12 @@
 
     <!-- Header -->
     <header>
-        <h1>Safemate</h1>
+        <div class="logo-container" onclick="showHome()" style="cursor:pointer;">
+            <div class="logo-shield">
+                <span class="logo-s">S</span>
+            </div>
+            <span class="logo-text">Safemate</span>
+        </div>
         <div class="header-right">
             <a href="#" onclick="showAboutUs()" style="color:#ec4899;font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
             <button class="logout-btn hidden" id="logoutBtn" onclick="logout()">Logout</button>
@@ -101,7 +106,6 @@
             <!-- OTP Verification Form -->
             <div id="otpForm" class="hidden">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <span style="font-size: 40px;">✉️</span>
                     <h3 style="color: #be185d; margin-top: 10px; font-weight: 700;">Verify Your Email</h3>
                     <p style="font-size: 13px; color: #71717a; margin-top: 6px;">We sent a 6-digit OTP code to your email address. Please enter it below to complete verification.</p>
                 </div>
@@ -146,14 +150,14 @@
                 <!-- Smart OCR ID Scanner -->
                 <div class="form-group" style="border: 2px dashed #fbcfe8; padding: 16px; border-radius: 12px; text-align: center; background: #fff5f7; margin-bottom: 20px;">
                     <label style="font-weight:700; color:#db2777; margin-bottom:6px; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        🛡️ Smart ID OCR Scanner
+                        Smart ID OCR Scanner
                     </label>
                     <p style="font-size:11px; color:#71717a; margin-bottom:12px; line-height:1.4;">
                         Upload a photo of your Aadhaar card or Passport. Our local AI scanner will extract your ID details instantly to verify legitimacy.
                     </p>
                     <input type="file" id="idCardUploadInput" accept="image/*" style="display:none;" onchange="processIDCardOCR(event)">
                     <button type="button" class="booking-btn" onclick="document.getElementById('idCardUploadInput').click()" style="margin:0 auto; width:auto; padding:8px 16px; background:#db2777; color:white; font-size:12px; font-weight:600;">
-                        📷 Upload & Scan ID Card
+                        Upload & Scan ID Card
                     </button>
                     <div id="ocrStatus" style="font-size:11px; font-weight:600; margin-top:8px; display:none; padding:6px; border-radius:6px; background:white; border:1px solid #f3f4f6;"></div>
                 </div>
@@ -209,16 +213,16 @@
         
         <!-- Traveler Tab Navigation -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="showTravelerTab('planTrip')">📋 Plan Your Trip</button>
-            <button class="tab-btn" onclick="showTravelerTab('bookCab')">🚕 Book a Cab</button>
-            <button class="tab-btn" onclick="showTravelerTab('bookHotel')">🏨 Hotels & PG</button>
-            <button class="tab-btn" onclick="showTravelerTab('travelPartner')">👥 Cab Pooling</button>
-            <button class="tab-btn" onclick="showTravelerTab('travelGuide')">👩‍💼 Travel Guides</button>
-            <button class="tab-btn" onclick="showTravelerTab('nearbyToilets')">🚻 Toilet Finder</button>
-            <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">📍 Safe Routes</button>
-            <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">🕵️ Anonymous Alerts</button>
-            <button class="tab-btn" onclick="showTravelerTab('myBookings')">📅 My Bookings</button>
-            <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">🛡️ SOS Settings</button>
+            <button class="tab-btn active" onclick="showTravelerTab('planTrip')">Plan Your Trip</button>
+            <button class="tab-btn" onclick="showTravelerTab('bookCab')">Book a Cab</button>
+            <button class="tab-btn" onclick="showTravelerTab('bookHotel')">Hotels & PG</button>
+            <button class="tab-btn" onclick="showTravelerTab('travelPartner')">Cab Pooling</button>
+            <button class="tab-btn" onclick="showTravelerTab('travelGuide')">Travel Guides</button>
+            <button class="tab-btn" onclick="showTravelerTab('nearbyToilets')">Toilet Finder</button>
+            <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">Safe Routes</button>
+            <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">Anonymous Alerts</button>
+            <button class="tab-btn" onclick="showTravelerTab('myBookings')">My Bookings</button>
+            <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">SOS Settings</button>
         </div>
         
         <!-- Tab: Plan Your Trip -->
@@ -316,7 +320,7 @@
             <div class="dashboard-section">
                 <!-- Stay Registration Form Box (direct owner listings) -->
                 <div class="card" style="background:#fff5f7; border: 1px solid #fbcfe8; margin-bottom: 24px; padding: 20px;">
-                    <h4 style="color:#db2777; margin-bottom:8px; display:flex; align-items:center; gap:8px;">🏨 List a Safe Stay / PG</h4>
+                    <h4 style="color:#db2777; margin-bottom:8px; display:flex; align-items:center; gap:8px;">List a Safe Stay / PG</h4>
                     <p style="font-size:12px; color:#71717a; margin-bottom:12px;">Are you a verified female stay or PG owner? Register your property directly into our directory list.</p>
                     <button onclick="toggleStayRegistrationForm()" class="booking-btn" style="margin-top:0; width:auto; padding:8px 16px;">List Your Property</button>
                     
@@ -457,7 +461,7 @@
             
             <!-- Reviews -->
             <div class="dashboard-section">
-                <h3>⭐ Reviews</h3>
+                <h3>Reviews</h3>
                 <div id="reviewsList"></div>
             </div>
         </div>
@@ -465,7 +469,7 @@
         <!-- Tab: Safe Routes & Dark Spots -->
         <div id="tab-safeRoutes" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>📍 Safe Routes & Crowd-Sourced Risk Mapping</h3>
+                <h3>Safe Routes & Risk Mapping</h3>
                 
                 <!-- Safe Route Query Form -->
                 <div class="planner-form" style="margin-bottom:20px;">
@@ -484,14 +488,14 @@
                 <!-- Route Results Display -->
                 <div id="routeResultsDiv" class="hidden" style="margin-top:20px;">
                     <div style="background:#fee2e2; border-left: 5px solid #ef4444; padding:15px; border-radius:10px; margin-bottom:15px;">
-                        <h4 style="color:#b91c1c; margin-bottom:5px;">⚠️ Shortest Route (High Risk)</h4>
+                        <h4 style="color:#b91c1c; margin-bottom:5px;">Shortest Route (High Risk)</h4>
                         <p style="color:#3f3f46; font-size:14px;"><strong>Path:</strong> Via Commercial Street & Unlit Underpass</p>
-                        <p style="color:#b91c1c; font-size:13px; font-weight:600; margin-top:5px;">🚨 3 Dark Spots reported along this route!</p>
+                        <p style="color:#b91c1c; font-size:13px; font-weight:600; margin-top:5px;">3 Dark Spots reported along this route!</p>
                     </div>
                     <div style="background:#dcfce7; border-left: 5px solid #22c55e; padding:15px; border-radius:10px; margin-bottom:15px;">
-                        <h4 style="color:#15803d; margin-bottom:5px;">✓ Safe Route (Recommended)</h4>
+                        <h4 style="color:#15803d; margin-bottom:5px;">Safe Route (Recommended)</h4>
                         <p style="color:#3f3f46; font-size:14px;"><strong>Path:</strong> Via MG Road & Well-Lit Arterial Roads</p>
-                        <p style="color:#15803d; font-size:13px; font-weight:600; margin-top:5px;">🛡️ 0 Risk areas detected. Police patrol active.</p>
+                        <p style="color:#15803d; font-size:13px; font-weight:600; margin-top:5px;">0 Risk areas detected. Police patrol active.</p>
                     </div>
                     <!-- Leaflet map container -->
                     <div id="map" style="height: 250px; border-radius: 12px; border: 1px solid #e4e4e7; z-index: 1;"></div>
@@ -500,7 +504,7 @@
                 <hr style="border:0; border-top:1px solid #e5e7eb; margin:25px 0;">
 
                 <!-- Report a Dark Spot -->
-                <h3>🚨 Report an Unsafe Area (Dark Spot)</h3>
+                <h3>Report an Unsafe Area (Dark Spot)</h3>
                 <div class="planner-form" style="margin-bottom:20px;">
                     <div class="form-group">
                         <label>Location/Area Name</label>
@@ -519,9 +523,9 @@
                     <div class="form-group">
                         <label>Risk Level</label>
                         <select id="darkSpotRisk">
-                            <option value="High">🔴 High Risk (No lights, isolated area)</option>
-                            <option value="Medium">🟡 Medium Risk (Poor lighting, low foot traffic)</option>
-                            <option value="Low">🟢 Low Risk (Minor concern)</option>
+                            <option value="High">High Risk (No lights, isolated area)</option>
+                            <option value="Medium">Medium Risk (Poor lighting, low foot traffic)</option>
+                            <option value="Low">Low Risk (Minor concern)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -540,7 +544,7 @@
         <!-- Tab: Anonymous Abuse Reports -->
         <div id="tab-anonymousReports" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>🕵️ Anonymous Abuse & Harassment Portal</h3>
+                <h3>Anonymous Abuse & Harassment Portal</h3>
                 <p style="color:#555; margin-bottom:20px;">Report safety incidents, stalking, predatory behavior, or harassment. Your identity remains 100% anonymous (no email or name will be associated with this report).</p>
                 
                 <!-- Report Form -->
@@ -605,7 +609,7 @@
         <!-- Tab: My Bookings -->
         <div id="tab-myBookings" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>📅 My Bookings</h3>
+                <h3>My Bookings</h3>
                 <div id="travelerMyBookings">
                     <!-- Loaded dynamically -->
                 </div>
@@ -628,15 +632,15 @@
                 
                 <!-- Write Review Section -->
                 <div style="border-top:2px solid #e5e7eb;padding-top:15px;margin-top:15px;">
-                    <h4 style="color:#333;margin-bottom:15px;">⭐ Write a Review</h4>
+                    <h4 style="color:#333;margin-bottom:15px;">Write a Review</h4>
                     <div class="form-group">
                         <label>Rating</label>
                         <select id="bookingReviewRating">
-                            <option>⭐⭐⭐⭐⭐ Excellent</option>
-                            <option>⭐⭐⭐⭐ Good</option>
-                            <option>⭐⭐⭐ Average</option>
-                            <option>⭐⭐ Poor</option>
-                            <option>⭐ Terrible</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                            <option>Terrible</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -652,16 +656,16 @@
         <!-- Tab: SOS settings -->
         <div id="tab-emergencyContact" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>🛡️ Emergency Contact & SOS Settings</h3>
+                <h3>Emergency Contact & SOS Settings</h3>
                 
                 <!-- Acoustic Scream Settings -->
                 <div class="card" style="background:#fffcfc; border: 1px solid #fee2e2; margin-bottom: 24px; padding: 20px;">
-                    <h4 style="color:#ef4444; margin-bottom:8px; display:flex; align-items:center; gap:8px;">🎤 Acoustic Scream Detection</h4>
+                    <h4 style="color:#ef4444; margin-bottom:8px; display:flex; align-items:center; gap:8px;">Acoustic Scream Detection</h4>
                     <p style="color:#555;margin-bottom:15px;">Enable AI distress audio analysis. The app will process microphone volume and automatically trigger the emergency SOS modal if it detects a high-intensity scream or panic spike.</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:white; padding:12px; border-radius:8px; border:1px solid #f3f4f6;">
                         <span style="font-size:13px; font-weight:600; color:#4b5563;">Distress Audio Monitor:</span>
-                        <span id="micStatusText" style="font-weight:700; color:#ef4444; font-size:13px;">🔴 Disabled (Offline)</span>
+                        <span id="micStatusText" style="font-weight:700; color:#ef4444; font-size:13px;">Disabled (Offline)</span>
                     </div>
                     
                     <div style="display:flex; gap:12px; justify-content:space-between;">
@@ -710,7 +714,7 @@
         <!-- Emergency Modal -->
         <div id="emergencyModal" class="emergency-modal">
             <div class="emergency-modal-content">
-                <h2>🚨 Emergency</h2>
+                <h2>Emergency</h2>
                 <p>Choose an action:</p>
                 <div class="emergency-actions">
                     <button class="emergency-call-btn" onclick="callEmergency()">Call Emergency Contact</button>
@@ -729,8 +733,8 @@
         
         <!-- Driver Tab Navigation -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="showDriverTab('driverHome')">🏠 Home</button>
-            <button class="tab-btn" onclick="showDriverTab('driverProfile')">🚗 My Vehicle</button>
+            <button class="tab-btn active" onclick="showDriverTab('driverHome')">Home</button>
+            <button class="tab-btn" onclick="showDriverTab('driverProfile')">My Vehicle</button>
         </div>
 
         <!-- Driver Home Tab -->
@@ -740,7 +744,7 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h4>Your Rating</h4>
-                        <div class="value" id="driverRating">⭐ 0.0</div>
+                        <div class="value" id="driverRating">0.0</div>
                         <p id="driverTotalRides">0 rides</p>
                     </div>
                     <div class="stat-card">
@@ -758,7 +762,7 @@
 
             <!-- Analytics Chart -->
             <div class="dashboard-section">
-                <h3>📈 Weekly Earnings History</h3>
+                <h3>Weekly Earnings History</h3>
                 <div class="dashboard-card">
                     <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; border-bottom: 2px solid #e4e4e7; margin-bottom: 10px;">
                         <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
@@ -799,7 +803,7 @@
 
             <!-- Availability -->
             <div class="dashboard-section">
-                <h3>📱 Availability</h3>
+                <h3>Availability</h3>
                 <div class="dashboard-card">
                     <div class="availability-toggle">
                         <label class="toggle-switch">
@@ -815,7 +819,7 @@
         <!-- Driver My Vehicle Tab -->
         <div id="driverTab-driverProfile" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>🚗 My Vehicle Details</h3>
+                <h3>My Vehicle Details</h3>
                 <div class="planner-form">
                     <div class="form-group">
                         <label>Vehicle Type</label>
@@ -859,7 +863,7 @@
 
         <!-- Ride Requests -->
         <div class="dashboard-section">
-            <h3>📲 Ride Requests</h3>
+            <h3>Ride Requests</h3>
             <div id="rideRequests">
                 <!-- Loaded dynamically -->
             </div>
@@ -867,7 +871,7 @@
 
         <!-- My Rides -->
         <div class="dashboard-section">
-            <h3>🚙 My Rides</h3>
+            <h3>My Rides</h3>
             <div id="myRides">
                 <!-- Loaded dynamically -->
             </div>
@@ -880,12 +884,12 @@
         
         <!-- Guide Tab Navigation -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="showGuideTab('guideHome')">🏠 Home</button>
-            <button class="tab-btn" onclick="showGuideTab('guideProfile')">🎯 My Services</button>
-            <button class="tab-btn" onclick="showGuideTab('bookingRequests')">📋 Bookings</button>
-            <button class="tab-btn" onclick="showGuideTab('myBookings')">📅 My Bookings</button>
-            <button class="tab-btn" onclick="showGuideTab('myTours')">🏆 My Tours</button>
-            <button class="tab-btn" onclick="showGuideTab('reviews')">💬 Reviews</button>
+            <button class="tab-btn active" onclick="showGuideTab('guideHome')">Home</button>
+            <button class="tab-btn" onclick="showGuideTab('guideProfile')">My Services</button>
+            <button class="tab-btn" onclick="showGuideTab('bookingRequests')">Bookings</button>
+            <button class="tab-btn" onclick="showGuideTab('myBookings')">My Bookings</button>
+            <button class="tab-btn" onclick="showGuideTab('myTours')">My Tours</button>
+            <button class="tab-btn" onclick="showGuideTab('reviews')">Reviews</button>
         </div>
 
         <!-- Guide Home Tab -->
@@ -895,7 +899,7 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h4>Your Rating</h4>
-                        <div class="value">⭐ 4.9</div>
+                        <div class="value">4.9</div>
                         <p>89 tours</p>
                     </div>
                     <div class="stat-card">
@@ -913,7 +917,7 @@
 
             <!-- Availability -->
             <div class="dashboard-section">
-                <h3>📱 Availability</h3>
+                <h3>Availability</h3>
                 <div class="dashboard-card">
                     <div class="availability-toggle">
                         <label class="toggle-switch">
@@ -929,7 +933,7 @@
         <!-- Guide My Services Tab -->
         <div id="guideTab-guideProfile" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>🎯 My Services</h3>
+                <h3>My Services</h3>
                 <div class="planner-form">
                     <div class="form-group">
                         <label>Service Name</label>
@@ -977,7 +981,7 @@
         <!-- Booking Requests -->
         <div id="guideTab-bookingRequests" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>📋 Booking Requests</h3>
+                <h3>Booking Requests</h3>
                 <div id="bookingRequests">
                     <!-- Loaded dynamically -->
                 </div>
@@ -987,7 +991,7 @@
         <!-- My Bookings -->
         <div id="guideTab-myBookings" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>📅 My Bookings</h3>
+                <h3>My Bookings</h3>
                 <div id="myBookings">
                     <!-- Loaded dynamically -->
                 </div>
@@ -997,16 +1001,16 @@
         <!-- My Tours -->
         <div id="guideTab-myTours" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>🏆 My Tours</h3>
+                <h3>My Tours</h3>
                 <div class="tour-card">
                     <h4>Jaipur Heritage Tour</h4>
-                    <p class="tour-meta">⭐ 4.9 • 67 reviews</p>
+                    <p class="tour-meta">4.9 • 67 reviews</p>
                     <p>Full day - Hawa Mahal, City Palace, Amber Fort</p>
                     <p class="price">₹2,500/person</p>
                 </div>
                 <div class="tour-card">
                     <h4>Coorg Nature Adventure</h4>
-                    <p class="tour-meta">⭐ 4.8 • 45 reviews</p>
+                    <p class="tour-meta">4.8 • 45 reviews</p>
                     <p>2-day trek and coffee plantation</p>
                     <p class="price">₹4,000/person</p>
                 </div>
@@ -1016,7 +1020,7 @@
         <!-- Reviews -->
         <div id="guideTab-reviews" class="tab-content hidden">
             <div class="dashboard-section">
-                <h3>💬 Reviews</h3>
+                <h3>Reviews</h3>
                 <div id="guideReviews">
                     <!-- Loaded dynamically -->
                 </div>
