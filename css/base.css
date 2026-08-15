@@ -1,24 +1,24 @@
 /* ===================================================
-   SAFEMATE - POLISHED BASE DESIGN SYSTEM
+   SAFEMATE - CLEAN MODERN MOBILITY DESIGN SYSTEM
    PALETTE: English Violet (#4A3267), Blush (#DE638A),
             Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
    =================================================== */
 
-/* Modern Design System - Reset */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Base Typography & Canvas background */
+/* Base Canvas & Clean Typography */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #faf7fa;
-    color: #2d1e3d;
+    background-color: #fcfbfe;
+    color: #271b35;
     min-height: 100vh;
     padding: 20px;
-    line-height: 1.6;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -29,18 +29,17 @@ body {
     margin: 0 auto;
 }
 
-/* Header */
+/* Crisp Clean Header */
 header {
     background: #ffffff;
-    padding: 14px 22px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(74, 50, 103, 0.06);
+    padding: 14px 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(74, 50, 103, 0.04);
     margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #C6BADE;
-    transition: all 0.2s ease;
+    border: 1px solid #e7e0ed;
 }
 
 /* Logo Styling */
@@ -53,23 +52,23 @@ header {
 
 .logo-shield {
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.35);
+    box-shadow: 0 2px 8px rgba(222, 99, 138, 0.28);
     transition: transform 0.2s ease;
 }
 
 .logo-shield:hover {
-    transform: scale(1.05);
+    transform: scale(1.04);
 }
 
 .logo-s {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 800;
     font-family: 'Poppins', sans-serif;
     line-height: 1;
@@ -77,7 +76,7 @@ header {
 
 .logo-text {
     color: #4A3267;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     letter-spacing: -0.5px;
 }
@@ -90,43 +89,42 @@ header {
 
 /* Logout Button */
 .logout-btn {
-    background-color: #F3D9E5;
+    background-color: #F8F3FA;
     color: #4A3267;
-    border: 1px solid #C6BADE;
-    padding: 8px 18px;
+    border: 1px solid #E2DBE8;
+    padding: 7px 16px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
 }
 
 .logout-btn:hover {
     background-color: #ef4444;
     color: white;
     border-color: #ef4444;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 
 /* Page Title */
 .page-title {
     text-align: center;
     color: #4A3267;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     letter-spacing: -0.5px;
 }
 
-/* Card Design */
+/* Clean Flat Card */
 .card {
     background: #ffffff;
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 14px;
+    padding: 22px;
     margin-bottom: 16px;
-    box-shadow: 0 4px 20px rgba(74, 50, 103, 0.05);
-    border: 1px solid #C6BADE;
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E5DFEC;
     transition: all 0.2s ease;
 }
 
@@ -134,31 +132,32 @@ header {
 .role-card {
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 18px 20px;
     cursor: pointer;
-    border-radius: 14px;
-    border: 1.5px solid #C6BADE;
+    border-radius: 12px;
+    border: 1.5px solid #E5DFEC;
     background: #ffffff;
-    margin-bottom: 14px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
 }
 
 .role-card:hover {
     border-color: #DE638A;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(222, 99, 138, 0.16);
-    background: #fffbfe;
+    background: #fffcfd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.1);
 }
 
 .role-info h3 {
     color: #4A3267;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
+    letter-spacing: -0.2px;
 }
 
 .role-info p {
-    color: #6e5786;
+    color: #6E5A87;
     font-size: 13px;
     line-height: 1.4;
 }
@@ -166,26 +165,26 @@ header {
 /* Login Card */
 .login-card {
     background: #ffffff;
-    border-radius: 20px;
-    padding: 36px 28px;
-    box-shadow: 0 12px 30px rgba(74, 50, 103, 0.08);
-    max-width: 440px;
-    margin: 40px auto;
-    border: 1px solid #C6BADE;
+    border-radius: 16px;
+    padding: 32px 26px;
+    box-shadow: 0 6px 20px rgba(74, 50, 103, 0.05);
+    max-width: 420px;
+    margin: 36px auto;
+    border: 1px solid #E5DFEC;
 }
 
 .login-card h2 {
     text-align: center;
     color: #4A3267;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 800;
-    margin-bottom: 24px;
-    letter-spacing: -0.5px;
+    margin-bottom: 22px;
+    letter-spacing: -0.4px;
 }
 
 /* Form Controls */
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .form-group label {
@@ -194,26 +193,26 @@ header {
     font-weight: 600;
     margin-bottom: 6px;
     font-size: 13px;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.1px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid #C6BADE;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 11px 14px;
+    border: 1.5px solid #DDD6E5;
+    border-radius: 9px;
+    font-size: 13.5px;
     background: #ffffff;
-    color: #2d1e3d;
-    transition: all 0.2s ease;
+    color: #271b35;
+    transition: all 0.15s ease;
     font-family: inherit;
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #9683aa;
+    color: #9E8CAA;
 }
 
 .form-group input:focus,
@@ -221,48 +220,47 @@ header {
 .form-group textarea:focus {
     outline: none;
     border-color: #DE638A;
-    box-shadow: 0 0 0 3.5px rgba(222, 99, 138, 0.18);
-    background: #fffbfe;
+    box-shadow: 0 0 0 3px rgba(222, 99, 138, 0.14);
+    background: #ffffff;
 }
 
-/* Primary Button */
+/* Modern Action Button */
 .submit-btn {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 15px;
+    border-radius: 9px;
+    font-size: 14.5px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(222, 99, 138, 0.3);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 3px 12px rgba(222, 99, 138, 0.25);
+    transition: all 0.15s ease;
     letter-spacing: 0.2px;
 }
 
 .submit-btn:hover {
     background: linear-gradient(135deg, #c95076 0%, #3a2652 100%);
-    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.45);
-    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(222, 99, 138, 0.38);
+    transform: translateY(-1px);
 }
 
 .submit-btn:active {
-    transform: translateY(1px) scale(0.98);
+    transform: translateY(1px) scale(0.99);
 }
 
 .switch-link {
     text-align: center;
-    margin-top: 18px;
-    color: #6e5786;
-    font-size: 14px;
+    margin-top: 16px;
+    color: #6E5A87;
+    font-size: 13.5px;
 }
 
 .switch-link a {
     color: #DE638A;
     font-weight: 700;
     text-decoration: none;
-    transition: color 0.15s;
 }
 
 .switch-link a:hover {
@@ -277,69 +275,68 @@ header {
 }
 
 .dashboard-section {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .dashboard-section h3 {
     color: #4A3267;
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     letter-spacing: -0.3px;
 }
 
 .dashboard-card {
     background: #ffffff;
-    border-radius: 14px;
-    padding: 22px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 16px rgba(74, 50, 103, 0.05);
-    border: 1px solid #C6BADE;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E5DFEC;
 }
 
 /* Stats Section */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
+    gap: 14px;
 }
 
 .stat-card {
     background: #ffffff;
-    border: 1px solid #C6BADE;
-    border-radius: 14px;
-    padding: 22px;
+    border: 1px solid #E5DFEC;
+    border-radius: 12px;
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 16px rgba(74, 50, 103, 0.05);
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
     transition: all 0.2s ease;
 }
 
 .stat-card:hover {
     border-color: #DE638A;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(222, 99, 138, 0.12);
+    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.08);
 }
 
 .stat-card h4 {
-    color: #6e5786;
-    font-size: 13px;
+    color: #6E5A87;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .stat-card .value {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
     color: #DE638A;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
 }
 
 .stat-card p {
-    color: #9683aa;
+    color: #9E8CAA;
     font-size: 12px;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 /* Toggle Switches */
@@ -347,10 +344,10 @@ header {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 18px;
+    padding: 12px 16px;
     background: #ffffff;
-    border: 1px solid #C6BADE;
-    border-radius: 10px;
+    border: 1px solid #E5DFEC;
+    border-radius: 9px;
 }
 
 .hidden {

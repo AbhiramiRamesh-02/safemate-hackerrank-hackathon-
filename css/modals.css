@@ -1,35 +1,34 @@
 /* ===================================================
-   SAFEMATE - POLISHED MODALS, TABS & OVERLAYS
+   SAFEMATE - CLEAN MODERN MOBILITY MODALS & TABS
    PALETTE: English Violet (#4A3267), Blush (#DE638A),
             Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
    =================================================== */
 
 .tour-card .tour-meta {
-    color: #a16207;
+    color: #b45309;
     font-size: 12px;
     margin: 4px 0;
 }
 
 .tour-card .price {
-    color: #ca8a04;
+    color: #d97706;
     font-weight: 700;
     font-size: 14px;
 }
 
-/* Segmented Tab Navigation Track */
+/* Modern Segmented Tab Track */
 .tab-nav {
     display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    background: #F3D9E5;
-    padding: 6px;
-    border-radius: 16px;
+    gap: 6px;
+    margin-bottom: 22px;
+    background: #F4EFF6;
+    padding: 5px;
+    border-radius: 12px;
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border: 1px solid #C6BADE;
+    border: 1px solid #E2DBE8;
     scrollbar-width: none;
-    box-shadow: inset 0 2px 4px rgba(74, 50, 103, 0.04);
 }
 
 .tab-nav::-webkit-scrollbar {
@@ -37,15 +36,15 @@
 }
 
 .tab-btn {
-    padding: 10px 18px;
+    padding: 9px 16px;
     background: #ffffff;
-    border: 1.5px solid #C6BADE;
-    border-radius: 12px;
+    border: 1px solid #DDD6E5;
+    border-radius: 8px;
     color: #4A3267;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -55,45 +54,43 @@
 
 .tab-btn:hover {
     color: #DE638A;
-    background-color: #fffbfe;
+    background-color: #fffcfd;
     border-color: #DE638A;
-    transform: translateY(-1px);
 }
 
 .tab-btn.active {
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: #ffffff;
     border-color: #DE638A;
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.35);
+    box-shadow: 0 2px 10px rgba(222, 99, 138, 0.3);
 }
 
 .tab-content {
     display: block;
 }
 
-/* Toilet Finder Styling */
+/* Toilet Finder Clean Cards */
 .toilet-card {
     background: white;
     border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 14px;
-    border: 1px solid #C6BADE;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
-    box-shadow: 0 4px 14px rgba(74, 50, 103, 0.04);
+    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
     transition: all 0.2s ease;
 }
 
 .toilet-card:hover {
     border-color: #DE638A;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.1);
+    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
 }
 
 .toilet-card h4 {
     color: #4A3267;
-    font-size: 16px;
+    font-size: 15.5px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .toilet-card .toilet-type {
@@ -104,9 +101,9 @@
 }
 
 .toilet-card .toilet-address {
-    color: #6e5786;
+    color: #6E5A87;
     font-size: 13px;
-    margin: 6px 0;
+    margin: 5px 0;
 }
 
 .toilet-card .toilet-distance {
@@ -116,17 +113,17 @@
 }
 
 .toilet-card .toilet-rating {
-    color: #eab308;
+    color: #d97706;
     font-weight: 700;
     font-size: 13px;
-    margin: 4px 0;
+    margin: 3px 0;
 }
 
 .toilet-card .clean-badge {
     display: inline-block;
-    background: #d1fae5;
-    color: #065f46;
-    padding: 3px 10px;
+    background: #ecfdf5;
+    color: #059669;
+    padding: 2px 9px;
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
@@ -136,15 +133,15 @@
 
 .toilet-card .women-only-badge {
     display: inline-block;
-    background: #F3D9E5;
-    color: #4A3267;
-    padding: 3px 10px;
+    background: #F9EDF3;
+    color: #DE638A;
+    padding: 2px 9px;
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
     margin-top: 4px;
     margin-left: 6px;
-    border: 1px solid #C6BADE;
+    border: 1px solid #F3D9E5;
 }
 
 /* Pulsing 3D SOS Button */
@@ -152,27 +149,27 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 65px;
-    height: 65px;
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
     color: white;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.45);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s;
     animation: pulseSOS 2s infinite;
 }
 
 .emergency-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.6);
+    transform: scale(1.08);
+    box-shadow: 0 10px 28px rgba(239, 68, 68, 0.55);
 }
 
 @keyframes pulseSOS {
@@ -180,7 +177,7 @@
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
     }
     70% {
-        box-shadow: 0 0 0 16px rgba(239, 68, 68, 0);
+        box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
     }
     100% {
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
@@ -192,8 +189,8 @@
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(74, 50, 103, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(39, 27, 53, 0.55);
+    backdrop-filter: blur(4px);
     z-index: 2000;
     align-items: center;
     justify-content: center;
@@ -202,47 +199,46 @@
 
 .emergency-modal-content {
     background: #ffffff;
-    padding: 32px 26px;
-    border-radius: 20px;
-    max-width: 400px;
+    padding: 30px 24px;
+    border-radius: 16px;
+    max-width: 390px;
     width: 90%;
     text-align: center;
     max-height: 90vh;
     overflow-y: auto;
-    border: 1px solid #C6BADE;
-    box-shadow: 0 25px 50px rgba(74, 50, 103, 0.18);
+    border: 1px solid #E5DFEC;
+    box-shadow: 0 20px 40px rgba(74, 50, 103, 0.15);
 }
 
 .emergency-modal h2 {
     color: #ef4444;
-    margin-bottom: 8px;
-    font-size: 24px;
+    margin-bottom: 6px;
+    font-size: 22px;
     font-weight: 800;
 }
 
 .emergency-modal p {
-    color: #6e5786;
-    font-size: 14px;
-    margin-bottom: 22px;
+    color: #6E5A87;
+    font-size: 13.5px;
+    margin-bottom: 20px;
     line-height: 1.5;
 }
 
 .emergency-actions {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .emergency-actions button {
-    padding: 13px;
+    padding: 12px;
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
     font-weight: 700;
     cursor: pointer;
     width: 100%;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.15s ease;
 }
 
 .emergency-actions button:hover {
@@ -278,8 +274,8 @@
 /* Mobile Responsive Overrides */
 @media (max-width: 600px) {
     body {
-        padding: 14px;
-        background: #faf7fa;
+        padding: 12px;
+        background: #fcfbfe;
     }
     .container {
         max-width: 100%;
@@ -287,64 +283,64 @@
         padding: 0;
     }
     header {
-        padding: 14px 18px;
-        margin-bottom: 18px;
-        border-radius: 14px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        border-radius: 12px;
     }
     .card, .dashboard-section, .dashboard-card {
-        padding: 20px !important;
-        border-radius: 16px;
-        margin-bottom: 18px;
+        padding: 18px !important;
+        border-radius: 14px;
+        margin-bottom: 16px;
     }
     .planner-form .form-row {
         grid-template-columns: 1fr !important;
-        gap: 12px;
+        gap: 10px;
     }
     .tab-nav {
         justify-content: flex-start;
-        gap: 8px;
-        padding: 6px;
-        border-radius: 14px;
-        margin-bottom: 20px;
+        gap: 6px;
+        padding: 5px;
+        border-radius: 10px;
+        margin-bottom: 16px;
     }
     .tab-btn {
-        padding: 11px 16px;
-        font-size: 13px;
-        border-radius: 10px;
+        padding: 9px 14px;
+        font-size: 12.5px;
+        border-radius: 7px;
     }
     .submit-btn {
-        padding: 15px !important;
-        font-size: 15px !important;
+        padding: 14px !important;
+        font-size: 14px !important;
     }
     .booking-btn {
-        padding: 12px 16px !important;
-        font-size: 13px !important;
+        padding: 11px 14px !important;
+        font-size: 12.5px !important;
     }
     input, select, textarea {
-        font-size: 14px !important;
-        padding: 11px 14px !important;
+        font-size: 13.5px !important;
+        padding: 10px 12px !important;
     }
     #chatFloatingBtn {
-        right: 18px !important;
-        bottom: 18px !important;
-        width: 58px !important;
-        height: 58px !important;
-        font-size: 22px !important;
+        right: 16px !important;
+        bottom: 16px !important;
+        width: 56px !important;
+        height: 56px !important;
+        font-size: 20px !important;
     }
     #chatBoxContainer {
-        width: calc(100% - 36px) !important;
-        right: 18px !important;
-        bottom: 86px !important;
-        height: 380px !important;
-        max-height: 72vh !important;
-        border-radius: 14px !important;
+        width: calc(100% - 32px) !important;
+        right: 16px !important;
+        bottom: 82px !important;
+        height: 370px !important;
+        max-height: 70vh !important;
+        border-radius: 12px !important;
     }
     .service-grid {
         grid-template-columns: 1fr !important;
-        gap: 14px;
+        gap: 12px;
     }
     .emergency-modal-content {
         width: 95% !important;
-        padding: 24px 20px !important;
+        padding: 22px 18px !important;
     }
 }
