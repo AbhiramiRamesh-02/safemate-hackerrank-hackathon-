@@ -214,22 +214,24 @@ function goBack() {
 
 // Tab Navigation for Traveler Dashboard
 function showTravelerTab(tabName) {
-    var tabContents = document.querySelectorAll('.tab-content');
+    var tabContents = document.querySelectorAll('#travelerDashboard .tab-content');
     tabContents.forEach(function(content) {
         content.classList.add('hidden');
     });
     
-    var tabBtns = document.querySelectorAll('.tab-btn');
+    var tabBtns = document.querySelectorAll('#travelerDashboard .tab-btn');
     tabBtns.forEach(function(btn) {
         btn.classList.remove('active');
     });
     
     var activeContent = document.getElementById('tab-' + tabName);
-    if (activeContent) activeContent.classList.remove('hidden');
+    if (activeContent) {
+        activeContent.classList.remove('hidden');
+    }
     
-    var buttons = document.querySelectorAll('.tab-btn');
+    var buttons = document.querySelectorAll('#travelerDashboard .tab-btn');
     buttons.forEach(function(btn) {
-        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + tabName + "'")) {
             btn.classList.add('active');
         }
     });
@@ -248,6 +250,8 @@ function showTravelerTab(tabName) {
         loadAvailableDrivers();
     } else if (tabName === 'travelGuide' && typeof loadAvailableGuides === 'function') {
         loadAvailableGuides();
+    } else if (tabName === 'emergencyContact' && typeof displaySavedContacts === 'function') {
+        displaySavedContacts();
     }
 }
 
