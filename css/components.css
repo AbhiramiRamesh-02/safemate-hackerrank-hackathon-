@@ -1,7 +1,13 @@
+/* ===================================================
+   SAFEMATE - POLISHED COMPONENTS
+   PALETTE: English Violet (#4A3267), Blush (#DE638A),
+            Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
+   =================================================== */
+
 .toggle-switch {
     position: relative;
-    width: 46px;
-    height: 24px;
+    width: 48px;
+    height: 26px;
 }
 
 .toggle-switch input {
@@ -15,8 +21,9 @@
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
     background-color: #F3D9E5;
-    transition: 0.3s;
-    border-radius: 24px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 26px;
+    border: 1px solid #C6BADE;
 }
 
 .toggle-slider:before {
@@ -27,12 +34,14 @@
     left: 3px;
     bottom: 3px;
     background-color: white;
-    transition: 0.3s;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 input:checked + .toggle-slider {
     background-color: #DE638A;
+    border-color: #DE638A;
 }
 
 input:checked + .toggle-slider:before {
@@ -40,7 +49,7 @@ input:checked + .toggle-slider:before {
 }
 
 .availability-status {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
     color: #10b981;
 }
@@ -53,63 +62,86 @@ input:checked + .toggle-slider:before {
 .request-card {
     border-left: 4px solid #DE638A;
     background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #C6BADE;
+    box-shadow: 0 4px 14px rgba(74, 50, 103, 0.04);
+    transition: all 0.2s ease;
+}
+
+.request-card:hover {
+    border-color: #DE638A;
+    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.1);
 }
 
 .request-card .route {
-    color: #27272a;
-    font-size: 14px;
-    font-weight: 500;
+    color: #2d1e3d;
+    font-size: 15px;
+    font-weight: 600;
     margin: 6px 0;
 }
 
 .request-card .meta {
-    color: #71717a;
+    color: #6e5786;
     font-size: 12px;
     margin: 4px 0;
 }
 
 .request-card .price {
     color: #DE638A;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 700;
+    font-size: 16px;
     margin: 8px 0;
 }
 
 .action-buttons {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 14px;
 }
 
 .accept-btn,
 .decline-btn {
     flex: 1;
-    padding: 10px;
+    padding: 11px;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
     font-size: 13px;
-    transition: opacity 0.15s;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .accept-btn {
     background: #10b981;
 }
 
+.accept-btn:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
 .decline-btn {
     background: #ef4444;
 }
 
-.accept-btn:hover,
 .decline-btn:hover {
-    opacity: 0.9;
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .completed-card {
     background: #ffffff;
     border-left: 4px solid #10b981;
+    border: 1px solid #C6BADE;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
 }
 
 /* Review Cards */
@@ -117,9 +149,10 @@ input:checked + .toggle-slider:before {
     border: 1px solid #C6BADE;
     border-left: 4px solid #DE638A;
     background: #ffffff;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(74, 50, 103, 0.04);
 }
 
 .review-card h4 {
@@ -129,15 +162,15 @@ input:checked + .toggle-slider:before {
 }
 
 .review-card p {
-    color: #27272a;
+    color: #2d1e3d;
     font-style: italic;
     font-size: 13px;
     margin-bottom: 6px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .review-card small {
-    color: #71717a;
+    color: #9683aa;
     font-size: 11px;
 }
 
@@ -145,7 +178,7 @@ input:checked + .toggle-slider:before {
     display: none !important;
 }
 
-/* Modern Grid for Cabs/Guides cards */
+/* Service Grids */
 .service-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -154,151 +187,169 @@ input:checked + .toggle-slider:before {
 
 .service-card {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 20px;
-    border: 1px solid #C6BADE;
-    box-shadow: 0 1px 3px 0 rgba(74, 50, 103, 0.05);
+    border: 1.5px solid #C6BADE;
+    box-shadow: 0 4px 16px rgba(74, 50, 103, 0.05);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: border-color 0.15s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-card:hover {
     border-color: #DE638A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(222, 99, 138, 0.15);
 }
 
 .service-card h4 {
     color: #4A3267;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     margin-bottom: 4px;
 }
 
 .service-card .service-type {
     color: #DE638A;
     font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 4px;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 .service-card p {
-    color: #52525b;
+    color: #6e5786;
     font-size: 13px;
+    line-height: 1.5;
 }
 
-/* Booking button flat styling */
+/* Booking Button */
 .booking-btn {
     width: 100%;
-    padding: 10px 14px;
+    padding: 11px 16px;
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
     font-size: 13px;
     cursor: pointer;
     margin-top: 12px;
-    box-shadow: 0 2px 8px rgba(222, 99, 138, 0.2);
-    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.25);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .booking-btn:hover {
     background: linear-gradient(135deg, #c95076 0%, #3a2652 100%);
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.3);
+    box-shadow: 0 6px 18px rgba(222, 99, 138, 0.4);
     transform: translateY(-1px);
 }
 
-/* Forms in tabs */
+/* Forms in Tabs */
 .planner-form {
     background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 22px;
     border: 1px solid #C6BADE;
-    box-shadow: 0 1px 3px 0 rgba(74, 50, 103, 0.05);
+    box-shadow: 0 4px 16px rgba(74, 50, 103, 0.05);
 }
 
 .planner-form .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 14px;
+    margin-bottom: 14px;
 }
 
 .planner-form select,
 .planner-form input {
-    padding: 10px 12px;
-    border: 1px solid #C6BADE;
-    border-radius: 6px;
+    padding: 11px 14px;
+    border: 1.5px solid #C6BADE;
+    border-radius: 8px;
     font-size: 13px;
     width: 100%;
+    color: #2d1e3d;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    font-family: inherit;
 }
 
 .planner-form select:focus,
 .planner-form input:focus {
     outline: none;
     border-color: #DE638A;
+    box-shadow: 0 0 0 3px rgba(222, 99, 138, 0.18);
+    background: #fffbfe;
 }
 
-/* Places and stays cards */
+/* Places and Stays Cards */
 .place-card {
     background: #ffffff;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
     border: 1px solid #C6BADE;
     border-left: 4px solid #DE638A;
+    box-shadow: 0 4px 14px rgba(74, 50, 103, 0.04);
+    transition: all 0.2s ease;
+}
+
+.place-card:hover {
+    border-color: #DE638A;
+    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.1);
+    transform: translateY(-1px);
 }
 
 .place-card h4 {
     color: #4A3267;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     margin-bottom: 4px;
 }
 
 .place-card .rating {
     color: #eab308;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 13px;
 }
 
 .place-card .reviews-count {
-    color: #71717a;
+    color: #9683aa;
     font-size: 12px;
 }
 
 .place-card .comment {
-    color: #52525b;
+    color: #6e5786;
     font-style: italic;
     margin: 8px 0;
     font-size: 13px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .place-card .safe-badge {
     display: inline-block;
     background: #dcfce7;
     color: #15803d;
-    padding: 3px 8px;
+    padding: 3px 10px;
     border-radius: 12px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 4px;
+    border: 1px solid #bbf7d0;
 }
 
 .tour-card {
     background: #fefcbf;
     border: 1px solid #fef08a;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
 }
 
 .tour-card h4 {
     color: #854d0e;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 15px;
     margin-bottom: 4px;
 }
 
@@ -309,15 +360,15 @@ input:checked + .toggle-slider:before {
     gap: 12px;
     width: 100%;
     text-align: left;
-    padding: 11px 14px;
+    padding: 12px 14px;
     background: transparent;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
     color: #4A3267;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: inherit;
 }
 
@@ -325,9 +376,9 @@ input:checked + .toggle-slider:before {
     background: #F3D9E5;
     color: #DE638A;
     transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.06);
 }
 
 .side-menu-item:active {
     transform: scale(0.98);
 }
-
