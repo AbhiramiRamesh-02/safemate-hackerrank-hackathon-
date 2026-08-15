@@ -965,6 +965,20 @@
                 </p>
             </div>
 
+            <!-- OTP Verification Form -->
+            <div id="otpForm" class="hidden">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span style="font-size: 40px;">✉️</span>
+                    <h3 style="color: #be185d; margin-top: 10px; font-weight: 700;">Verify Your Email</h3>
+                    <p style="font-size: 13px; color: #71717a; margin-top: 6px;">We sent a 6-digit OTP code to your email address. Please enter it below to complete verification.</p>
+                </div>
+                <div class="form-group" style="margin-bottom:15px;">
+                    <label style="font-weight:600; font-size:12px;">Verification Code</label>
+                    <input type="text" id="otpCodeInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 20px; font-weight: 700; letter-spacing: 4px; padding: 10px; border:1px solid #e4e4e7; border-radius:8px; width:100%;">
+                </div>
+                <button class="submit-btn" onclick="verifyOTP()">Verify OTP</button>
+            </div>
+
             <!-- Signup Form -->
             <div id="signupForm" class="hidden">
                 <div class="form-group">
@@ -2020,7 +2034,12 @@
 
             var res = await fetch(API + url, options);
             var data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Something went wrong');
+            if (!res.ok) {
+                var err = new Error(data.error || 'Something went wrong');
+                err.status = res.status;
+                err.email = data.email;
+                throw err;
+            }
             return data;
         }
 
@@ -2374,6 +2393,7 @@
         function showSignup() {
             document.getElementById('authTitle').textContent = "Create Account";
             document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('otpForm').classList.add('hidden');
             document.getElementById('signupForm').classList.remove('hidden');
         }
 
@@ -2381,6 +2401,7 @@
         function showLoginForm() {
             document.getElementById('authTitle').textContent = "Welcome Back";
             document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('otpForm').classList.add('hidden');
             document.getElementById('loginForm').classList.remove('hidden');
         }
 
@@ -2406,6 +2427,8 @@
             }
         }
 
+        var globalVerifyEmail = "";
+
         // Login function
         async function login() {
             var email = document.getElementById('loginEmail').value.trim();
@@ -2423,7 +2446,13 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 showDashboard(data.user.role);
             } catch (err) {
-                alert(err.message);
+                if (err.status === 403 && err.message === 'UNVERIFIED') {
+                    alert('Your account is not verified yet. We have sent a verification code to your email.');
+                    globalVerifyEmail = err.email;
+                    showOTPForm();
+                } else {
+                    alert(err.message);
+                }
             }
         }
 
@@ -2469,11 +2498,9 @@
                 };
 
                 var data = await apiCall('POST', '/signup', payload);
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('currentUser', JSON.stringify(data.user));
-                alert('Account created successfully!');
-                document.getElementById('loginPage').classList.add('hidden');
-                showDashboard(data.user.role);
+                alert('Account created successfully! An OTP has been sent to your email.');
+                globalVerifyEmail = payload.email;
+                showOTPForm();
             } catch (err) {
                 alert(err.message);
             }
@@ -4253,6 +4280,53 @@
                 alert('🎉 Stay Booking Successful!\n\nYou have successfully requested accommodation at ' + name + '.\n\nYou can now view and chat with reception inside "My Bookings".');
             } catch (err) {
                 alert('Booking failed: ' + err.message);
+            }
+        }
+
+        // --- OTP Verification Logic ---
+        function showOTPForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('otpForm').classList.remove('hidden');
+            document.getElementById('authTitle').textContent = 'Verify Your Email';
+        }
+
+        async function verifyOTP() {
+            var otp = document.getElementById('otpCodeInput').value.trim();
+            if (!otp || otp.length !== 6) {
+                alert('Please enter a valid 6-digit code!');
+                return;
+            }
+
+            try {
+                var data = await apiCall('POST', '/verify-otp', {
+                    email: globalVerifyEmail,
+                    otp: otp
+                });
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                alert('Email verified successfully! Logging you in...');
+                
+                // Clear and hide OTP form
+                document.getElementById('otpCodeInput').value = '';
+                document.getElementById('loginPage').classList.add('hidden');
+                showDashboard(data.user.role);
+            } catch (err) {
+                alert('Verification failed: ' + err.message);
+            }
+        }
+
+        async function resendOTP() {
+            if (!globalVerifyEmail) {
+                alert('No email session active. Please register or login.');
+                return;
+            }
+            try {
+                alert('Generating fresh verification OTP...');
+                var res = await apiCall('POST', '/resend-otp', { email: globalVerifyEmail });
+                alert(res.message);
+            } catch (err) {
+                alert('Failed to resend code: ' + err.message);
             }
         }
 

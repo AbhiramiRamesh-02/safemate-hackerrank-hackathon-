@@ -41,7 +41,8 @@ async function seedDatabase() {
             password: hashedPassword,
             role: 'traveler',
             traveler_id: 'TR-999222',
-            emergency_contact: '9876543210'
+            emergency_contact: '9876543210',
+            isVerified: true
         });
         await traveler.save();
 
@@ -52,7 +53,8 @@ async function seedDatabase() {
             password: hashedPassword,
             role: 'traveler',
             traveler_id: 'TR-888111',
-            emergency_contact: '9876543210'
+            emergency_contact: '9876543210',
+            isVerified: true
         });
         await traveler2.save();
 
@@ -63,7 +65,8 @@ async function seedDatabase() {
             password: hashedPassword,
             role: 'traveler',
             traveler_id: 'TR-777333',
-            emergency_contact: '9876543210'
+            emergency_contact: '9876543210',
+            isVerified: true
         });
         await traveler3.save();
         
@@ -79,7 +82,8 @@ async function seedDatabase() {
                 vehicle_number: 'KA 01 AB 1234',
                 city: 'Bangalore',
                 price_per_ride: 450,
-                rating: 4.8
+                rating: 4.8,
+                isVerified: true
             },
             {
                 name: 'Sneha Reddy',
@@ -92,7 +96,8 @@ async function seedDatabase() {
                 vehicle_number: 'TN 02 CD 5678',
                 city: 'Chennai',
                 price_per_ride: 600,
-                rating: 4.9
+                rating: 4.9,
+                isVerified: true
             },
             {
                 name: 'Anita Menon',
@@ -105,7 +110,8 @@ async function seedDatabase() {
                 vehicle_number: 'RJ 03 EF 9012',
                 city: 'Jaipur',
                 price_per_ride: 500,
-                rating: 4.7
+                rating: 4.7,
+                isVerified: true
             }
         ];
         await User.insertMany(drivers);
@@ -119,7 +125,8 @@ async function seedDatabase() {
             role: 'guide',
             city: 'Jaipur',
             age: 35,
-            rating: 4.9
+            rating: 4.9,
+            isVerified: true
         });
         await guide1.save();
 
@@ -141,7 +148,8 @@ async function seedDatabase() {
             role: 'guide',
             city: 'Coorg',
             age: 28,
-            rating: 4.8
+            rating: 4.8,
+            isVerified: true
         });
         await guide2.save();
 

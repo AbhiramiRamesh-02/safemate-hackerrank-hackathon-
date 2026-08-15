@@ -18,6 +18,9 @@ const UserSchema = new mongoose.Schema({
     city: { type: String, default: null },
     price_per_ride: { type: Number, default: null },
     rating: { type: Number, default: 0 },
+    isVerified: { type: Boolean, default: false },
+    otpCode: { type: String, default: null },
+    otpExpires: { type: Date, default: null },
     created_at: { type: Date, default: Date.now }
 });
 
