@@ -289,6 +289,12 @@ function showGuideTab(tabName) {
             btn.classList.add('active');
         }
     });
+
+    if (tabName === 'myBookings' && typeof loadGuideAcceptedBookings === 'function') {
+        loadGuideAcceptedBookings();
+    } else if (tabName === 'bookingRequests' && typeof loadGuideBookings === 'function') {
+        loadGuideBookings();
+    }
 }
 
 function logout() {

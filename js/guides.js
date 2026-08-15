@@ -13,7 +13,7 @@ function viewGuideDetails(name, tourType, rating, age, phone, availability, desc
     
     document.getElementById('guideDetailName').textContent = name;
     document.getElementById('guideDetailTour').textContent = tourType;
-    document.getElementById('guideDetailRating').textContent = "⭐ " + rating;
+    document.getElementById('guideDetailRating').textContent = "Rating: " + rating;
     document.getElementById('guideDetailAge').textContent = age;
     document.getElementById('guideDetailPhone').textContent = phone;
     
@@ -271,5 +271,36 @@ async function saveGuideServices() {
         document.getElementById('guideServicesSaved').innerHTML = html;
     } catch (err) {
         alert(err.message);
+    }
+}
+
+async function loadGuideAcceptedBookings() {
+    var container = document.getElementById('myBookings');
+    if (!container) return;
+    container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">Loading accepted bookings...</p>';
+
+    try {
+        var bookings = await apiCall('GET', '/bookings/my');
+        if (bookings.length === 0) {
+            container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">No accepted bookings yet.</p>';
+            return;
+        }
+
+        var html = '';
+        bookings.forEach(function(b) {
+            html += '<div class="dashboard-card" style="border-left:4px solid #10b981;margin-bottom:15px;padding:15px;background:white;border:1px solid #e4e4e7;border-radius:10px;">' +
+                '<h4>' + b.tour_type + '</h4>' +
+                '<p style="margin:5px 0;font-size:13px;color:#555;">Traveler: ' + b.traveler_name + '</p>' +
+                '<p style="margin:5px 0;font-size:13px;color:#555;">Date: ' + b.booking_date + ' • ' + b.days + ' day(s)</p>' +
+                '<p style="margin:5px 0;font-size:13px;color:#555;">Phone: ' + b.traveler_phone + '</p>' +
+                '<p style="margin:5px 0;font-size:13px;color:#be185d;font-weight:600;">Status: ' + b.status.toUpperCase() + '</p>' +
+                '<div style="margin-top:10px;">' +
+                '  <button class="booking-btn" style="margin-top:0;width:auto;" onclick="openChatFromBooking(\'' + b._id + '\', \'' + b.traveler_name + '\', \'accepted\')">Chat with Traveler</button>' +
+                '</div>' +
+                '</div>';
+        });
+        container.innerHTML = html;
+    } catch (err) {
+        container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">Could not load active bookings.</p>';
     }
 }

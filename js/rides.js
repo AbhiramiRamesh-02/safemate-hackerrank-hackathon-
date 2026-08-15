@@ -187,6 +187,7 @@ function showDriverDashboard() {
     document.getElementById('driverDashboard').classList.remove('hidden');
     loadDriverRideRequests();
     loadDriverStats();
+    loadDriverAcceptedRides();
 }
 
 async function loadDriverStats() {
@@ -235,5 +236,35 @@ async function saveDriverProfile() {
             '</div>';
     } catch (err) {
         alert(err.message);
+    }
+}
+
+async function loadDriverAcceptedRides() {
+    var container = document.getElementById('myRides');
+    if (!container) return;
+    container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">Loading accepted rides...</p>';
+
+    try {
+        var rides = await apiCall('GET', '/rides/my');
+        if (rides.length === 0) {
+            container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">No accepted rides yet.</p>';
+            return;
+        }
+
+        var html = '';
+        rides.forEach(function(r) {
+            html += '<div class="dashboard-card" style="border-left:4px solid #10b981;margin-bottom:15px;padding:15px;background:white;border:1px solid #e4e4e7;border-radius:10px;">' +
+                '<h4>Ride with ' + r.traveler_name + '</h4>' +
+                '<p style="margin:5px 0;font-size:13px;color:#555;">From: ' + r.pickup + ' → ' + r.drop_location + '</p>' +
+                '<p style="margin:5px 0;font-size:13px;color:#555;">Phone: ' + r.traveler_phone + '</p>' +
+                '<p style="margin:5px 0;font-size:13px;color:#be185d;font-weight:600;">Status: ' + r.status.toUpperCase() + '</p>' +
+                '<div style="margin-top:10px;display:flex;gap:10px;">' +
+                '  <button class="booking-btn" style="margin-top:0;width:auto;" onclick="openChatFromBooking(\'' + r._id + '\', \'' + r.traveler_name + '\', \'accepted\')">Chat with Traveler</button>' +
+                '</div>' +
+                '</div>';
+        });
+        container.innerHTML = html;
+    } catch (err) {
+        container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">Could not load active rides.</p>';
     }
 }

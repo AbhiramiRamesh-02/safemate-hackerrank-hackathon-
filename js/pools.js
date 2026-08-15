@@ -206,19 +206,3 @@ async function loadTravelerMyBookings() {
 
     container.innerHTML = html;
 }
-
-function openChatFromBooking(driverName, status) {
-    if (status !== 'accepted' && status !== 'confirmed') {
-        alert('Chat is locked until the booking is accepted/confirmed!');
-        return;
-    }
-
-    localStorage.setItem('hasActiveRide', 'true');
-    localStorage.setItem('chatDriverName', driverName);
-    if (typeof checkActiveRideChat === 'function') checkActiveRideChat();
-    
-    var box = document.getElementById('chatBoxContainer');
-    if (box && box.classList.contains('hidden')) {
-        toggleChatWindow();
-    }
-}

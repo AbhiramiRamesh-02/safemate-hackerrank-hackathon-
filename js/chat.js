@@ -1,11 +1,18 @@
+var currentChatBookingId = null;
+var currentChatRecipientName = "";
+var chatPollInterval = null;
+
 function toggleChatWindow() {
     var box = document.getElementById('chatBoxContainer');
     if (!box) return;
     if (box.classList.contains('hidden')) {
         box.classList.remove('hidden');
-        document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        loadChatMessages();
+        if (chatPollInterval) clearInterval(chatPollInterval);
+        chatPollInterval = setInterval(loadChatMessages, 3000);
     } else {
         box.classList.add('hidden');
+        if (chatPollInterval) clearInterval(chatPollInterval);
     }
 }
 
@@ -15,47 +22,81 @@ function handleChatKeyPress(event) {
     }
 }
 
-function sendChatMessage() {
+async function sendChatMessage() {
     var input = document.getElementById('chatInput');
     var text = input.value.trim();
-    if (!text) return;
+    if (!text || !currentChatBookingId) return;
 
     input.value = '';
+    try {
+        await apiCall('POST', '/chat', { bookingId: currentChatBookingId, text: text });
+        loadChatMessages();
+    } catch (err) {
+        console.error("Failed to send message: ", err);
+    }
+}
+
+async function loadChatMessages() {
+    if (!currentChatBookingId) return;
     var chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
 
-    var userDiv = document.createElement('div');
-    userDiv.style.alignSelf = 'flex-end';
-    userDiv.style.background = '#be185d';
-    userDiv.style.color = 'white';
-    userDiv.style.padding = '8px 12px';
-    userDiv.style.borderRadius = '12px 12px 0 12px';
-    userDiv.style.maxWidth = '80%';
-    userDiv.style.lineHeight = '1.4';
-    userDiv.innerText = text;
-    chatMessages.appendChild(userDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    try {
+        var messages = await apiCall('GET', '/chat/' + currentChatBookingId);
+        var currentUser = getCurrentUser();
+        var userEmail = currentUser ? currentUser.email : "";
 
-    setTimeout(function() {
-        var replies = [
-            "Got it! Arriving at your location in 3 minutes.",
-            "Sure, I am driving on the main road now. See you shortly.",
-            "Alright. Please look out for the white Sedan/SUV.",
-            "Understood. Safe travels!"
-        ];
-        var replyText = replies[Math.floor(Math.random() * replies.length)];
+        var html = '';
+        messages.forEach(function(m) {
+            var isMe = m.senderEmail === userEmail;
+            var align = isMe ? 'flex-end' : 'flex-start';
+            var bg = isMe ? '#be185d' : '#f4f4f5';
+            var color = isMe ? 'white' : '#18181b';
+            var radius = isMe ? '12px 12px 0 12px' : '12px 12px 12px 0';
+            
+            // Safety sanitization helper
+            var safeText = document.createElement('div');
+            safeText.innerText = m.text;
+            
+            html += '<div style="align-self:' + align + '; background:' + bg + '; color:' + color + '; padding:8px 12px; border-radius:' + radius + '; max-width:80%; line-height:1.4; word-break:break-word; margin-bottom:8px;">' +
+                '<span style="font-size:10px; font-weight:700; display:block; opacity:0.75; margin-bottom:2px;">' + m.senderName + '</span>' +
+                safeText.innerHTML +
+                '</div>';
+        });
+        
+        var oldCount = chatMessages.children.length;
+        chatMessages.innerHTML = html;
+        if (messages.length > oldCount) {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    } catch (err) {
+        console.warn("Could not load messages:", err);
+    }
+}
 
-        var driverDiv = document.createElement('div');
-        driverDiv.style.alignSelf = 'flex-start';
-        driverDiv.style.background = '#f4f4f5';
-        driverDiv.style.color = '#18181b';
-        driverDiv.style.padding = '8px 12px';
-        driverDiv.style.borderRadius = '12px 12px 12px 0';
-        driverDiv.style.maxWidth = '80%';
-        driverDiv.style.lineHeight = '1.4';
-        driverDiv.innerText = replyText;
-        chatMessages.appendChild(driverDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 1500);
+function openChatFromBooking(bookingId, recipientName, status) {
+    if (status !== 'accepted' && status !== 'confirmed') {
+        alert('Chat is locked until the booking is accepted/confirmed!');
+        return;
+    }
+
+    currentChatBookingId = bookingId;
+    currentChatRecipientName = recipientName;
+    localStorage.setItem('hasActiveRide', 'true');
+    localStorage.setItem('chatDriverName', recipientName);
+    
+    var nameEl = document.getElementById('chatDriverName');
+    if (nameEl) nameEl.textContent = 'Chat with ' + recipientName;
+    
+    var chatBtn = document.getElementById('chatFloatingBtn');
+    if (chatBtn) chatBtn.classList.remove('hidden');
+    
+    var box = document.getElementById('chatBoxContainer');
+    if (box && box.classList.contains('hidden')) {
+        toggleChatWindow();
+    } else {
+        loadChatMessages();
+    }
 }
 
 function checkActiveRideChat() {
@@ -91,10 +132,10 @@ async function loadAnonymousReports() {
             var date = new Date(r.created_at).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'});
             return '<div style="background:#fff5f5; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius:12px; padding:15px; text-align:left;">' +
                 '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">' +
-                '<strong style="color:#dc2626; font-size:15px;">⚠️ ' + r.category + '</strong>' +
+                '<strong style="color:#dc2626; font-size:15px;">Warning: ' + r.category + '</strong>' +
                 '<span style="color:#9ca3af; font-size:12px;">' + date + '</span>' +
                 '</div>' +
-                '<p style="font-size:13px; color:#666; margin-bottom:8px;">📍 <strong>Location:</strong> ' + r.location + '</p>' +
+                '<p style="font-size:13px; color:#666; margin-bottom:8px;">Location: ' + r.location + '</p>' +
                 '<p style="font-size:14px; color:#333; line-height:1.4;">' + r.description + '</p>' +
                 '</div>';
         }).join('');
@@ -139,7 +180,7 @@ async function loadReviews() {
             return;
         }
         container.innerHTML = reviews.map(function(r) {
-            return '<div class="review-card"><h4>' + r.rating + '</h4><p>"' + r.text + '"</p><small>- ' + r.reviewer_name + ' (' + r.service + ')</small></div>';
+            return '<div class="review-card"><h4>Rating: ' + r.rating + '</h4><p>"' + r.text + '"</p><small>- ' + r.reviewer_name + ' (' + r.service + ')</small></div>';
         }).join('');
     } catch (err) {
         container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load reviews.</p>';
