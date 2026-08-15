@@ -23,7 +23,7 @@
             <span class="logo-text">Safemate</span>
         </div>
         <div class="header-right">
-            <a href="#" onclick="showAboutUs()" style="color:#ec4899;font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
+            <a href="#" onclick="showAboutUs()" style="color:var(--primary);font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
             <button class="logout-btn hidden" id="logoutBtn" onclick="logout()">Logout</button>
         </div>
     </header>
@@ -31,20 +31,20 @@
     <!-- About Us Page -->
     <div class="container hidden" id="aboutUs">
         <div class="card">
-            <h2 style="color:#ec4899;font-size:24px;margin-bottom:20px;text-align:center;">About Safemate</h2>
-            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
+            <h2 style="color:var(--primary);font-size:24px;margin-bottom:20px;text-align:center;">About Safemate</h2>
+            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
                 Safemate is a platform designed to make travel safer, easier, and more comfortable for women. Our mission is to create a trusted environment where women can explore new places with confidence. Through our platform, travelers can connect with verified women drivers, experienced travel guides, safe hotels and PGs, and trusted travel partners.
             </p>
-            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
+            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
                 We believe that every woman deserves the freedom to travel without fear. Safemate focuses on building a supportive community where women can plan trips, share experiences, and help each other travel safely.
             </p>
-            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
+            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
                 One of our unique features is the Nearby Toilets Finder, which helps travelers quickly locate clean and safe restrooms around them. This feature is especially helpful for foreign tourists who may not be familiar with the area or local facilities. By providing easy access to essential services like restrooms, we aim to make travel more comfortable and stress-free.
             </p>
-            <p style="color:#555;line-height:1.8;margin-bottom:15px;">
+            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:15px;">
                 In addition, our platform includes safety tools such as emergency alerts, verified reviews, and women-only travel groups, ensuring that every journey is safe, enjoyable, and empowering.
             </p>
-            <p style="color:#555;line-height:1.8;margin-bottom:20px;">
+            <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:20px;">
                 At Safemate, we are not just building a travel service — we are building a community that empowers women to travel freely, safely, and confidently anywhere in the world.
             </p>
             <button class="submit-btn" onclick="goBack()">Back to Home</button>
@@ -1312,20 +1312,20 @@
     </script>
 
     <!-- Global Floating Chat Components -->
-    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:#be185d; color:white; border:none; box-shadow:0 4px 15px rgba(190, 24, 93, 0.3); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
+    <button id="chatFloatingBtn" class="hidden" style="position:fixed; bottom:110px; right:30px; width:65px; height:65px; border-radius:50%; background:var(--primary-gradient); color:white; border:none; box-shadow:var(--primary-glow); z-index:1000; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:24px; transition:transform 0.2s;" onclick="toggleChatWindow()">💬</button>
 
-    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:white; border-radius:12px; border:1px solid #e4e4e7; box-shadow:0 10px 25px rgba(0,0,0,0.15); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
+    <div id="chatBoxContainer" class="hidden" style="position:fixed; bottom:190px; right:30px; width:300px; height:380px; background:var(--bg-surface-elevated); border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--shadow-elevated); z-index:1001; display:flex; flex-direction:column; overflow:hidden;">
         <!-- Chat Header -->
-        <div style="background:#be185d; color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
+        <div style="background:var(--primary-gradient); color:white; padding:12px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;">
             <span id="chatDriverName">Chat</span>
             <span style="cursor:pointer; font-size:16px;" onclick="toggleChatWindow()">✕</span>
         </div>
         <!-- Chat Messages Container -->
-        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:#fafafb;"></div>
+        <div id="chatMessages" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-size:13px; background:var(--bg-canvas);"></div>
         <!-- Chat Input Bar -->
-        <div style="display:flex; border-top:1px solid #e4e4e7; padding:8px; background:white;">
-            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid #d4d4d8; border-radius:6px; font-size:13px; outline:none;" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendChatMessage()" style="background:#be185d; color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
+        <div style="display:flex; border-top:1px solid var(--border-color); padding:8px; background:var(--bg-surface-elevated);">
+            <input type="text" id="chatInput" placeholder="Type a message..." style="flex:1; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; outline:none; background:var(--bg-input); color:var(--text-primary);" onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendChatMessage()" style="background:var(--primary); color:white; border:none; padding:8px 12px; border-radius:6px; margin-left:6px; font-size:13px; font-weight:600; cursor:pointer;">Send</button>
         </div>
     </div>
 
