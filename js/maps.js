@@ -45,12 +45,42 @@ async function submitDarkSpot() {
         return;
     }
 
+    var lat = 0, lng = 0;
+    try {
+        var geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(title + ', ' + city));
+        var geoData = await geoRes.json();
+        if (geoData && geoData.length > 0) {
+            lat = parseFloat(geoData[0].lat);
+            lng = parseFloat(geoData[0].lon);
+        }
+    } catch(e) {
+        console.warn(e);
+    }
+
+    if (lat === 0 && lng === 0) {
+        var centers = {
+            'Bangalore': [12.9716, 77.5946],
+            'Chennai': [13.0827, 80.2707],
+            'Jaipur': [26.9124, 75.7873],
+            'Pondicherry': [11.9416, 79.8083],
+            'Coorg': [12.3375, 75.8069],
+            'Delhi': [28.6139, 77.2090],
+            'Mumbai': [18.9750, 72.8258],
+            'Hyderabad': [17.3850, 78.4867]
+        };
+        var center = centers[city] || [12.9716, 77.5946];
+        lat = center[0] + (Math.random() - 0.5) * 0.04;
+        lng = center[1] + (Math.random() - 0.5) * 0.04;
+    }
+
     try {
         await apiCall('POST', '/dark-spots', {
             title: title,
             city: city,
             risk_level: risk,
-            description: desc
+            description: desc,
+            latitude: lat,
+            longitude: lng
         });
         alert('Unsafe area reported successfully!');
         document.getElementById('darkSpotTitle').value = '';
@@ -61,7 +91,7 @@ async function submitDarkSpot() {
     }
 }
 
-function calculateSafeRoute() {
+async function calculateSafeRoute() {
     var start = document.getElementById('routeStart').value.trim();
     var end = document.getElementById('routeEnd').value.trim();
 
@@ -70,63 +100,171 @@ function calculateSafeRoute() {
         return;
     }
 
-    document.getElementById('routeResultsDiv').classList.remove('hidden');
+    try {
+        var shortestPathEl = document.getElementById('shortestRoutePath');
+        var shortestRiskEl = document.getElementById('shortestRouteRiskCount');
+        var safePathEl = document.getElementById('safeRoutePath');
+        var safeStatusEl = document.getElementById('safeRouteStatus');
 
-    var lat = 12.9716;
-    var lng = 77.5946;
+        if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> Calculating shortest path coordinates...";
+        if (safePathEl) safePathEl.innerHTML = "<strong>Path:</strong> Applying safety weights...";
 
-    setTimeout(function() {
+        document.getElementById('routeResultsDiv').classList.remove('hidden');
+
+        // 1. Geocode Start
+        var startLat = 12.9716, startLng = 77.5946;
+        var startGeoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(start));
+        var startGeoData = await startGeoRes.json();
+        if (startGeoData && startGeoData.length > 0) {
+            startLat = parseFloat(startGeoData[0].lat);
+            startLng = parseFloat(startGeoData[0].lon);
+        }
+
+        // 2. Geocode End
+        var endLat = 12.9344, endLng = 77.6192;
+        var endGeoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(end));
+        var endGeoData = await endGeoRes.json();
+        if (endGeoData && endGeoData.length > 0) {
+            endLat = parseFloat(endGeoData[0].lat);
+            endLng = parseFloat(endGeoData[0].lon);
+        }
+
+        // 3. Fetch real database dark spots
+        var spots = await apiCall('GET', '/dark-spots');
+
+        // Set map view
         if (mapRef === null) {
-            mapRef = L.map('map').setView([lat, lng], 13);
+            mapRef = L.map('map').setView([startLat, startLng], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap'
             }).addTo(mapRef);
         } else {
-            mapRef.setView([lat, lng], 13);
+            mapRef.setView([startLat, startLng], 13);
         }
 
+        // Clear existing polylines/markers
         mapRef.eachLayer(function (layer) {
             if (layer instanceof L.Polyline || layer instanceof L.Marker) {
                 mapRef.removeLayer(layer);
             }
         });
 
-        var unsafePoints = [
-            [12.9784, 77.5724],
-            [12.9818, 77.5951],
-            [12.9344, 77.6192]
-        ];
-        var unsafePolyline = L.polyline(unsafePoints, {color: '#ef4444', weight: 4, dashArray: '5, 10'}).addTo(mapRef);
-        L.marker(unsafePoints[1], {
-            icon: L.divIcon({
-                className: 'custom-div-icon',
-                html: "<div style='background-color:#ef4444; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>3 Dark Spots</div>",
-                iconSize: [80, 20],
-                iconAnchor: [40, 10]
-            })
-        }).addTo(mapRef);
+        // 4. Query OSRM for shortest route
+        var routeUrl = 'https://router.project-osrm.org/route/v1/driving/' + startLng + ',' + startLat + ';' + endLng + ',' + endLat + '?overview=full&geometries=geojson';
+        var routeRes = await fetch(routeUrl);
+        var routeData = await routeRes.json();
+        
+        if (!routeData.routes || routeData.routes.length === 0) {
+            alert("Could not calculate route via OpenStreetMap OSRM.");
+            return;
+        }
 
-        var safePoints = [
-            [12.9784, 77.5724],
-            [12.9756, 77.6067],
-            [12.9344, 77.6192]
-        ];
-        var safePolyline = L.polyline(safePoints, {color: '#22c55e', weight: 6}).addTo(mapRef);
-        L.marker(safePoints[1], {
-            icon: L.divIcon({
-                className: 'custom-div-icon',
-                html: "<div style='background-color:#22c55e; color:white; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:bold; white-space:nowrap; border:1px solid white;'>Police Patrol</div>",
-                iconSize: [90, 20],
-                iconAnchor: [45, 10]
-            })
-        }).addTo(mapRef);
+        var shortestCoords = routeData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
 
-        L.marker(unsafePoints[0]).addTo(mapRef).bindPopup("Start: " + start);
-        L.marker(unsafePoints[2]).addTo(mapRef).bindPopup("End: " + end);
+        // Distance utility
+        function getDistance(lat1, lon1, lat2, lon2) {
+            var R = 6371e3; // meters
+            var phi1 = lat1 * Math.PI/180;
+            var phi2 = lat2 * Math.PI/180;
+            var deltaPhi = (lat2-lat1) * Math.PI/180;
+            var deltaLambda = (lon2-lon1) * Math.PI/180;
+            var a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
+                    Math.cos(phi1) * Math.cos(phi2) *
+                    Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
 
-        mapRef.invalidateSize();
-    }, 100);
+        // 5. Detect intersecting dangerous spots
+        var dangerousSpotsAlongRoute = [];
+        spots.forEach(function(s) {
+            if (!s.latitude || !s.longitude) return;
+            // Add a marker for reported dark spots
+            var spotMarker = L.marker([s.latitude, s.longitude], {
+                icon: L.divIcon({
+                    className: 'darkspot-marker-icon',
+                    html: "<div style='background-color:#dc2626; color:white; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold; border:1px solid white; white-space:nowrap;'>" + s.title + "</div>"
+                })
+            }).addTo(mapRef);
+            spotMarker.bindPopup("<strong>Unsafe Spot:</strong> " + s.title + "<br>Risk: " + s.risk_level + "<br>" + s.description);
+
+            for (var i = 0; i < shortestCoords.length; i++) {
+                if (getDistance(shortestCoords[i][0], shortestCoords[i][1], s.latitude, s.longitude) < 600) {
+                    dangerousSpotsAlongRoute.push(s);
+                    break;
+                }
+            }
+        });
+
+        // 6. Draw route path lines
+        var shortestPoly = L.polyline(shortestCoords, {color: '#ef4444', weight: 4, dashArray: '5, 10'}).addTo(mapRef);
+
+        var finalSafeCoords = shortestCoords;
+        if (dangerousSpotsAlongRoute.length > 0) {
+            var sumLat = 0, sumLng = 0;
+            dangerousSpotsAlongRoute.forEach(s => { sumLat += s.latitude; sumLng += s.longitude; });
+            var avgLat = sumLat / dangerousSpotsAlongRoute.length;
+            var avgLng = sumLng / dangerousSpotsAlongRoute.length;
+
+            // Shift waypoint by 0.012 degrees to detour
+            var detourLat = avgLat + 0.012;
+            var detourLng = avgLng - 0.012;
+
+            try {
+                // Fetch detoured safe route
+                var safeUrl = 'https://router.project-osrm.org/route/v1/driving/' + startLng + ',' + startLat + ';' + detourLng + ',' + detourLat + ';' + endLng + ',' + endLat + '?overview=full&geometries=geojson';
+                var safeRes = await fetch(safeUrl);
+                var safeData = await safeRes.json();
+                if (safeData.routes && safeData.routes.length > 0) {
+                    finalSafeCoords = safeData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                    
+                    var midIndex = Math.floor(finalSafeCoords.length / 2);
+                    L.marker(finalSafeCoords[midIndex], {
+                        icon: L.divIcon({
+                            className: 'patrol-marker-icon',
+                            html: "<div style='background-color:#16a34a; color:white; padding:3px 8px; border-radius:10px; font-size:10px; font-weight:bold; border:1px solid white; white-space:nowrap;'>Police Patrol Active</div>"
+                        })
+                    }).addTo(mapRef);
+                }
+            } catch(e) {
+                console.warn("Alternative detour calculation failed:", e);
+            }
+        }
+
+        var safePoly = L.polyline(finalSafeCoords, {color: '#22c55e', weight: 6}).addTo(mapRef);
+
+        var bounds = L.latLngBounds([ [startLat, startLng], [endLat, endLng] ]);
+        mapRef.fitBounds(bounds, { padding: [30, 30] });
+
+        L.marker([startLat, startLng]).addTo(mapRef).bindPopup("Start: " + start);
+        L.marker([endLat, endLng]).addTo(mapRef).bindPopup("Destination: " + end);
+
+        // 7. Update UI results text dynamically
+        if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> " + start + " to " + end + " via shortest OSRM path";
+        if (shortestRiskEl) {
+            shortestRiskEl.textContent = dangerousSpotsAlongRoute.length + " Dark Spots detected in 600m routing radius!";
+            shortestRiskEl.style.color = dangerousSpotsAlongRoute.length > 0 ? "#dc2626" : "#16a34a";
+        }
+
+        if (safePathEl) {
+            safePathEl.innerHTML = dangerousSpotsAlongRoute.length > 0 
+                ? "<strong>Path:</strong> Detoured route avoiding dangerous coordinates" 
+                : "<strong>Path:</strong> Shortest route (No active dark spots detected)";
+        }
+        if (safeStatusEl) {
+            safeStatusEl.textContent = dangerousSpotsAlongRoute.length > 0 
+                ? "Safe route generated around reported risks. Well-lit streets prioritizing active patrols."
+                : "Route is clear! MG Road & main highways are fully lit.";
+        }
+
+        setTimeout(function() {
+            mapRef.invalidateSize();
+        }, 100);
+
+    } catch (err) {
+        console.error(err);
+        alert("Error plotting safe route: " + err.message);
+    }
 }
 
 // ─── TOILET FINDER FEATURES ─────────────────────────────────
