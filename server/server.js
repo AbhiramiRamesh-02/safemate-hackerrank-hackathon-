@@ -796,9 +796,12 @@ const PORT = process.env.PORT || 3001;
 async function startServer() {
     try {
         await connectDB();
-        app.listen(PORT, () => {
-            console.log(`Safemate MongoDB server running on http://localhost:${PORT}`);
-        });
+        // Only bind to local port if not running in Vercel Serverless environment
+        if (!process.env.VERCEL) {
+            app.listen(PORT, () => {
+                console.log(`Safemate MongoDB server running on http://localhost:${PORT}`);
+            });
+        }
     } catch (err) {
         console.error('Failed to start server:', err.message);
         process.exit(1);
@@ -806,3 +809,5 @@ async function startServer() {
 }
 
 startServer();
+
+module.exports = app;
