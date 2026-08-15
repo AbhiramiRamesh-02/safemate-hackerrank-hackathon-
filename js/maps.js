@@ -269,21 +269,21 @@ async function calculateSafeRoute() {
         L.marker([endLat, endLng]).addTo(mapRef).bindPopup("Destination: " + end);
 
         // 7. Update Safety Score UI Indicators
-        var score = 95;
-        var riskText = "LOWER RISK";
-        var riskColor = "#15803d";
-        var containerBorderColor = "#22c55e";
+        var score = 87;
+        var riskText = "LOWER ESTIMATED RISK";
+        var riskColor = "var(--status-safe)";
+        var containerBorderColor = "var(--status-safe)";
 
         if (dangerousSpotsAlongRoute.length === 1) {
-            score = 78;
-            riskText = "MODERATE RISK";
-            riskColor = "#d97706";
-            containerBorderColor = "#f59e0b";
+            score = 74;
+            riskText = "MODERATE ESTIMATED RISK";
+            riskColor = "var(--status-concern)";
+            containerBorderColor = "var(--status-concern)";
         } else if (dangerousSpotsAlongRoute.length >= 2) {
-            score = 45;
-            riskText = "HIGHER RISK";
-            riskColor = "#b91c1c";
-            containerBorderColor = "#ef4444";
+            score = 58;
+            riskText = "ELEVATED ESTIMATED RISK";
+            riskColor = "var(--status-alert)";
+            containerBorderColor = "var(--status-alert)";
         }
 
         if (safetyNumber) safetyNumber.textContent = score;
@@ -296,21 +296,14 @@ async function calculateSafeRoute() {
         }
 
         // 8. Update Route details texts
-        if (shortestPathEl) shortestPathEl.innerHTML = "<strong>Path:</strong> Shortest route from " + start + " to " + end;
-        if (shortestRiskEl) {
-            if (dangerousSpotsAlongRoute.length > 0) {
-                shortestRiskEl.innerHTML = "⚠ Passes through " + dangerousSpotsAlongRoute.length + " community-reported safety concern zones!";
-                shortestRiskEl.style.color = "#dc2626";
-            } else {
-                shortestRiskEl.innerHTML = "✓ Shortest route is safe! No community concerns reported.";
-                shortestRiskEl.style.color = "#16a34a";
-            }
+        if (shortestPathEl) {
+            shortestPathEl.textContent = dangerousSpotsAlongRoute.length > 0
+                ? "Passes through areas with recent community-reported concerns."
+                : "Standard shortest path based on current road navigation.";
         }
 
         if (safePathEl) {
-            safePathEl.innerHTML = dangerousSpotsAlongRoute.length > 0 
-                ? "<strong>Path:</strong> Safety-weighted ML routing detoured around hazards."
-                : "<strong>Path:</strong> Shortest route is already optimized and safe.";
+            safePathEl.textContent = "Lower reported safety concerns and stronger route activity during your selected travel time.";
         }
 
         setTimeout(function() {
@@ -319,7 +312,7 @@ async function calculateSafeRoute() {
 
     } catch (err) {
         console.error(err);
-        alert("Error plotting safe route: " + err.message);
+        alert("Error evaluating routes: " + err.message);
     }
 }
 
@@ -338,29 +331,23 @@ function openHazardSheet(spot) {
     var reports = document.getElementById('hazardReportsCount');
     var desc = document.getElementById('hazardDesc');
     
-    if (title) title.textContent = spot.title;
-    if (desc) desc.textContent = spot.description || "No description provided.";
+    if (title) title.textContent = spot.title || "Safety Information";
+    if (desc) desc.textContent = spot.description || "Area details provided by community members.";
     
     if (spot.risk_level === 'High') {
         if (badge) {
-            badge.textContent = "VERIFIED SAFETY CONCERN";
-            badge.style.background = "#fee2e2";
-            badge.style.color = "#b91c1c";
-            badge.style.border = "1px solid #fca5a5";
+            badge.textContent = "VERIFIED CONCERN";
+            badge.className = "status-pill verified";
         }
         if (confidence) confidence.textContent = "Confidence: High";
-        if (reports) reports.textContent = "Confirmed through multiple independent reports and safety signals.";
-        sheet.style.borderLeft = "5px solid #ef4444";
+        if (reports) reports.textContent = "Corroborated by independent reports and area signals.";
     } else {
         if (badge) {
             badge.textContent = "COMMUNITY CONCERN";
-            badge.style.background = "#fef3c7";
-            badge.style.color = "#d97706";
-            badge.style.border = "1px solid #fcd34d";
+            badge.className = "status-pill community";
         }
         if (confidence) confidence.textContent = "Confidence: Medium";
-        if (reports) reports.textContent = "3 independent community reports received recently.";
-        sheet.style.borderLeft = "5px solid #f59e0b";
+        if (reports) reports.textContent = "3 independent reports · Last reported recently";
     }
 }
 

@@ -131,101 +131,83 @@ async function loadAnonymousReports() {
         container.innerHTML = reports.map(function(r) {
             var date = new Date(r.created_at).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'});
             
-            // Re-designed 3 confidence states
+            var badgeClass = "insufficient";
             var badgeText = "INSUFFICIENT DATA";
-            var badgeBg = "#f3f4f6";
-            var badgeColor = "#4b5563";
-            var badgeBorder = "#e5e7eb";
             var confidenceText = "Confidence: Low (Consensus pending)";
 
-            if (r.category === 'Harassment' || r.category === 'Isolated / Dark Area') {
-                badgeText = "VERIFIED SAFETY CONCERN";
-                badgeBg = "#fee2e2";
-                badgeColor = "#b91c1c";
-                badgeBorder = "#fca5a5";
-                confidenceText = "Confidence: High (Confirmed through multiple reports)";
+            if (r.category === 'Harassment' || r.category === 'Isolated / Dark Area' || r.category === 'Isolated Area') {
+                badgeClass = "verified";
+                badgeText = "VERIFIED CONCERN";
+                confidenceText = "Confidence: High (Corroborated by independent signals)";
             } else if (r.category === 'Poor Lighting' || r.category === 'Suspicious Activity') {
+                badgeClass = "community";
                 badgeText = "COMMUNITY CONCERN";
-                badgeBg = "#fef3c7";
-                badgeColor = "#d97706";
-                badgeBorder = "#fcd34d";
-                confidenceText = "Confidence: Medium (3 independent community reports received)";
+                confidenceText = "Confidence: Medium (3 independent reports in last 14 days)";
             }
             
-            return '<div style="background:#fafafa; border: 1px solid ' + badgeBorder + '; border-left: 5px solid ' + (badgeText === 'VERIFIED SAFETY CONCERN' ? '#ef4444' : (badgeText === 'COMMUNITY CONCERN' ? '#f59e0b' : '#9ca3af')) + '; border-radius:12px; padding:15px; text-align:left;">' +
-                '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">' +
-                '<strong style="color:#111827; font-size:15px;">' + r.category + '</strong>' +
-                '<span style="color:#9ca3af; font-size:12px;">' + date + '</span>' +
+            return '<div class="card" style="padding: 16px; margin-bottom: 8px;">' +
+                '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
+                '<strong style="color:var(--text-primary); font-size:14px;">' + r.category + '</strong>' +
+                '<span style="color:var(--text-muted); font-size:11px;">' + date + '</span>' +
                 '</div>' +
-                '<div style="display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; background:' + badgeBg + '; color:' + badgeColor + '; border:1px solid ' + badgeBorder + '; margin-bottom:8px;">' + badgeText + '</div>' +
-                '<p style="font-size:11px; color:#4b5563; font-style:italic; margin-bottom:8px;">' + confidenceText + '</p>' +
-                '<p style="font-size:13px; color:#4b5563; margin-bottom:4px;"><strong>Location:</strong> ' + r.location + '</p>' +
-                '<p style="font-size:13px; color:#374151; line-height:1.4;">' + r.description + '</p>' +
+                '<div style="margin-bottom:8px;"><span class="status-pill ' + badgeClass + '">' + badgeText + '</span></div>' +
+                '<p style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">' + confidenceText + '</p>' +
+                '<p style="font-size:13px; color:var(--text-secondary); margin-bottom:4px;"><strong>Location:</strong> ' + r.location + '</p>' +
+                '<p style="font-size:13px; color:var(--text-primary); line-height:1.4;">' + r.description + '</p>' +
                 '</div>';
         }).join('');
     } catch (err) {
-        container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load reports.</p>';
+        container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:15px;">Could not load reports.</p>';
     }
 }
 
 // Wizard State Variables
 var wizardReportCategory = '';
-var wizardReportTime = '';
+var wizardReportTime = 'Today';
 
 function selectReportCategory(category, el) {
     wizardReportCategory = category;
-    document.querySelectorAll('.category-card').forEach(function(card) {
-        card.style.border = '2px solid #e4e4e7';
-        card.style.background = 'white';
-        card.style.color = '#374151';
+    document.querySelectorAll('.concern-select-card').forEach(function(card) {
+        card.classList.remove('selected');
     });
-    el.style.border = '2px solid #be185d';
-    el.style.background = '#fdf2f8';
-    el.style.color = '#be185d';
-    document.getElementById('reviewCategory').textContent = category;
+    if (el) el.classList.add('selected');
+    var revCat = document.getElementById('reviewCategory');
+    if (revCat) revCat.textContent = category;
 }
 
 function selectReportTime(time, el) {
     wizardReportTime = time;
-    document.querySelectorAll('.time-card').forEach(function(card) {
-        card.style.border = '2px solid #e4e4e7';
-        card.style.background = 'white';
-        card.style.color = '#374151';
-    });
-    el.style.border = '2px solid #be185d';
-    el.style.background = '#fdf2f8';
-    el.style.color = '#be185d';
-    document.getElementById('reviewTime').textContent = time;
+    var revTime = document.getElementById('reviewTime');
+    if (revTime) revTime.textContent = time;
 }
 
 function useCurrentLocationForReport() {
     var locInput = document.getElementById('wizardLocationInput');
     if (locInput) {
         locInput.value = "MG Road Area, Bangalore";
-        document.getElementById('reviewLocation').textContent = "MG Road Area, Bangalore";
+        var revLoc = document.getElementById('reviewLocation');
+        if (revLoc) revLoc.textContent = "MG Road Area, Bangalore";
     }
 }
 
 function wizardNext(step) {
     if (step === 2 && !wizardReportCategory) {
-        alert('Please select a category of incident!');
+        alert('Please select a category of incident.');
         return;
     }
     if (step === 3) {
         var loc = document.getElementById('wizardLocationInput').value.trim();
         if (!loc) {
-            alert('Please confirm or input a location!');
+            alert('Please enter or confirm a location.');
             return;
         }
-        document.getElementById('reviewLocation').textContent = loc;
+        var revLoc = document.getElementById('reviewLocation');
+        if (revLoc) revLoc.textContent = loc;
     }
-    if (step === 4 && !wizardReportTime) {
-        alert('Please select when the incident happened!');
-        return;
-    }
-    if (step === 5) {
+    if (step === 4) {
         var desc = document.getElementById('wizardDescInput').value.trim();
-        document.getElementById('reviewDesc').textContent = desc || "No description provided.";
+        var revDesc = document.getElementById('reviewDesc');
+        if (revDesc) revDesc.textContent = desc || "No description provided.";
     }
 
     document.querySelectorAll('.wizard-step').forEach(function(stepDiv) {
@@ -235,9 +217,17 @@ function wizardNext(step) {
     var targetStep = document.getElementById('step-' + step);
     if (targetStep) targetStep.classList.remove('hidden');
 
-    var progressPct = (step / 5) * 100;
-    var progressEl = document.getElementById('wizardProgress');
-    if (progressEl) progressEl.style.width = progressPct + '%';
+    // Update step indicators
+    for (var i = 1; i <= 4; i++) {
+        var ind = document.getElementById('ind-step-' + i);
+        if (ind) {
+            if (i <= step) {
+                ind.classList.add('active');
+            } else {
+                ind.classList.remove('active');
+            }
+        }
+    }
 }
 
 async function submitWizardReport() {
@@ -246,9 +236,9 @@ async function submitWizardReport() {
 
     try {
         await apiCall('POST', '/anonymous-reports', {
-            category: wizardReportCategory,
+            category: wizardReportCategory || 'Other Safety Concern',
             location: location,
-            description: description + " (Time: " + wizardReportTime + ")"
+            description: description + (wizardReportTime ? " (Timing: " + wizardReportTime + ")" : "")
         });
 
         document.querySelectorAll('.wizard-step').forEach(function(stepDiv) {
@@ -256,9 +246,6 @@ async function submitWizardReport() {
         });
         var successStep = document.getElementById('step-success');
         if (successStep) successStep.classList.remove('hidden');
-        
-        var progressEl = document.getElementById('wizardProgress');
-        if (progressEl) progressEl.style.width = '100%';
 
         loadAnonymousReports();
     } catch (err) {
@@ -268,21 +255,15 @@ async function submitWizardReport() {
 
 function resetWizardForm() {
     wizardReportCategory = '';
-    wizardReportTime = '';
+    wizardReportTime = 'Today';
     
-    document.getElementById('wizardLocationInput').value = '';
-    document.getElementById('wizardDescInput').value = '';
+    var locInput = document.getElementById('wizardLocationInput');
+    if (locInput) locInput.value = '';
+    var descInput = document.getElementById('wizardDescInput');
+    if (descInput) descInput.value = '';
     
-    document.querySelectorAll('.category-card').forEach(function(card) {
-        card.style.border = '2px solid #e4e4e7';
-        card.style.background = 'white';
-        card.style.color = '#374151';
-    });
-    
-    document.querySelectorAll('.time-card').forEach(function(card) {
-        card.style.border = '2px solid #e4e4e7';
-        card.style.background = 'white';
-        card.style.color = '#374151';
+    document.querySelectorAll('.concern-select-card').forEach(function(card) {
+        card.classList.remove('selected');
     });
 
     wizardNext(1);

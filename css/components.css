@@ -1,7 +1,10 @@
+/* SafeMate Premium Components */
+
+/* Toggle Switch */
 .toggle-switch {
     position: relative;
-    width: 46px;
-    height: 24px;
+    width: 40px;
+    height: 22px;
 }
 
 .toggle-switch input {
@@ -14,314 +17,446 @@
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #e4e4e7;
-    transition: 0.3s;
-    border-radius: 24px;
+    background-color: var(--border-strong);
+    transition: 0.2s ease;
+    border-radius: 22px;
 }
 
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     left: 3px;
     bottom: 3px;
     background-color: white;
-    transition: 0.3s;
+    transition: 0.2s ease;
     border-radius: 50%;
 }
 
 input:checked + .toggle-slider {
-    background-color: #be185d;
+    background-color: var(--primary);
 }
 
 input:checked + .toggle-slider:before {
-    transform: translateX(22px);
+    transform: translateX(18px);
 }
 
 .availability-status {
-    font-weight: 600;
-    font-size: 14px;
-    color: #10b981;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--status-safe);
 }
 
 .availability-status.offline {
-    color: #ef4444;
+    color: var(--text-muted);
 }
 
-/* Request Cards */
-.request-card {
-    border-left: 4px solid #be185d;
-    background: #ffffff;
+/* Route Search Widget */
+.route-search-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: 24px;
 }
 
-.request-card .route {
-    color: #27272a;
-    font-size: 14px;
-    font-weight: 500;
-    margin: 6px 0;
-}
-
-.request-card .meta {
-    color: #71717a;
-    font-size: 12px;
-    margin: 4px 0;
-}
-
-.request-card .price {
-    color: #be185d;
-    font-weight: 600;
-    font-size: 15px;
-    margin: 8px 0;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.accept-btn,
-.decline-btn {
-    flex: 1;
-    padding: 10px;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 13px;
-    transition: opacity 0.15s;
-}
-
-.accept-btn {
-    background: #10b981;
-}
-
-.decline-btn {
-    background: #ef4444;
-}
-
-.accept-btn:hover,
-.decline-btn:hover {
-    opacity: 0.9;
-}
-
-.completed-card {
-    background: #ffffff;
-    border-left: 4px solid #10b981;
-}
-
-/* Review Cards */
-.review-card {
-    border: 1px solid #e4e4e7;
-    border-left: 4px solid #be185d;
-    background: #ffffff;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-}
-
-.review-card h4 {
-    color: #eab308;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.review-card p {
-    color: #27272a;
-    font-style: italic;
-    font-size: 13px;
-    margin-bottom: 6px;
-    line-height: 1.4;
-}
-
-.review-card small {
-    color: #71717a;
-    font-size: 11px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Modern Grid for Cabs/Guides cards */
-.service-grid {
+.search-field-group {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr 1fr auto auto;
+    gap: 12px;
+    align-items: flex-end;
 }
 
-.service-card {
-    background: #ffffff;
-    border-radius: 12px;
+@media (max-width: 860px) {
+    .search-field-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+.field-unit label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.field-unit input,
+.field-unit select {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-surface-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: all 0.15s ease;
+}
+
+.field-unit input:focus,
+.field-unit select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--bg-surface);
+}
+
+/* Route Comparison Cards */
+.route-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .route-comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.route-choice-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
     padding: 20px;
-    border: 1px solid #e4e4e7;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.route-choice-card.recommended {
+    border-color: var(--primary-border);
+    background: #fafbff;
+}
+
+.route-choice-card:hover {
+    box-shadow: var(--shadow-subtle);
+}
+
+.route-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.route-badge.recommended-badge {
+    background: var(--primary-subtle);
+    color: var(--primary);
+    border: 1px solid var(--primary-border);
+}
+
+.route-badge.alternative-badge {
+    background: var(--bg-surface-subtle);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.route-metrics {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 8px 0;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.route-metrics .metric-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.route-rationale {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin-bottom: 16px;
+}
+
+/* Elegant Safety Score Component */
+.safety-score-widget {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.score-circle-display {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 3px solid var(--status-safe);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.score-circle-display .score-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.score-circle-display .score-denom {
+    font-size: 9px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.score-content-meta h4 {
+    margin-bottom: 2px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--status-safe);
+}
+
+.score-content-meta p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.score-calc-link {
+    font-size: 12px;
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* 4-Step Concern Wizard */
+.wizard-steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.step-indicator-unit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.step-indicator-unit.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.step-indicator-unit .step-index {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--bg-surface-subtle);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+}
+
+.step-indicator-unit.active .step-index {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.concern-select-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    cursor: pointer;
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.15s ease;
+    margin-bottom: 8px;
+}
+
+.concern-select-card:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-surface-subtle);
+}
+
+.concern-select-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-subtle);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Status Badges */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+}
+
+.status-pill.verified {
+    background: var(--status-alert-bg);
+    color: var(--status-alert);
+    border: 1px solid var(--status-alert-border);
+}
+
+.status-pill.community {
+    background: var(--status-concern-bg);
+    color: var(--status-concern);
+    border: 1px solid var(--status-concern-border);
+}
+
+.status-pill.insufficient {
+    background: var(--bg-surface-subtle);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Services Grid */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.service-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    transition: all 0.15s ease;
 }
 
 .service-card:hover {
-    border-color: #be185d;
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-subtle);
 }
 
 .service-card h4 {
-    color: #18181b;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.service-card .service-type {
-    color: #be185d;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-primary);
     margin-bottom: 4px;
 }
 
 .service-card p {
-    color: #52525b;
-    font-size: 13px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 12px;
 }
 
-/* Booking button flat styling */
 .booking-btn {
     width: 100%;
-    padding: 10px 14px;
-    background: #be185d;
+    padding: 8px 12px;
+    background: var(--primary);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
     font-weight: 600;
-    font-size: 13px;
     cursor: pointer;
-    margin-top: 12px;
-    box-shadow: 0 2px 8px rgba(190, 24, 93, 0.2);
-    transition: all 0.15s ease;
+    transition: background 0.15s ease;
 }
 
 .booking-btn:hover {
-    background: #9d174d;
-    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.3);
-    transform: translateY(-1px);
+    background: var(--primary-hover);
 }
 
-/* Forms in tabs */
-.planner-form {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e4e4e7;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+/* Emergency Center Hold Area */
+.emergency-center-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--status-alert-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 24px;
+    text-align: center;
+    max-width: 480px;
+    margin: 20px auto;
 }
 
-.planner-form .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.planner-form select,
-.planner-form input {
-    padding: 10px 12px;
-    border: 1px solid #d4d4d8;
-    border-radius: 6px;
-    font-size: 13px;
-    width: 100%;
-}
-
-.planner-form select:focus,
-.planner-form input:focus {
-    outline: none;
-    border-color: #be185d;
-}
-
-/* Places and stays cards */
-.place-card {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #e4e4e7;
-    border-left: 4px solid #be185d;
-}
-
-.place-card h4 {
-    color: #18181b;
+.sos-hold-trigger {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 24px auto;
+    cursor: pointer;
+    user-select: none;
     font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 4px solid var(--border-color);
+    transition: transform 0.1s ease, background 0.2s ease;
 }
 
-.place-card .rating {
-    color: #eab308;
-    font-weight: 600;
-    font-size: 13px;
+.sos-hold-trigger:active {
+    transform: scale(0.96);
+    background: var(--status-alert);
 }
 
-.place-card .reviews-count {
-    color: #71717a;
-    font-size: 12px;
+/* Stats Section for Driver/Guide */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.place-card .comment {
-    color: #52525b;
-    font-style: italic;
-    margin: 8px 0;
-    font-size: 13px;
-    line-height: 1.4;
+.stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
 }
 
-.place-card .safe-badge {
-    display: inline-block;
-    background: #dcfce7;
-    color: #15803d;
-    padding: 3px 8px;
-    border-radius: 12px;
+.stat-card h4 {
+    color: var(--text-muted);
     font-size: 11px;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.stat-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
     margin-top: 4px;
-}
-
-.tour-card {
-    background: #fefcbf;
-    border: 1px solid #fef08a;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-}
-
-.tour-card h4 {
-    color: #854d0e;
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 4px;
-}
-
-/* Responsive touch targets & explore cards */
-@media (max-width: 768px) {
-    .planner-form .form-row {
-        grid-template-columns: 1fr;
-    }
-    .stats-grid {
-        grid-template-columns: 1fr !important;
-    }
-    .hero-section {
-        padding: 20px 15px !important;
-    }
-}
-
-.explore-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08) !important;
-    border-color: #fbcfe8 !important;
-}
-
-.category-card:hover, .time-card:hover {
-    border-color: #be185d !important;
-    background: #fdf2f8 !important;
 }
