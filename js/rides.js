@@ -154,6 +154,7 @@ async function acceptRideRequest(id) {
         var el = document.getElementById('ride-' + id);
         if (el) el.remove();
         loadDriverStats();
+        loadDriverAcceptedRides();
     } catch (err) {
         alert(err.message);
     }

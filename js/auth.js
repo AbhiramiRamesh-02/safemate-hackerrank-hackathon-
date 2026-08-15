@@ -173,6 +173,7 @@ function showDashboard(role) {
         if (drivDash) drivDash.classList.remove('hidden');
         if (typeof loadDriverRideRequests === 'function') loadDriverRideRequests();
         if (typeof loadDriverStats === 'function') loadDriverStats();
+        if (typeof loadDriverAcceptedRides === 'function') loadDriverAcceptedRides();
     } else if (role === 'guide') {
         var guidDash = document.getElementById('guideDashboard');
         if (guidDash) guidDash.classList.remove('hidden');

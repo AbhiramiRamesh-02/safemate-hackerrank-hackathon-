@@ -182,6 +182,7 @@ async function acceptGuideBooking(id) {
         alert('Booking accepted! Contact the traveler: ' + (data.booking ? data.booking.traveler_phone : ''));
         var el = document.getElementById('booking-' + id);
         if (el) el.remove();
+        if (typeof loadGuideAcceptedBookings === 'function') loadGuideAcceptedBookings();
     } catch (err) {
         alert(err.message);
     }
