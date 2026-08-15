@@ -87,122 +87,155 @@ async function loadTravelerMyBookings() {
     var container = document.getElementById('travelerMyBookings');
     if (!container) return;
 
-    var html = `
-        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Anjali Sharma', 'accepted')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-                <h4>Jaipur Heritage Tour</h4>
-                <p class="route">📍 Hawa Mahal, City Palace, Amber Fort</p>
-                <p class="meta">🕐 15 March 2026 • 1 Day</p>
-                <p class="price">💰 ₹2,500 - Confirmed</p>
-                <p style="color:#10b981;font-size:12px;margin-top:4px;">✓ Guide: Anjali Sharma (Click to Chat)</p>
-            </div>
-            <button onclick="event.stopPropagation(); viewBookingDetails('Jaipur Heritage Tour', 'Hawa Mahal, City Palace, Amber Fort', '15 March 2026', '1 Day', '₹2,500', 'Anjali Sharma', 'Jaipur')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>
-        </div>
-        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Priya Venkatesh', 'accepted')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-                <h4>Pondicherry Beach Tour</h4>
-                <p class="route">📍 Paradise Beach, Promenade</p>
-                <p class="meta">🕐 20 March 2026 • 2 Days</p>
-                <p class="price">💰 ₹6,000 - Confirmed</p>
-                <p style="color:#10b981;font-size:12px;margin-top:4px;">✓ Guide: Priya Venkatesh (Click to Chat)</p>
-            </div>
-            <button onclick="event.stopPropagation(); viewBookingDetails('Pondicherry Beach Tour', 'Paradise Beach, Promenade', '20 March 2026', '2 Days', '₹6,000', 'Priya Venkatesh', 'Pondicherry')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>
-        </div>
-    `;
+    var bookingsList = [];
+
+    // Mock Bookings (older dates to naturally sort below recent bookings)
+    bookingsList.push({
+        title: 'Jaipur Heritage Tour',
+        subtitle: 'Route: Hawa Mahal, City Palace, Amber Fort',
+        meta: 'Date: 15 March 2026 • 1 Day',
+        price: 'Price: ₹2,500 - Confirmed',
+        status: 'accepted',
+        recipient: 'Anjali Sharma',
+        date: new Date('2026-03-15T00:00:00Z'),
+        chatTip: 'Guide: Anjali Sharma (Click to Chat)',
+        type: 'guide_mock',
+        mockTour: 'Jaipur Heritage Tour',
+        mockRoute: 'Hawa Mahal, City Palace, Amber Fort',
+        mockDate: '15 March 2026',
+        mockDays: '1 Day',
+        mockPrice: '₹2,500',
+        mockGuide: 'Anjali Sharma',
+        mockCity: 'Jaipur'
+    });
+
+    bookingsList.push({
+        title: 'Pondicherry Beach Tour',
+        subtitle: 'Route: Paradise Beach, Promenade',
+        meta: 'Date: 20 March 2026 • 2 Days',
+        price: 'Price: ₹6,000 - Confirmed',
+        status: 'accepted',
+        recipient: 'Priya Venkatesh',
+        date: new Date('2026-03-20T00:00:00Z'),
+        chatTip: 'Guide: Priya Venkatesh (Click to Chat)',
+        type: 'guide_mock',
+        mockTour: 'Pondicherry Beach Tour',
+        mockRoute: 'Paradise Beach, Promenade',
+        mockDate: '20 March 2026',
+        mockDays: '2 Days',
+        mockPrice: '₹6,000',
+        mockGuide: 'Priya Venkatesh',
+        mockCity: 'Pondicherry'
+    });
 
     try {
         var rides = await apiCall('GET', '/rides/pending');
         var acceptedRides = await apiCall('GET', '/rides/my');
         var allRides = [...rides, ...acceptedRides];
 
-        var uniqueRides = [];
         var rideIds = new Set();
-        allRides.forEach(r => {
+        allRides.forEach(function(r) {
             if (!rideIds.has(r._id)) {
                 rideIds.add(r._id);
-                uniqueRides.push(r);
+                var statusLabel = r.status.toUpperCase();
+                var chatTip = r.status === 'accepted' ? 'Click to open Chat with Driver' : 'Chat locked until driver accepts';
+                bookingsList.push({
+                    id: r._id,
+                    title: 'Cab Booking: ' + r.driver_name,
+                    subtitle: 'Route: ' + r.pickup + ' → ' + r.drop_location,
+                    meta: 'Vehicle: ' + (r.vehicle || 'Cab') + ' (' + (r.vehicle_number || '') + ')',
+                    price: 'Price: ₹' + r.price + ' - ' + statusLabel,
+                    status: r.status,
+                    recipient: r.driver_name,
+                    date: new Date(r.created_at || Date.now()),
+                    chatTip: chatTip,
+                    type: 'cab'
+                });
             }
         });
-
-        if (uniqueRides.length > 0) {
-            uniqueRides.forEach(function(r) {
-                var statusLabel = r.status.toUpperCase();
-                var statusColor = r.status === 'accepted' ? '#10b981' : (r.status === 'pending' ? '#f59e0b' : '#71717a');
-                var chatTip = r.status === 'accepted' ? '💬 Click to open Chat with Driver' : '⏳ Chat locked until driver accepts';
-                
-                html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${r.driver_name}', '${r.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
-                        <div>
-                            <h4>Cab Booking: ${r.driver_name}</h4>
-                            <p class="route">📍 ${r.pickup} → ${r.drop_location}</p>
-                            <p class="meta">🕐 Vehicle: ${r.vehicle || 'Cab'} (${r.vehicle_number || ''})</p>
-                            <p class="price">💰 ₹${r.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
-                        </div>
-                    </div>
-                `;
-            });
-        }
 
         var bookings = await apiCall('GET', '/bookings/pending');
         var acceptedBookings = await apiCall('GET', '/bookings/my');
         var allBookings = [...bookings, ...acceptedBookings];
 
-        var uniqueBookings = [];
         var bookingIds = new Set();
-        allBookings.forEach(b => {
+        allBookings.forEach(function(b) {
             if (!bookingIds.has(b._id)) {
                 bookingIds.add(b._id);
-                uniqueBookings.push(b);
+                var statusLabel = b.status.toUpperCase();
+                var chatTip = b.status === 'accepted' ? 'Click to open Chat with Guide' : 'Chat locked until guide accepts';
+                var formattedDate = b.booking_date ? new Date(b.booking_date).toLocaleDateString() : '';
+                bookingsList.push({
+                    id: b._id,
+                    title: 'Guide Booking: ' + b.guide_name,
+                    subtitle: 'Route: Date: ' + formattedDate + ' • ' + b.days + ' Day(s)',
+                    meta: 'Tour: ' + b.tour_type,
+                    price: 'Price: ₹' + b.price + ' - ' + statusLabel,
+                    status: b.status,
+                    recipient: b.guide_name,
+                    date: new Date(b.created_at || b.booking_date || Date.now()),
+                    chatTip: chatTip,
+                    type: 'guide',
+                    tour_type: b.tour_type,
+                    booking_date: formattedDate,
+                    days: b.days + ' Days',
+                    priceRaw: b.price
+                });
             }
         });
-
-        if (uniqueBookings.length > 0) {
-            uniqueBookings.forEach(function(b) {
-                var statusLabel = b.status.toUpperCase();
-                var statusColor = b.status === 'accepted' ? '#10b981' : (b.status === 'pending' ? '#f59e0b' : '#71717a');
-                var chatTip = b.status === 'accepted' ? '💬 Click to open Chat with Guide' : '⏳ Chat locked until guide accepts';
-                
-                html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${b.guide_name}', '${b.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
-                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-                            <div>
-                                <h4>Guide Booking: ${b.guide_name}</h4>
-                                <p class="route">📍 Date: ${b.booking_date} • ${b.days} Day(s)</p>
-                                <p class="meta">🕐 Tour: ${b.tour_type}</p>
-                                <p class="price">💰 ${b.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                                <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
-                            </div>
-                            <button onclick="event.stopPropagation(); viewBookingDetails('${b.tour_type}', 'Local Area', '${b.booking_date}', '${b.days} Days', '${b.price}', '${b.guide_name}', '')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
 
         var staysBookings = await apiCall('GET', '/stays/bookings/my');
         if (staysBookings && staysBookings.length > 0) {
             staysBookings.forEach(function(sb) {
                 var statusLabel = sb.status.toUpperCase();
-                var statusColor = sb.status === 'confirmed' ? '#10b981' : (sb.status === 'pending' ? '#f59e0b' : '#71717a');
-                var chatTip = sb.status === 'confirmed' ? '💬 Click to open Chat with Reception' : '⏳ Chat locked until confirmed';
-                
-                html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${sb.stay_name}', '${sb.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
-                        <div>
-                            <h4>Stay Booking: ${sb.stay_name} (${sb.stay_type})</h4>
-                            <p class="route">📍 Booked Date: ${new Date(sb.booking_date).toLocaleDateString()}</p>
-                            <p class="price">💰 Price: ${sb.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
-                        </div>
-                    </div>
-                `;
+                var chatTip = sb.status === 'confirmed' ? 'Click to open Chat with Reception' : 'Chat locked until confirmed';
+                bookingsList.push({
+                    id: sb._id,
+                    title: 'Stay Booking: ' + sb.stay_name + ' (' + sb.stay_type + ')',
+                    subtitle: 'Booked Date: ' + new Date(sb.booking_date).toLocaleDateString(),
+                    meta: '',
+                    price: 'Price: ' + sb.price + ' - ' + statusLabel,
+                    status: sb.status,
+                    recipient: sb.stay_name,
+                    date: new Date(sb.created_at || sb.booking_date || Date.now()),
+                    chatTip: chatTip,
+                    type: 'stay'
+                });
             });
         }
 
     } catch (e) {
         console.warn("Could not load dynamic bookings in My Bookings:", e);
     }
+
+    // Sort bookings descending by date (most recent on top)
+    bookingsList.sort(function(a, b) {
+        return b.date - a.date;
+    });
+
+    var html = '';
+    bookingsList.forEach(function(item) {
+        var statusColor = (item.status === 'accepted' || item.status === 'confirmed') ? '#10b981' : (item.status === 'pending' ? '#f59e0b' : '#71717a');
+        
+        html += '<div class="dashboard-card completed-card" onclick="openChatFromBooking(\'' + (item.id || item.recipient) + '\', \'' + item.recipient + '\', \'' + item.status + '\')" style="cursor:pointer; border-left: 4px solid ' + statusColor + ';">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; width:100%;">';
+            
+        html += '<div>' +
+            '<h4>' + item.title + '</h4>' +
+            '<p class="route">' + item.subtitle + '</p>' +
+            (item.meta ? '<p class="meta">' + item.meta + '</p>' : '') +
+            '<p class="price">' + item.price + '</p>' +
+            '<p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">' + item.chatTip + '</p>' +
+            '</div>';
+            
+        if (item.type === 'guide_mock') {
+            html += '<button onclick="event.stopPropagation(); viewBookingDetails(\'' + item.mockTour + '\', \'' + item.mockRoute + '\', \'' + item.mockDate + '\', \'' + item.mockDays + '\', \'' + item.mockPrice + '\', \'' + item.mockGuide + '\', \'' + item.mockCity + '\')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>';
+        } else if (item.type === 'guide') {
+            html += '<button onclick="event.stopPropagation(); viewBookingDetails(\'' + item.tour_type + '\', \'Local Area\', \'' + item.booking_date + '\', \'' + item.days + '\', \'' + item.priceRaw + '\', \'' + item.recipient + '\', \'\')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>';
+        }
+        
+        html += '</div></div>';
+    });
 
     container.innerHTML = html;
 }
