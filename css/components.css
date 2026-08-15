@@ -1,0 +1,300 @@
+.toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #e4e4e7;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #be185d;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+}
+
+.availability-status {
+    font-weight: 600;
+    font-size: 14px;
+    color: #10b981;
+}
+
+.availability-status.offline {
+    color: #ef4444;
+}
+
+/* Request Cards */
+.request-card {
+    border-left: 4px solid #be185d;
+    background: #ffffff;
+}
+
+.request-card .route {
+    color: #27272a;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 6px 0;
+}
+
+.request-card .meta {
+    color: #71717a;
+    font-size: 12px;
+    margin: 4px 0;
+}
+
+.request-card .price {
+    color: #be185d;
+    font-weight: 600;
+    font-size: 15px;
+    margin: 8px 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.accept-btn,
+.decline-btn {
+    flex: 1;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: opacity 0.15s;
+}
+
+.accept-btn {
+    background: #10b981;
+}
+
+.decline-btn {
+    background: #ef4444;
+}
+
+.accept-btn:hover,
+.decline-btn:hover {
+    opacity: 0.9;
+}
+
+.completed-card {
+    background: #ffffff;
+    border-left: 4px solid #10b981;
+}
+
+/* Review Cards */
+.review-card {
+    border: 1px solid #e4e4e7;
+    border-left: 4px solid #be185d;
+    background: #ffffff;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.review-card h4 {
+    color: #eab308;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.review-card p {
+    color: #27272a;
+    font-style: italic;
+    font-size: 13px;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.review-card small {
+    color: #71717a;
+    font-size: 11px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Modern Grid for Cabs/Guides cards */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.service-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.15s;
+}
+
+.service-card:hover {
+    border-color: #be185d;
+}
+
+.service-card h4 {
+    color: #18181b;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.service-card .service-type {
+    color: #be185d;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.service-card p {
+    color: #52525b;
+    font-size: 13px;
+}
+
+/* Booking button flat styling */
+.booking-btn {
+    width: 100%;
+    padding: 10px 14px;
+    background: #be185d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.15s;
+}
+
+.booking-btn:hover {
+    background: #9d174d;
+}
+
+/* Forms in tabs */
+.planner-form {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.planner-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.planner-form select,
+.planner-form input {
+    padding: 10px 12px;
+    border: 1px solid #d4d4d8;
+    border-radius: 6px;
+    font-size: 13px;
+    width: 100%;
+}
+
+.planner-form select:focus,
+.planner-form input:focus {
+    outline: none;
+    border-color: #be185d;
+}
+
+/* Places and stays cards */
+.place-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #e4e4e7;
+    border-left: 4px solid #be185d;
+}
+
+.place-card h4 {
+    color: #18181b;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.place-card .rating {
+    color: #eab308;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.place-card .reviews-count {
+    color: #71717a;
+    font-size: 12px;
+}
+
+.place-card .comment {
+    color: #52525b;
+    font-style: italic;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.place-card .safe-badge {
+    display: inline-block;
+    background: #dcfce7;
+    color: #15803d;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.tour-card {
+    background: #fefcbf;
+    border: 1px solid #fef08a;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.tour-card h4 {
+    color: #854d0e;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
