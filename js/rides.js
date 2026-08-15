@@ -58,9 +58,6 @@ async function requestRideFromDetails() {
             price: Math.floor(Math.random() * 200) + 100
         });
         alert('Ride request sent to ' + selectedDriverName + '!\n\nThe driver will receive your request and can accept or decline.');
-        localStorage.setItem('hasActiveRide', 'true');
-        localStorage.setItem('chatDriverName', selectedDriverName);
-        if (typeof checkActiveRideChat === 'function') checkActiveRideChat();
         closeDriverDetails();
     } catch (err) {
         alert(err.message);

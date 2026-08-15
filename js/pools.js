@@ -88,7 +88,7 @@ async function loadTravelerMyBookings() {
     if (!container) return;
 
     var html = `
-        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Anjali Sharma')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Anjali Sharma', 'accepted')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
             <div>
                 <h4>Jaipur Heritage Tour</h4>
                 <p class="route">📍 Hawa Mahal, City Palace, Amber Fort</p>
@@ -98,7 +98,7 @@ async function loadTravelerMyBookings() {
             </div>
             <button onclick="event.stopPropagation(); viewBookingDetails('Jaipur Heritage Tour', 'Hawa Mahal, City Palace, Amber Fort', '15 March 2026', '1 Day', '₹2,500', 'Anjali Sharma', 'Jaipur')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>
         </div>
-        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Priya Venkatesh')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+        <div class="dashboard-card completed-card" onclick="openChatFromBooking('Priya Venkatesh', 'accepted')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
             <div>
                 <h4>Pondicherry Beach Tour</h4>
                 <p class="route">📍 Paradise Beach, Promenade</p>
@@ -128,15 +128,16 @@ async function loadTravelerMyBookings() {
             uniqueRides.forEach(function(r) {
                 var statusLabel = r.status.toUpperCase();
                 var statusColor = r.status === 'accepted' ? '#10b981' : (r.status === 'pending' ? '#f59e0b' : '#71717a');
+                var chatTip = r.status === 'accepted' ? '💬 Click to open Chat with Driver' : '⏳ Chat locked until driver accepts';
                 
                 html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${r.driver_name}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
+                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${r.driver_name}', '${r.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
                         <div>
                             <h4>Cab Booking: ${r.driver_name}</h4>
                             <p class="route">📍 ${r.pickup} → ${r.drop_location}</p>
                             <p class="meta">🕐 Vehicle: ${r.vehicle || 'Cab'} (${r.vehicle_number || ''})</p>
                             <p class="price">💰 ₹${r.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">💬 Click to open Chat with Driver</p>
+                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
                         </div>
                     </div>
                 `;
@@ -160,16 +161,17 @@ async function loadTravelerMyBookings() {
             uniqueBookings.forEach(function(b) {
                 var statusLabel = b.status.toUpperCase();
                 var statusColor = b.status === 'accepted' ? '#10b981' : (b.status === 'pending' ? '#f59e0b' : '#71717a');
+                var chatTip = b.status === 'accepted' ? '💬 Click to open Chat with Guide' : '⏳ Chat locked until guide accepts';
                 
                 html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${b.guide_name}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
+                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${b.guide_name}', '${b.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                             <div>
                                 <h4>Guide Booking: ${b.guide_name}</h4>
                                 <p class="route">📍 Date: ${b.booking_date} • ${b.days} Day(s)</p>
                                 <p class="meta">🕐 Tour: ${b.tour_type}</p>
                                 <p class="price">💰 ${b.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                                <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">💬 Click to open Chat with Guide</p>
+                                <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
                             </div>
                             <button onclick="event.stopPropagation(); viewBookingDetails('${b.tour_type}', 'Local Area', '${b.booking_date}', '${b.days} Days', '${b.price}', '${b.guide_name}', '')" class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:11px;">Review</button>
                         </div>
@@ -183,14 +185,15 @@ async function loadTravelerMyBookings() {
             staysBookings.forEach(function(sb) {
                 var statusLabel = sb.status.toUpperCase();
                 var statusColor = sb.status === 'confirmed' ? '#10b981' : (sb.status === 'pending' ? '#f59e0b' : '#71717a');
+                var chatTip = sb.status === 'confirmed' ? '💬 Click to open Chat with Reception' : '⏳ Chat locked until confirmed';
                 
                 html += `
-                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${sb.stay_name}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
+                    <div class="dashboard-card completed-card" onclick="openChatFromBooking('${sb.stay_name}', '${sb.status}')" style="cursor:pointer; border-left: 4px solid ${statusColor};">
                         <div>
                             <h4>Stay Booking: ${sb.stay_name} (${sb.stay_type})</h4>
                             <p class="route">📍 Booked Date: ${new Date(sb.booking_date).toLocaleDateString()}</p>
                             <p class="price">💰 Price: ${sb.price} - <span style="color:${statusColor}; font-weight:600;">${statusLabel}</span></p>
-                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">💬 Click to open Chat with Reception</p>
+                            <p style="color:#be185d; font-size:13px; margin-top:8px; font-weight:600;">${chatTip}</p>
                         </div>
                     </div>
                 `;
@@ -204,7 +207,12 @@ async function loadTravelerMyBookings() {
     container.innerHTML = html;
 }
 
-function openChatFromBooking(driverName) {
+function openChatFromBooking(driverName, status) {
+    if (status !== 'accepted' && status !== 'confirmed') {
+        alert('Chat is locked until the booking is accepted/confirmed!');
+        return;
+    }
+
     localStorage.setItem('hasActiveRide', 'true');
     localStorage.setItem('chatDriverName', driverName);
     if (typeof checkActiveRideChat === 'function') checkActiveRideChat();
