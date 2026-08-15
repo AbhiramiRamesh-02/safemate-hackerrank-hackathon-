@@ -301,3 +301,33 @@ input:checked + .toggle-slider:before {
     font-size: 14px;
     margin-bottom: 4px;
 }
+
+/* 3-Lines Side Navigation Drawer Items */
+.side-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    padding: 11px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4A3267;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.side-menu-item:hover {
+    background: #F3D9E5;
+    color: #DE638A;
+    transform: translateX(4px);
+}
+
+.side-menu-item:active {
+    transform: scale(0.98);
+}
+

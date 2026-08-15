@@ -14,13 +14,54 @@
 </head>
 <body>
 
+    <!-- 3-Lines Side Navigation Drawer -->
+    <div id="sideMenuOverlay" onclick="toggleSideMenu()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(74, 50, 103, 0.5); backdrop-filter:blur(3px); z-index:9998; transition:opacity 0.3s ease;"></div>
+    
+    <div id="sideMenuDrawer" style="position:fixed; top:0; left:-320px; width:280px; height:100%; background:#ffffff; box-shadow:4px 0 25px rgba(74, 50, 103, 0.15); z-index:9999; transition:left 0.3s ease; display:flex; flex-direction:column; overflow-y:auto; border-right:1px solid #C6BADE;">
+        <!-- Drawer Header -->
+        <div style="padding:20px; background:linear-gradient(135deg, #F3D9E5 0%, #F7B9C4 100%); border-bottom:1px solid #C6BADE; display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="logo-shield" style="width:32px; height:32px;">
+                    <span class="logo-s" style="font-size:16px;">S</span>
+                </div>
+                <span style="font-weight:800; font-size:18px; color:#4A3267;">All Features</span>
+            </div>
+            <button onclick="toggleSideMenu()" style="background:none; border:none; font-size:22px; color:#4A3267; cursor:pointer; font-weight:700; padding:2px 6px;">✕</button>
+        </div>
+
+        <!-- Drawer Feature Links -->
+        <div style="padding:14px; display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; padding:4px 8px; letter-spacing:0.5px;">Traveler Features</div>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('planTrip')">✈️ Plan Your Trip</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('bookCab')">🚖 Book a Cab</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('bookHotel')">🏨 Hotels & PG</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('travelPartner')">👭 Cab Pooling</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('travelGuide')">🧭 Travel Guides</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('nearbyToilets')">🚻 Toilet Finder</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('safeRoutes')">🗺️ Safe Routes (ML)</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('anonymousReports')">📢 Anonymous Alerts (ML)</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('myBookings')">📅 My Bookings</button>
+            <button class="side-menu-item" onclick="navigateFromSideMenu('emergencyContact')">⚙️ SOS Settings</button>
+
+            <hr style="border:0; border-top:1px solid #F3D9E5; margin:12px 0;">
+            <div style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; padding:4px 8px; letter-spacing:0.5px;">General</div>
+            <button class="side-menu-item" onclick="toggleSideMenu(); showHome();">🏠 Role Selection</button>
+            <button class="side-menu-item" onclick="toggleSideMenu(); showAboutUs();">ℹ️ About Us</button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
-        <div class="logo-container" onclick="showHome()" style="cursor:pointer;">
-            <div class="logo-shield">
-                <span class="logo-s">S</span>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <button id="menuToggleBtn" onclick="toggleSideMenu()" style="background:#F3D9E5; border:1px solid #C6BADE; color:#4A3267; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:8px; transition:all 0.2s;" title="All Features Menu">
+                ☰
+            </button>
+            <div class="logo-container" onclick="showHome()" style="cursor:pointer;">
+                <div class="logo-shield">
+                    <span class="logo-s">S</span>
+                </div>
+                <span class="logo-text">Safemate</span>
             </div>
-            <span class="logo-text">Safemate</span>
         </div>
         <div class="header-right">
             <a href="#" onclick="showAboutUs()" style="color:#DE638A;font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
