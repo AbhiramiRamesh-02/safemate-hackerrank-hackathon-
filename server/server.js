@@ -2,16 +2,28 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql2');
 require('dotenv').config();
 
-const { db, createTables } = require('./db');
+const { connectDB } = require('./db');
+
+// Import MongoDB Models
+const User = require('./models/User');
+const RideRequest = require('./models/RideRequest');
+const GuideBooking = require('./models/GuideBooking');
+const GuideService = require('./models/GuideService');
+const Review = require('./models/Review');
+const EmergencyContact = require('./models/EmergencyContact');
+const TravelGroup = require('./models/TravelGroup');
+const AnonymousReport = require('./models/AnonymousReport');
+const DarkSpot = require('./models/DarkSpot');
+const Stay = require('./models/Stay');
+const StayBooking = require('./models/StayBooking');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'safemate_secret_key_2024';
 
 // ─── MIDDLEWARE: Verify JWT Token ─────────────────────────────────────────────
 function authMiddleware(req, res, next) {
@@ -26,7 +38,6 @@ function authMiddleware(req, res, next) {
         return res.status(401).json({ error: 'Invalid token' });
     }
 }
-
 
 // ═══════════════════════════════════════════════════════
 //  AUTH ROUTES
@@ -46,20 +57,25 @@ app.post('/api/signup', async (req, res) => {
         }
 
         // Check if email already exists
-        const [existing] = await db.execute('SELECT id FROM users WHERE email = ?', [email]);
-        if (existing.length > 0) {
+        const existing = await User.findOne({ email });
+        if (existing) {
             return res.status(400).json({ error: 'Email already exists' });
         }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await db.execute(
-            `INSERT INTO users (name, email, phone, password, role, traveler_id, traveler_id_type, driving_license, aadhar, age, emergency_contact)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [name, email, phone, hashedPassword, role, traveler_id || null, traveler_id_type || null,
-             driving_license || null, aadhar || null, age || null, emergency_contact || null]
-        );
+        const newUser = new User({
+            name, email, phone, password: hashedPassword, role,
+            traveler_id: traveler_id || null,
+            traveler_id_type: traveler_id_type || null,
+            driving_license: driving_license || null,
+            aadhar: aadhar || null,
+            age: age || null,
+            emergency_contact: emergency_contact || null
+        });
+
+        await newUser.save();
 
         const token = jwt.sign({ email, name, role }, JWT_SECRET, { expiresIn: '7d' });
         res.json({ token, user: { name, email, role } });
@@ -70,7 +86,6 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
-
 // POST /api/login
 app.post('/api/login', async (req, res) => {
     try {
@@ -80,12 +95,11 @@ app.post('/api/login', async (req, res) => {
             return res.status(400).json({ error: 'Please enter email and password' });
         }
 
-        const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
-        if (rows.length === 0) {
+        const user = await User.findOne({ email });
+        if (!user) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
-        const user = rows[0];
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
@@ -100,7 +114,6 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-
 // ═══════════════════════════════════════════════════════
 //  USER ROUTES
 // ═══════════════════════════════════════════════════════
@@ -108,26 +121,30 @@ app.post('/api/login', async (req, res) => {
 // GET /api/me — get current user profile
 app.get('/api/me', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT id, name, email, phone, role, vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride, emergency_contact FROM users WHERE email = ?',
-            [req.user.email]
-        );
-        if (rows.length === 0) return res.status(404).json({ error: 'User not found' });
-        res.json(rows[0]);
+        const user = await User.findOne({ email: req.user.email }).select('-password');
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        res.json(user);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // PUT /api/vehicle — save driver vehicle details
 app.put('/api/vehicle', authMiddleware, async (req, res) => {
     try {
         const { vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride } = req.body;
 
-        await db.execute(
-            'UPDATE users SET vehicle_type = ?, vehicle_brand = ?, vehicle_number = ?, city = ?, price_per_ride = ? WHERE email = ?',
-            [vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride, req.user.email]
+        await User.updateOne(
+            { email: req.user.email },
+            {
+                $set: {
+                    vehicle_type,
+                    vehicle_brand,
+                    vehicle_number,
+                    city,
+                    price_per_ride
+                }
+            }
         );
 
         res.json({ message: 'Vehicle details saved successfully' });
@@ -136,121 +153,122 @@ app.put('/api/vehicle', authMiddleware, async (req, res) => {
     }
 });
 
-
 // ═══════════════════════════════════════════════════════
-//  DRIVERS ROUTES
+//  DRIVERS & RIDES ROUTES
 // ═══════════════════════════════════════════════════════
 
 // GET /api/drivers — get all available drivers
 app.get('/api/drivers', async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT name, email, phone, vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride, rating FROM users WHERE role = "driver" AND vehicle_number IS NOT NULL'
-        );
-        res.json(rows);
+        const drivers = await User.find({
+            role: "driver",
+            vehicle_number: { $ne: null }
+        }).select('name email phone vehicle_type vehicle_brand vehicle_number city price_per_ride rating');
+        res.json(drivers);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // POST /api/rides — request a ride
 app.post('/api/rides', authMiddleware, async (req, res) => {
     try {
         const { driver_name, vehicle_type, vehicle, vehicle_number, city, pickup, drop_location, price } = req.body;
 
-        await db.execute(
-            `INSERT INTO ride_requests (traveler_name, traveler_email, traveler_phone, driver_name, vehicle_type, vehicle, vehicle_number, city, pickup, drop_location, price)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [req.user.name, req.user.email, req.body.phone || '', driver_name, vehicle_type, vehicle, vehicle_number, city, pickup, drop_location, price]
-        );
+        const newRide = new RideRequest({
+            traveler_name: req.user.name,
+            traveler_email: req.user.email,
+            traveler_phone: req.body.phone || '',
+            driver_name,
+            vehicle_type,
+            vehicle,
+            vehicle_number,
+            city,
+            pickup,
+            drop_location,
+            price
+        });
 
+        await newRide.save();
         res.json({ message: 'Ride request sent successfully' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // GET /api/rides/pending — get pending ride requests (for driver)
 app.get('/api/rides/pending', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM ride_requests WHERE status = "pending" ORDER BY created_at DESC'
-        );
-        res.json(rows);
+        const requests = await RideRequest.find({ status: 'pending' }).sort({ created_at: -1 });
+        res.json(requests);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // GET /api/rides/my — get my completed/accepted rides (for driver)
 app.get('/api/rides/my', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM ride_requests WHERE status IN ("accepted", "completed") ORDER BY created_at DESC'
-        );
-        res.json(rows);
+        const requests = await RideRequest.find({
+            status: { $in: ['accepted', 'completed'] }
+        }).sort({ created_at: -1 });
+        res.json(requests);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // PUT /api/rides/:id/accept
 app.put('/api/rides/:id/accept', authMiddleware, async (req, res) => {
     try {
-        await db.execute('UPDATE ride_requests SET status = "accepted" WHERE id = ?', [req.params.id]);
-        const [rows] = await db.execute('SELECT * FROM ride_requests WHERE id = ?', [req.params.id]);
-        res.json({ message: 'Ride accepted', ride: rows[0] });
+        const ride = await RideRequest.findByIdAndUpdate(
+            req.params.id,
+            { $set: { status: 'accepted' } },
+            { new: true }
+        );
+        res.json({ message: 'Ride accepted', ride });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // PUT /api/rides/:id/decline
 app.put('/api/rides/:id/decline', authMiddleware, async (req, res) => {
     try {
-        await db.execute('UPDATE ride_requests SET status = "declined" WHERE id = ?', [req.params.id]);
+        await RideRequest.findByIdAndUpdate(req.params.id, { $set: { status: 'declined' } });
         res.json({ message: 'Ride declined' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // PUT /api/rides/:id/complete
 app.put('/api/rides/:id/complete', authMiddleware, async (req, res) => {
     try {
-        await db.execute('UPDATE ride_requests SET status = "completed" WHERE id = ?', [req.params.id]);
+        await RideRequest.findByIdAndUpdate(req.params.id, { $set: { status: 'completed' } });
         res.json({ message: 'Ride completed' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // GET /api/driver/stats — get driver earnings and stats
 app.get('/api/driver/stats', authMiddleware, async (req, res) => {
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const todayStr = new Date().toISOString().split('T')[0];
+        const startOfToday = new Date(todayStr);
 
-        const [allRides] = await db.execute(
-            'SELECT * FROM ride_requests WHERE status IN ("accepted", "completed")'
-        );
+        const allRides = await RideRequest.find({
+            status: { $in: ['accepted', 'completed'] }
+        });
 
-        const [todayRides] = await db.execute(
-            'SELECT * FROM ride_requests WHERE status IN ("accepted", "completed") AND DATE(created_at) = ?',
-            [today]
-        );
+        const todayRides = allRides.filter(r => new Date(r.created_at) >= startOfToday);
 
-        const [userRows] = await db.execute('SELECT rating FROM users WHERE email = ?', [req.user.email]);
+        const driver = await User.findOne({ email: req.user.email }).select('rating');
+        const rating = driver ? driver.rating : 4.5;
 
         const totalEarnings = allRides.reduce((sum, r) => sum + (r.price || 0), 0);
         const todayEarnings = todayRides.reduce((sum, r) => sum + (r.price || 0), 0);
-        const rating = userRows[0]?.rating || 0;
 
         res.json({
             total_rides: allRides.length,
@@ -264,7 +282,6 @@ app.get('/api/driver/stats', authMiddleware, async (req, res) => {
     }
 });
 
-
 // ═══════════════════════════════════════════════════════
 //  GUIDES ROUTES
 // ═══════════════════════════════════════════════════════
@@ -272,136 +289,183 @@ app.get('/api/driver/stats', authMiddleware, async (req, res) => {
 // GET /api/guides — get all available guides
 app.get('/api/guides', async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT name, email, phone, city, rating, age FROM users WHERE role = "guide"'
-        );
+        const guides = await User.find({ role: "guide" }).select('name email phone city rating age');
+        const services = await GuideService.find({});
 
-        // Also get their services
-        const [services] = await db.execute('SELECT * FROM guide_services');
-
-        const guides = rows.map(guide => {
-            guide.services = services.filter(s => s.guide_email === guide.email);
-            return guide;
+        const joinedGuides = guides.map(guide => {
+            const guideObj = guide.toObject();
+            guideObj.services = services.filter(s => s.guide_email === guide.email);
+            return guideObj;
         });
 
-        res.json(guides);
+        res.json(joinedGuides);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // POST /api/guide-services — add a guide service
 app.post('/api/guide-services', authMiddleware, async (req, res) => {
     try {
         const { service_name, city, service_type, description, price } = req.body;
 
-        await db.execute(
-            'INSERT INTO guide_services (guide_email, service_name, city, service_type, description, price) VALUES (?, ?, ?, ?, ?, ?)',
-            [req.user.email, service_name, city, service_type, description, price]
-        );
+        const newService = new GuideService({
+            guide_email: req.user.email,
+            service_name,
+            city,
+            service_type,
+            description,
+            price
+        });
 
+        await newService.save();
         res.json({ message: 'Service added successfully' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // GET /api/guide-services/my — get current guide's services
 app.get('/api/guide-services/my', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM guide_services WHERE guide_email = ?',
-            [req.user.email]
-        );
-        res.json(rows);
+        const services = await GuideService.find({ guide_email: req.user.email });
+        res.json(services);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // POST /api/bookings — book a guide
 app.post('/api/bookings', authMiddleware, async (req, res) => {
     try {
         const { guide_name, tour_type, booking_date, days, price } = req.body;
 
-        await db.execute(
-            `INSERT INTO guide_bookings (traveler_name, traveler_email, traveler_phone, guide_name, tour_type, booking_date, days, price)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [req.user.name, req.user.email, req.body.phone || '', guide_name, tour_type, booking_date, days, price]
-        );
+        const newBooking = new GuideBooking({
+            traveler_name: req.user.name,
+            traveler_email: req.user.email,
+            traveler_phone: req.body.phone || '',
+            guide_name,
+            tour_type,
+            booking_date,
+            days,
+            price
+        });
 
+        await newBooking.save();
         res.json({ message: 'Booking confirmed successfully' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // GET /api/bookings/pending — get pending booking requests (for guide)
 app.get('/api/bookings/pending', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM guide_bookings WHERE status = "pending" ORDER BY created_at DESC'
-        );
-        res.json(rows);
+        const bookings = await GuideBooking.find({ status: 'pending' }).sort({ created_at: -1 });
+        res.json(bookings);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // GET /api/bookings/my — get accepted bookings (for guide)
 app.get('/api/bookings/my', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM guide_bookings WHERE status = "accepted" ORDER BY created_at DESC'
-        );
-        res.json(rows);
+        const bookings = await GuideBooking.find({ status: 'accepted' }).sort({ created_at: -1 });
+        res.json(bookings);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
-
-// GET /api/bookings/traveler — get bookings made by a traveler
-app.get('/api/bookings/traveler', authMiddleware, async (req, res) => {
-    try {
-        const [rows] = await db.execute(
-            'SELECT * FROM guide_bookings WHERE traveler_email = ? ORDER BY created_at DESC',
-            [req.user.email]
-        );
-        res.json(rows);
-    } catch (err) {
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
 
 // PUT /api/bookings/:id/accept
 app.put('/api/bookings/:id/accept', authMiddleware, async (req, res) => {
     try {
-        await db.execute('UPDATE guide_bookings SET status = "accepted" WHERE id = ?', [req.params.id]);
-        const [rows] = await db.execute('SELECT * FROM guide_bookings WHERE id = ?', [req.params.id]);
-        res.json({ message: 'Booking accepted', booking: rows[0] });
+        const booking = await GuideBooking.findByIdAndUpdate(
+            req.params.id,
+            { $set: { status: 'accepted' } },
+            { new: true }
+        );
+        res.json({ message: 'Booking accepted', booking });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-
 // PUT /api/bookings/:id/decline
 app.put('/api/bookings/:id/decline', authMiddleware, async (req, res) => {
     try {
-        await db.execute('UPDATE guide_bookings SET status = "declined" WHERE id = ?', [req.params.id]);
+        await GuideBooking.findByIdAndUpdate(req.params.id, { $set: { status: 'declined' } });
         res.json({ message: 'Booking declined' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
+// ═══════════════════════════════════════════════════════
+//  HOTELS & PG (STAYS) ROUTES
+// ═══════════════════════════════════════════════════════
+
+// GET /api/stays — get all stays
+app.get('/api/stays', async (req, res) => {
+    try {
+        const stays = await Stay.find({}).sort({ created_at: -1 });
+        res.json(stays);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/stays — register a new stay (direct owner registration)
+app.post('/api/stays', async (req, res) => {
+    try {
+        const { name, type, city, address, price_per_month, phone, description, safety_measures } = req.body;
+        const newStay = new Stay({
+            name,
+            type,
+            city,
+            address,
+            price_per_month,
+            phone,
+            description,
+            safety_measures: safety_measures ? safety_measures.split(',').map(s => s.trim()) : undefined
+        });
+        await newStay.save();
+        res.json({ message: 'Stay registered successfully', stay: newStay });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/stays/book — book a stay
+app.post('/api/stays/book', authMiddleware, async (req, res) => {
+    try {
+        const { stay_name, stay_type, price, phone } = req.body;
+        const newBooking = new StayBooking({
+            traveler_name: req.user.name,
+            traveler_email: req.user.email,
+            traveler_phone: phone || req.user.phone || '',
+            stay_name,
+            stay_type,
+            price,
+            booking_date: new Date()
+        });
+        await newBooking.save();
+        res.json({ message: 'Stay booked successfully!', booking: newBooking });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/stays/bookings/my — get current traveler's stay bookings
+app.get('/api/stays/bookings/my', authMiddleware, async (req, res) => {
+    try {
+        const bookings = await StayBooking.find({ traveler_email: req.user.email }).sort({ created_at: -1 });
+        res.json(bookings);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // ═══════════════════════════════════════════════════════
 //  REVIEWS ROUTES
@@ -410,13 +474,12 @@ app.put('/api/bookings/:id/decline', authMiddleware, async (req, res) => {
 // GET /api/reviews
 app.get('/api/reviews', async (req, res) => {
     try {
-        const [rows] = await db.execute('SELECT * FROM reviews ORDER BY created_at DESC');
-        res.json(rows);
+        const reviews = await Review.find({}).sort({ created_at: -1 });
+        res.json(reviews);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // POST /api/reviews
 app.post('/api/reviews', authMiddleware, async (req, res) => {
@@ -427,17 +490,19 @@ app.post('/api/reviews', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Please fill in all fields' });
         }
 
-        await db.execute(
-            'INSERT INTO reviews (reviewer_name, text, service, rating) VALUES (?, ?, ?, ?)',
-            [req.user.name, text, service, rating]
-        );
+        const newReview = new Review({
+            reviewer_name: req.user.name,
+            text,
+            service,
+            rating
+        });
 
+        await newReview.save();
         res.json({ message: 'Review submitted successfully' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // ═══════════════════════════════════════════════════════
 //  EMERGENCY CONTACTS ROUTES
@@ -446,16 +511,12 @@ app.post('/api/reviews', authMiddleware, async (req, res) => {
 // GET /api/emergency-contacts
 app.get('/api/emergency-contacts', authMiddleware, async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            'SELECT * FROM emergency_contacts WHERE user_email = ?',
-            [req.user.email]
-        );
-        res.json(rows);
+        const contacts = await EmergencyContact.find({ user_email: req.user.email });
+        res.json(contacts);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
 
 // POST /api/emergency-contacts
 app.post('/api/emergency-contacts', authMiddleware, async (req, res) => {
@@ -466,49 +527,150 @@ app.post('/api/emergency-contacts', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Please fill in all fields' });
         }
 
-        await db.execute(
-            'INSERT INTO emergency_contacts (user_email, contact_name, phone, relationship) VALUES (?, ?, ?, ?)',
-            [req.user.email, contact_name, phone, relationship]
-        );
+        const newContact = new EmergencyContact({
+            user_email: req.user.email,
+            contact_name,
+            phone,
+            relationship
+        });
 
+        await newContact.save();
         res.json({ message: 'Emergency contact saved' });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
+// ═══════════════════════════════════════════════════════
+//  NEW HACKATHON ROUTES (Travel Groups, Reports, Dark Spots)
+// ═══════════════════════════════════════════════════════
+
+// GET /api/travel-groups - get travel partners
+app.get('/api/travel-groups', async (req, res) => {
+    try {
+        const groups = await TravelGroup.find({}).sort({ created_at: -1 });
+        res.json(groups);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/travel-groups - create a new group
+app.post('/api/travel-groups', authMiddleware, async (req, res) => {
+    try {
+        const { title, category, starting_from, date } = req.body;
+
+        if (!title || !category || !starting_from || !date) {
+            return res.status(400).json({ error: 'Please fill in all fields' });
+        }
+
+        const newGroup = new TravelGroup({
+            title,
+            category,
+            starting_from,
+            date: new Date(date)
+        });
+
+        await newGroup.save();
+        res.json({ message: 'Travel group created successfully', group: newGroup });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// PUT /api/travel-groups/:id/join - join an existing group
+app.put('/api/travel-groups/:id/join', authMiddleware, async (req, res) => {
+    try {
+        const group = await TravelGroup.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { members_count: 1 } },
+            { new: true }
+        );
+        res.json({ message: 'Joined group successfully', group });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/anonymous-reports - get recent reports
+app.get('/api/anonymous-reports', async (req, res) => {
+    try {
+        const reports = await AnonymousReport.find({}).sort({ created_at: -1 });
+        res.json(reports);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/anonymous-reports - submit a report anonymously
+app.post('/api/anonymous-reports', async (req, res) => {
+    try {
+        const { category, location, description } = req.body;
+
+        if (!category || !location || !description) {
+            return res.status(400).json({ error: 'Please fill in all fields' });
+        }
+
+        const newReport = new AnonymousReport({
+            category,
+            location,
+            description
+        });
+
+        await newReport.save();
+        res.json({ message: 'Report submitted anonymously successfully', report: newReport });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/dark-spots - list risk spots
+app.get('/api/dark-spots', async (req, res) => {
+    try {
+        const spots = await DarkSpot.find({}).sort({ created_at: -1 });
+        res.json(spots);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/dark-spots - report a dark spot
+app.post('/api/dark-spots', authMiddleware, async (req, res) => {
+    try {
+        const { title, city, risk_level, description, latitude, longitude } = req.body;
+
+        if (!title || !city || !risk_level) {
+            return res.status(400).json({ error: 'Please fill in all fields' });
+        }
+
+        const newSpot = new DarkSpot({
+            title,
+            city,
+            risk_level,
+            description,
+            latitude: latitude || 0,
+            longitude: longitude || 0
+        });
+
+        await newSpot.save();
+        res.json({ message: 'Dark spot reported successfully', spot: newSpot });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // ═══════════════════════════════════════════════════════
 //  START SERVER
 // ═══════════════════════════════════════════════════════
 
+const PORT = process.env.PORT || 3001;
+
 async function startServer() {
     try {
-        // First create database if it doesn't exist
-        const tempConn = mysql.createConnection({
-            host: process.env.DB_HOST,
-            port: process.env.DB_PORT,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD
-        });
-
-        tempConn.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`, (err) => {
-            if (err) {
-                console.error('Could not create database:', err.message);
-                process.exit(1);
-            }
-            tempConn.end();
-        });
-
-        // Wait a moment then create tables
-        await new Promise(resolve => setTimeout(resolve, 500));
-        await createTables();
-
-        const PORT = process.env.PORT || 3001;
+        await connectDB();
         app.listen(PORT, () => {
-            console.log(`Safemate server running on http://localhost:${PORT}`);
+            console.log(`Safemate MongoDB server running on http://localhost:${PORT}`);
         });
-
     } catch (err) {
         console.error('Failed to start server:', err.message);
         process.exit(1);
