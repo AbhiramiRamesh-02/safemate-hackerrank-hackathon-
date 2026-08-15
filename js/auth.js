@@ -215,30 +215,6 @@ function showAboutUs() {
     if (aboutEl) aboutEl.classList.remove('hidden');
 }
 
-// 3-Lines (Hamburger) Side Menu Navigation
-function toggleSideMenu() {
-    var drawer = document.getElementById('sideMenuDrawer');
-    var overlay = document.getElementById('sideMenuOverlay');
-    if (!drawer || !overlay) return;
-    
-    if (drawer.style.left === '0px') {
-        drawer.style.left = '-320px';
-        overlay.style.display = 'none';
-    } else {
-        drawer.style.left = '0px';
-        overlay.style.display = 'block';
-    }
-}
-
-function navigateFromSideMenu(tabName) {
-    toggleSideMenu();
-    var user = getCurrentUser();
-    if (!user || user.role !== 'traveler') {
-        showDashboard('traveler');
-    }
-    showTravelerTab(tabName);
-}
-
 // Go back to home from About Us
 function goBack() {
     var aboutEl = document.getElementById('aboutUs');
