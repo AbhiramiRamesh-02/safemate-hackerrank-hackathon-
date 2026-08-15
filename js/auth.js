@@ -163,6 +163,22 @@ function showDashboard(role) {
         if (el) el.classList.add('hidden');
     });
     
+    var user = getCurrentUser();
+    var userName = user && user.name ? user.name : (role === 'traveler' ? 'Traveler' : (role === 'driver' ? 'Driver' : 'Guide'));
+    
+    // Update personalized username greetings across all dashboards
+    var travGreet = document.getElementById('travelerUserName');
+    if (travGreet) travGreet.textContent = userName;
+    
+    var drivGreet = document.getElementById('driverUserName');
+    if (drivGreet) drivGreet.textContent = userName;
+
+    var guidGreet = document.getElementById('guideUserName');
+    if (guidGreet) guidGreet.textContent = userName;
+
+    var sideGreet = document.getElementById('sideMenuUserGreeting');
+    if (sideGreet) sideGreet.textContent = 'Hey ' + userName + '!';
+    
     if (role === 'traveler') {
         var travDash = document.getElementById('travelerDashboard');
         if (travDash) travDash.classList.remove('hidden');
