@@ -1,12 +1,21 @@
-<header>
+<header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     <div class="logo-container" onclick="showHome()" style="cursor:pointer;">
         <div class="logo-shield">
             <span class="logo-s">S</span>
         </div>
         <span class="logo-text">Safemate</span>
     </div>
+
+    <div class="header-search-box" style="display:flex; align-items:center; background:#F7F6F8; border:1.5px solid #E4E0E7; border-radius:24px; padding:4px 6px 4px 14px; max-width:360px; width:100%; box-shadow:0 2px 6px rgba(42,32,54,0.03);">
+        <input type="text" id="headerDestinationSearch" placeholder="Search destination (e.g. Jaipur, Coorg...)" onkeydown="if(event.key==='Enter') executeHeaderDestinationSearch()" style="border:none; background:transparent; font-size:13px; color:#25232A; outline:none; width:100%; font-family:inherit;">
+        <button type="button" onclick="executeHeaderDestinationSearch()" style="background:#B85C78; color:white; border:none; border-radius:20px; padding:6px 14px; font-size:12.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:4px; transition:background 0.15s ease;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span>Search</span>
+        </button>
+    </div>
+
     <div class="header-right">
-        <a href="#" onclick="showAboutUs()" style="color:#B85C78;font-weight:600;margin-right:20px;text-decoration:none;">About Us</a>
+        <a href="#" onclick="showAboutUs()" style="color:#B85C78;font-weight:600;margin-right:12px;text-decoration:none;">About Us</a>
         <button class="logout-btn hidden" id="logoutBtn" onclick="logout()">Logout</button>
     </div>
 </header>

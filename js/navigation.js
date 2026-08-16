@@ -114,6 +114,49 @@ function showTravelerTab(tabName) {
     }
 }
 
+function executeHeaderDestinationSearch() {
+    const searchInput = document.getElementById('headerDestinationSearch');
+    const query = searchInput?.value.trim();
+    if (!query) {
+        alert('Please enter a destination name to search.');
+        return;
+    }
+
+    const normalized = query.charAt(0).toUpperCase() + query.slice(1);
+    
+    const travelerDash = document.getElementById('travelerDashboard');
+    if (travelerDash && travelerDash.classList.contains('hidden')) {
+        showDashboard('traveler');
+    }
+    
+    showTravelerTab('planTrip');
+    
+    const destSelect = document.getElementById('tripDestination');
+    if (destSelect) {
+        let found = false;
+        for (let i = 0; i < destSelect.options.length; i++) {
+            if (destSelect.options[i].value.toLowerCase() === normalized.toLowerCase()) {
+                destSelect.selectedIndex = i;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            const newOpt = new Option(normalized, normalized, true, true);
+            destSelect.add(newOpt);
+        }
+    }
+    
+    if (typeof createTrip === 'function') {
+        createTrip();
+    }
+
+    const recSection = document.getElementById('recommendations');
+    if (recSection) {
+        recSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
 function showDriverTab(tabName) {
     const tabs = document.querySelectorAll('#driverDashboard .tab-content');
     tabs.forEach(el => el.classList.add('hidden'));
