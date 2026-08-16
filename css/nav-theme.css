@@ -180,7 +180,10 @@
     }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
+    .ai-recommend-badge {
+        display: none !important;
+    }
     .mmt-booking-card {
         padding: 12px 10px;
         border-radius: 10px;
