@@ -1,9 +1,9 @@
 #chatFloatingBtn {
     position: fixed;
-    bottom: 110px;
-    right: 30px;
-    width: 65px;
-    height: 65px;
+    bottom: 96px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: white;
@@ -14,21 +14,20 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 24px;
-    transition: transform 0.2s ease, box-shadow 0.2s;
+    font-size: 22px;
+    transition: transform 0.15s ease;
 }
 
 #chatFloatingBtn:hover {
     transform: scale(1.06);
-    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.45);
 }
 
 #chatBoxContainer {
     position: fixed;
-    bottom: 190px;
-    right: 30px;
+    bottom: 168px;
+    right: 24px;
     width: 320px;
-    height: 400px;
+    height: 390px;
     background: #ffffff;
     border-radius: 14px;
     border: 1px solid #C6BADE;
@@ -42,51 +41,44 @@
 .chat-header {
     background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: white;
-    padding: 14px;
+    padding: 12px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.1px;
+    font-size: 13.5px;
 }
 
 .chat-header .close-icon {
     cursor: pointer;
-    font-size: 17px;
-    opacity: 0.9;
-    transition: opacity 0.15s;
-}
-
-.chat-header .close-icon:hover {
-    opacity: 1;
+    font-size: 16px;
 }
 
 .chat-messages {
     flex: 1;
-    padding: 14px;
+    padding: 12px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     background: #faf7fa;
 }
 
 .chat-input-bar {
     display: flex;
     border-top: 1px solid #C6BADE;
-    padding: 10px;
+    padding: 8px;
     background: #ffffff;
     gap: 6px;
 }
 
 .chat-input-bar input {
     flex: 1;
-    padding: 9px 12px;
+    padding: 8px 10px;
     border: 1.5px solid #DDD6E5;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     outline: none;
     font-family: inherit;
 }
@@ -99,31 +91,26 @@
     background: #DE638A;
     color: white;
     border: none;
-    padding: 9px 14px;
+    padding: 8px 12px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.15s;
-}
-
-.chat-input-bar button:hover {
-    background: #c95076;
 }
 
 @media (max-width: 600px) {
     #chatFloatingBtn {
         right: 16px !important;
-        bottom: 16px !important;
-        width: 56px !important;
-        height: 56px !important;
-        font-size: 20px !important;
+        bottom: 74px !important;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 19px !important;
     }
     #chatBoxContainer {
-        width: calc(100% - 32px) !important;
+        width: calc(100vw - 32px) !important;
         right: 16px !important;
-        bottom: 82px !important;
-        height: 370px !important;
+        bottom: 74px !important;
+        height: 360px !important;
         max-height: 70vh !important;
         border-radius: 12px !important;
     }

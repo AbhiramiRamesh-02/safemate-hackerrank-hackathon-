@@ -6,50 +6,45 @@
     border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
     box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    transition: all 0.2s ease;
-}
-
-.request-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
+    transition: all 0.15s ease;
 }
 
 .request-card .route {
     color: #271b35;
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 600;
-    margin: 5px 0;
+    margin: 4px 0;
 }
 
 .request-card .meta {
     color: #6E5A87;
-    font-size: 12px;
-    margin: 3px 0;
+    font-size: 11.5px;
+    margin: 2px 0;
 }
 
 .request-card .price {
     color: #DE638A;
     font-weight: 700;
-    font-size: 15px;
-    margin: 6px 0;
+    font-size: 14.5px;
+    margin: 4px 0;
 }
 
 .action-buttons {
     display: flex;
     gap: 8px;
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
 .accept-btn,
 .decline-btn {
     flex: 1;
-    padding: 9px 12px;
+    padding: 9px 10px;
     color: white;
     border: none;
     border-radius: 7px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 12.5px;
+    font-size: 12px;
     transition: all 0.15s ease;
 }
 
@@ -57,16 +52,8 @@
     background: #10b981;
 }
 
-.accept-btn:hover {
-    background: #059669;
-}
-
 .decline-btn {
     background: #ef4444;
-}
-
-.decline-btn:hover {
-    background: #dc2626;
 }
 
 .completed-card {
@@ -80,43 +67,43 @@
 
 .service-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
 }
 
 .service-card {
     background: #ffffff;
     border-radius: 12px;
-    padding: 18px;
+    padding: 16px;
     border: 1.5px solid #E5DFEC;
     box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.2s ease;
-}
-
-.service-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.1);
 }
 
 .service-card h4 {
     color: #4A3267;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 3px;
 }
 
 .service-card .service-type {
     color: #DE638A;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
 .service-card p {
     color: #6E5A87;
-    font-size: 13px;
+    font-size: 12.5px;
     line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
 }

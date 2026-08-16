@@ -1,22 +1,16 @@
 .place-card {
     background: #ffffff;
     border-radius: 12px;
-    padding: 16px;
+    padding: 15px;
     margin-bottom: 12px;
     border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
     box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    transition: all 0.2s ease;
-}
-
-.place-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
 }
 
 .place-card h4 {
     color: #4A3267;
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 3px;
 }
@@ -24,29 +18,29 @@
 .place-card .rating {
     color: #d97706;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12.5px;
 }
 
 .place-card .reviews-count {
     color: #9E8CAA;
-    font-size: 12px;
+    font-size: 11.5px;
 }
 
 .place-card .comment {
     color: #6E5A87;
     font-style: italic;
-    margin: 6px 0;
-    font-size: 13px;
-    line-height: 1.45;
+    margin: 5px 0;
+    font-size: 12.5px;
+    line-height: 1.4;
 }
 
 .place-card .safe-badge {
     display: inline-block;
     background: #ecfdf5;
     color: #059669;
-    padding: 2px 9px;
-    border-radius: 12px;
-    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10.5px;
     font-weight: 700;
     margin-top: 4px;
     border: 1px solid #a7f3d0;
@@ -56,114 +50,103 @@
     background: #fffbeb;
     border: 1px solid #fde68a;
     border-radius: 12px;
-    padding: 16px;
+    padding: 15px;
     margin-bottom: 12px;
 }
 
 .tour-card h4 {
     color: #92400e;
     font-weight: 700;
-    font-size: 14.5px;
+    font-size: 14px;
     margin-bottom: 3px;
 }
 
 .tour-card .tour-meta {
     color: #b45309;
-    font-size: 12px;
-    margin: 4px 0;
+    font-size: 11.5px;
+    margin: 3px 0;
 }
 
 .tour-card .price {
     color: #d97706;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13.5px;
 }
 
 .review-card {
     border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
     background: #ffffff;
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
 }
 
 .review-card h4 {
     color: #d97706;
-    margin-bottom: 4px;
-    font-size: 13.5px;
+    margin-bottom: 3px;
+    font-size: 13px;
 }
 
 .review-card p {
     color: #271b35;
     font-style: italic;
-    font-size: 13px;
-    margin-bottom: 4px;
-    line-height: 1.45;
-}
-
-.review-card small {
-    color: #9E8CAA;
-    font-size: 11px;
+    font-size: 12.5px;
+    margin-bottom: 3px;
+    line-height: 1.4;
 }
 
 .toilet-card {
     background: #ffffff;
     border-radius: 12px;
-    padding: 16px;
+    padding: 15px;
     margin-bottom: 12px;
     border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
     box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    transition: all 0.2s ease;
-}
-
-.toilet-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
 }
 
 .toilet-card h4 {
     color: #4A3267;
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 3px;
 }
 
 .toilet-card .toilet-type {
     color: #DE638A;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .toilet-card .toilet-address {
     color: #6E5A87;
-    font-size: 13px;
-    margin: 5px 0;
+    font-size: 12.5px;
+    margin: 4px 0;
 }
 
 .toilet-card .toilet-distance {
     color: #10b981;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12.5px;
 }
 
 .toilet-card .toilet-rating {
     color: #d97706;
     font-weight: 700;
-    font-size: 13px;
-    margin: 3px 0;
+    font-size: 12.5px;
+    margin: 2px 0;
 }
 
 .toilet-card .clean-badge {
     display: inline-block;
     background: #ecfdf5;
     color: #059669;
-    padding: 2px 9px;
-    border-radius: 12px;
-    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10.5px;
     font-weight: 700;
     margin-top: 4px;
     border: 1px solid #a7f3d0;
@@ -173,9 +156,9 @@
     display: inline-block;
     background: #F9EDF3;
     color: #DE638A;
-    padding: 2px 9px;
-    border-radius: 12px;
-    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10.5px;
     font-weight: 700;
     margin-top: 4px;
     margin-left: 6px;

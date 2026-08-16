@@ -1,28 +1,27 @@
 .emergency-btn {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 62px;
-    height: 62px;
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
     color: white;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s;
+    transition: transform 0.15s ease;
     animation: pulseSOS 2s infinite;
 }
 
 .emergency-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 10px 28px rgba(239, 68, 68, 0.55);
+    transform: scale(1.06);
 }
 
 @keyframes pulseSOS {
@@ -30,7 +29,7 @@
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
     }
     70% {
-        box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+        box-shadow: 0 0 0 14px rgba(239, 68, 68, 0);
     }
     100% {
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
@@ -47,55 +46,51 @@
     align-items: center;
     justify-content: center;
     overflow-y: auto;
+    padding: 16px;
 }
 
 .emergency-modal-content {
     background: #ffffff;
-    padding: 30px 24px;
+    padding: 24px 20px;
     border-radius: 16px;
-    max-width: 390px;
-    width: 90%;
+    max-width: 380px;
+    width: 100%;
     text-align: center;
     max-height: 90vh;
     overflow-y: auto;
     border: 1px solid #E5DFEC;
-    box-shadow: 0 20px 40px rgba(74, 50, 103, 0.15);
+    box-shadow: 0 16px 36px rgba(74, 50, 103, 0.15);
 }
 
 .emergency-modal h2 {
     color: #ef4444;
     margin-bottom: 6px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
 }
 
 .emergency-modal p {
     color: #6E5A87;
-    font-size: 13.5px;
-    margin-bottom: 20px;
-    line-height: 1.5;
+    font-size: 13px;
+    margin-bottom: 18px;
+    line-height: 1.45;
 }
 
 .emergency-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .emergency-actions button {
-    padding: 12px;
+    padding: 11px;
     border: none;
     border-radius: 8px;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     width: 100%;
     transition: all 0.15s ease;
-}
-
-.emergency-actions button:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.05);
 }
 
 .emergency-call-btn {
@@ -124,8 +119,14 @@
 }
 
 @media (max-width: 600px) {
+    .emergency-btn {
+        bottom: 16px;
+        right: 16px;
+        width: 50px;
+        height: 50px;
+        font-size: 12.5px;
+    }
     .emergency-modal-content {
-        width: 95% !important;
-        padding: 22px 18px !important;
+        padding: 20px 16px;
     }
 }
