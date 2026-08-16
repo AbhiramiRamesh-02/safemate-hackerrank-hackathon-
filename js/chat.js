@@ -1,10 +1,14 @@
-var currentChatBookingId = null;
-var currentChatRecipientName = "";
-var chatPollInterval = null;
+// Real-time peer-to-peer ride and tour message exchange
 
+let currentChatBookingId = null;
+let currentChatRecipientName = "";
+let chatPollInterval = null;
+
+// Opens or minimizes floating chat window
 function toggleChatWindow() {
-    var box = document.getElementById('chatBoxContainer');
+    const box = document.getElementById('chatBoxContainer');
     if (!box) return;
+
     if (box.classList.contains('hidden')) {
         box.classList.remove('hidden');
         loadChatMessages();
@@ -22,215 +26,108 @@ function handleChatKeyPress(event) {
     }
 }
 
+// Sends a message in the active booking channel
 async function sendChatMessage() {
-    var input = document.getElementById('chatInput');
-    var text = input.value.trim();
+    const input = document.getElementById('chatInput');
+    if (!input) return;
+    
+    const text = input.value.trim();
     if (!text || !currentChatBookingId) return;
 
     input.value = '';
     try {
-        await apiCall('POST', '/chat', { bookingId: currentChatBookingId, text: text });
+        await apiCall('POST', '/chat', { bookingId: currentChatBookingId, text });
         loadChatMessages();
     } catch (err) {
-        console.error("Failed to send message: ", err);
+        console.error('Error sending message:', err);
     }
 }
 
+// Queries latest message thread for active booking
 async function loadChatMessages() {
     if (!currentChatBookingId) return;
-    var chatMessages = document.getElementById('chatMessages');
-    if (!chatMessages) return;
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
 
     try {
-        var messages = await apiCall('GET', '/chat/' + currentChatBookingId);
-        var currentUser = getCurrentUser();
-        var userEmail = currentUser ? currentUser.email : "";
+        const messages = await apiCall('GET', `/chat/${currentChatBookingId}`);
+        const currentUser = getCurrentUser();
+        const userEmail = currentUser?.email || "";
 
-        var html = '';
-        messages.forEach(function(m) {
-            var isMe = m.senderEmail === userEmail;
-            var align = isMe ? 'flex-end' : 'flex-start';
-            var bg = isMe ? '#be185d' : '#f4f4f5';
-            var color = isMe ? 'white' : '#18181b';
-            var radius = isMe ? '12px 12px 0 12px' : '12px 12px 12px 0';
+        const html = messages.map(m => {
+            const isMe = m.senderEmail === userEmail;
+            const align = isMe ? 'flex-end' : 'flex-start';
+            const bg = isMe ? '#DE638A' : '#f4f4f5';
+            const color = isMe ? 'white' : '#18181b';
+            const radius = isMe ? '12px 12px 0 12px' : '12px 12px 12px 0';
             
-            // Safety sanitization helper
-            var safeText = document.createElement('div');
-            safeText.innerText = m.text;
+            // XSS sanitization
+            const temp = document.createElement('div');
+            temp.textContent = m.text;
+            const safeText = temp.innerHTML;
             
-            html += '<div style="align-self:' + align + '; background:' + bg + '; color:' + color + '; padding:8px 12px; border-radius:' + radius + '; max-width:80%; line-height:1.4; word-break:break-word; margin-bottom:8px;">' +
-                '<span style="font-size:10px; font-weight:700; display:block; opacity:0.75; margin-bottom:2px;">' + m.senderName + '</span>' +
-                safeText.innerHTML +
-                '</div>';
-        });
+            return `
+                <div style="align-self:${align}; background:${bg}; color:${color}; padding:8px 12px; border-radius:${radius}; max-width:80%; line-height:1.4; word-break:break-word; margin-bottom:8px;">
+                    <span style="font-size:10px; font-weight:700; display:block; opacity:0.85; margin-bottom:2px;">${m.senderName}</span>
+                    ${safeText}
+                </div>
+            `;
+        }).join('');
         
-        var oldCount = chatMessages.children.length;
-        chatMessages.innerHTML = html;
-        if (messages.length > oldCount) {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+        const previousCount = container.children.length;
+        container.innerHTML = html;
+        
+        // Auto scroll on new incoming message
+        if (messages.length > previousCount) {
+            container.scrollTop = container.scrollHeight;
         }
     } catch (err) {
-        console.warn("Could not load messages:", err);
+        console.warn('Could not poll messages:', err);
     }
 }
 
+// Direct entry into chat channel from a ride or guide booking card
 function openChatFromBooking(bookingId, recipientName, status) {
     if (status !== 'accepted' && status !== 'confirmed') {
-        alert('Chat is locked until the booking is accepted/confirmed!');
+        alert('Chat becomes available once the ride or tour booking is accepted.');
         return;
     }
 
     currentChatBookingId = bookingId;
     currentChatRecipientName = recipientName;
+    
     localStorage.setItem('hasActiveRide', 'true');
     localStorage.setItem('chatDriverName', recipientName);
     
-    var nameEl = document.getElementById('chatDriverName');
-    if (nameEl) nameEl.textContent = 'Chat with ' + recipientName;
+    const titleEl = document.getElementById('chatDriverName');
+    if (titleEl) titleEl.textContent = `Chat with ${recipientName}`;
     
-    var chatBtn = document.getElementById('chatFloatingBtn');
-    if (chatBtn) chatBtn.classList.remove('hidden');
+    document.getElementById('chatFloatingBtn')?.classList.remove('hidden');
     
-    var box = document.getElementById('chatBoxContainer');
-    if (box && box.classList.contains('hidden')) {
+    const box = document.getElementById('chatBoxContainer');
+    if (box?.classList.contains('hidden')) {
         toggleChatWindow();
     } else {
         loadChatMessages();
     }
 }
 
+// Checks if the user has an ongoing ride/tour conversation session
 function checkActiveRideChat() {
-    var hasActiveRide = localStorage.getItem('hasActiveRide');
-    var driverName = localStorage.getItem('chatDriverName');
-    var chatBtn = document.getElementById('chatFloatingBtn');
+    const hasActiveRide = localStorage.getItem('hasActiveRide');
+    const driverName = localStorage.getItem('chatDriverName');
+    const chatBtn = document.getElementById('chatFloatingBtn');
 
     if (hasActiveRide === 'true' && driverName) {
-        if (chatBtn) chatBtn.classList.remove('hidden');
-        var nameEl = document.getElementById('chatDriverName');
-        if (nameEl) nameEl.textContent = 'Chat with ' + driverName;
+        chatBtn?.classList.remove('hidden');
+        const titleEl = document.getElementById('chatDriverName');
+        if (titleEl) titleEl.textContent = `Chat with ${driverName}`;
     } else {
-        if (chatBtn) chatBtn.classList.add('hidden');
-        var box = document.getElementById('chatBoxContainer');
-        if (box) box.classList.add('hidden');
+        chatBtn?.classList.add('hidden');
+        document.getElementById('chatBoxContainer')?.classList.add('hidden');
     }
 }
 
-// ─── ANONYMOUS REPORTS ALERT SYSTEM ─────────────────────────
-async function loadAnonymousReports() {
-    var container = document.getElementById('anonymousReportsList');
-    if (!container) return;
-    container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Loading community alerts...</p>';
-
-    try {
-        var reports = await apiCall('GET', '/anonymous-reports');
-        if (reports.length === 0) {
-            container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">No incidents reported in the community. Stay safe!</p>';
-            return;
-        }
-
-        container.innerHTML = reports.map(function(r) {
-            var date = new Date(r.created_at).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'});
-            var trustScore = 92;
-            var badgeText = "92% Confidence • ML Verified";
-            var badgeBg = "#dbeafe";
-            var badgeColor = "#1e40af";
-            
-            if (r.category === 'Harassment' || r.category === 'Stalking & Following' || r.category === 'Physical Assault') {
-                trustScore = 96;
-                badgeText = "96% Confidence • GPS & Anomaly Verified";
-                badgeBg = "#dcfce7";
-                badgeColor = "#166534";
-            } else if (r.category === 'Scream Alert' || r.location.toLowerCase().includes('scream') || r.description.toLowerCase().includes('scream')) {
-                trustScore = 89;
-                badgeText = "89% Confidence • Acoustic Sensor Validated";
-                badgeBg = "#fef3c7";
-                badgeColor = "#92400e";
-            } else {
-                trustScore = 78;
-                badgeText = "78% Confidence • Community Consensus";
-                badgeBg = "#f3f4f6";
-                badgeColor = "#4b5563";
-            }
-            
-            return '<div style="background:#fff5f5; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius:12px; padding:15px; text-align:left;">' +
-                '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">' +
-                '<strong style="color:#dc2626; font-size:15px;">Warning: ' + r.category + '</strong>' +
-                '<span style="color:#9ca3af; font-size:12px;">' + date + '</span>' +
-                '</div>' +
-                '<div style="display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:12px; background:' + badgeBg + '; color:' + badgeColor + '; margin-bottom:8px; border:1px solid rgba(0,0,0,0.05);">' + badgeText + '</div>' +
-                '<p style="font-size:13px; color:#666; margin-bottom:8px;"><strong>Location:</strong> ' + r.location + '</p>' +
-                '<p style="font-size:14px; color:#333; line-height:1.4;">' + r.description + '</p>' +
-                '</div>';
-        }).join('');
-    } catch (err) {
-        container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load reports.</p>';
-    }
-}
-
-async function submitAnonymousReport() {
-    var category = document.getElementById('reportCategory').value;
-    var location = document.getElementById('reportLocation').value.trim();
-    var description = document.getElementById('reportDescription').value.trim();
-
-    if (!location || !description) {
-        alert('Please provide location and incident details!');
-        return;
-    }
-
-    try {
-        await apiCall('POST', '/anonymous-reports', {
-            category: category,
-            location: location,
-            description: description
-        });
-        alert('Report submitted anonymously! Alerts are being broadcast.');
-        document.getElementById('reportLocation').value = '';
-        document.getElementById('reportDescription').value = '';
-        loadAnonymousReports();
-    } catch (err) {
-        alert(err.message);
-    }
-}
-
-// ─── REVIEWS AND RATINGS SYSTEM ─────────────────────────────
-async function loadReviews() {
-    var container = document.getElementById('reviewsList');
-    if (!container) return;
-    try {
-        var reviews = await apiCall('GET', '/reviews');
-        if (reviews.length === 0) {
-            container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">No reviews yet.</p>';
-            return;
-        }
-        container.innerHTML = reviews.map(function(r) {
-            return '<div class="review-card"><h4>Rating: ' + r.rating + '</h4><p>"' + r.text + '"</p><small>- ' + r.reviewer_name + ' (' + r.service + ')</small></div>';
-        }).join('');
-    } catch (err) {
-        container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load reviews.</p>';
-    }
-}
-
-async function submitBookingReview() {
-    var rating = document.getElementById('bookingReviewRating').value;
-    var text = document.getElementById('bookingReviewText').value;
-
-    if (!text) { alert('Please write your review!'); return; }
-
-    try {
-        await apiCall('POST', '/reviews', {
-            text: text,
-            service: 'Travel Guide - ' + currentBookingTour,
-            rating: rating
-        });
-        alert('Thank you for your review!');
-        document.getElementById('bookingReviewText').value = '';
-        closeBookingDetails();
-        loadReviews();
-    } catch (err) {
-        alert(err.message);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     checkActiveRideChat();
 });

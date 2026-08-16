@@ -1,56 +1,55 @@
-// Smart ID OCR Scanning Logic
+// Client-side optical character recognition (OCR) for Aadhaar, Passport & License auto-verification
+
 async function processIDCardOCR(event) {
-    var file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (!file) return;
 
-    var statusDiv = document.getElementById('ocrStatus');
-    statusDiv.style.display = 'block';
-    statusDiv.style.color = '#71717a';
-    statusDiv.innerHTML = 'Reading document... Loading Tesseract AI';
+    const statusDiv = document.getElementById('ocrStatus');
+    if (statusDiv) {
+        statusDiv.style.display = 'block';
+        statusDiv.style.color = '#71717a';
+        statusDiv.innerHTML = 'Reading document... Initializing OCR engine';
+    }
 
     try {
-        var result = await Tesseract.recognize(
+        const result = await Tesseract.recognize(
             file,
             'eng',
-            { logger: function(m) {
-                if (m.status === 'recognizing') {
-                    var progress = Math.round(m.progress * 100);
-                    statusDiv.innerHTML = 'Scanning ID (' + progress + '%)';
+            {
+                logger: m => {
+                    if (m.status === 'recognizing' && statusDiv) {
+                        const progress = Math.round(m.progress * 100);
+                        statusDiv.innerHTML = `Scanning document (${progress}%)`;
+                    }
                 }
-            }}
+            }
         );
 
-        var rawText = result.data.text || "";
-        var upperText = rawText.toUpperCase();
+        const rawText = result.data.text || "";
+        const upperText = rawText.toUpperCase();
 
-        var isAadhar = upperText.includes('GOVERNMENT OF INDIA') || 
-                       upperText.includes('UNIQUE IDENTIFICATION') || 
-                       upperText.includes('MALE') || 
-                       upperText.includes('FEMALE') ||
-                       upperText.includes('DOB') ||
-                       upperText.includes('YEAR OF BIRTH');
+        // Pattern matching for standard Indian ID formats
+        const isAadhar = upperText.includes('GOVERNMENT OF INDIA') || 
+                         upperText.includes('UNIQUE IDENTIFICATION') || 
+                         upperText.includes('DOB') ||
+                         upperText.includes('YEAR OF BIRTH');
 
-        var isPassport = upperText.includes('REPUBLIC OF INDIA') || 
-                         upperText.includes('PASSPORT');
+        const isPassport = upperText.includes('REPUBLIC OF INDIA') || upperText.includes('PASSPORT');
+        const isLicense = upperText.includes('DRIVING LICENSE') || upperText.includes('UNION OF INDIA');
 
-        var isLicense = upperText.includes('DRIVING LICENSE') || 
-                        upperText.includes('LICENSE') ||
-                        upperText.includes('UNION OF INDIA');
+        const aadharRegex = /\b\d{4}\s\d{4}\s\d{4}\b/;
+        const passportRegex = /\b[A-Z][0-9]{7}\b/;
+        const licenseRegex = /\b[A-Z]{2}[0-9]{2}[0-9A-Z]{11}\b/;
 
-        var aadharRegex = /\b\d{4}\s\d{4}\s\d{4}\b/;
-        var passportRegex = /\b[A-Z][0-9]{7}\b/;
-        var licenseRegex = /\b[A-Z]{2}[0-9]{2}[0-9A-Z]{11}\b/;
+        const foundAadhar = aadharRegex.exec(rawText);
+        const foundPassport = passportRegex.exec(rawText);
+        const foundLicense = licenseRegex.exec(rawText);
 
-        var foundAadhar = aadharRegex.exec(rawText);
-        var foundPassport = passportRegex.exec(rawText);
-        var foundLicense = licenseRegex.exec(rawText);
-
-        var currentRole = document.getElementById('signupRole').value;
+        const currentRole = document.getElementById('signupRole')?.value || 'traveler';
 
         if (isAadhar || isPassport || isLicense || foundAadhar || foundPassport || foundLicense) {
-            statusDiv.style.color = '#10b981';
-            var idType = "";
-            var extractedVal = "";
+            let idType = "Govt ID Card";
+            let extractedVal = "";
 
             if (foundAadhar) {
                 idType = "Aadhaar Card";
@@ -63,35 +62,39 @@ async function processIDCardOCR(event) {
                 extractedVal = foundLicense[0];
             } else {
                 idType = isPassport ? "Passport" : "Govt ID Card";
-                var numbers = rawText.match(/\b\d{6,16}\b/);
+                const numbers = rawText.match(/\b\d{6,16}\b/);
                 extractedVal = numbers ? numbers[0] : "Verified Document";
             }
 
-            statusDiv.innerHTML = idType + ' Authenticated!<br>' +
-                                  '<span style="font-size:10px;">ID Number Extracted: ' + extractedVal + '</span>';
-
-            if (currentRole === 'traveler') {
-                document.getElementById('signupTravelerId').value = extractedVal;
-                if (idType === "Passport") {
-                    document.getElementById('travelerIdType').value = "passport";
-                } else {
-                    document.getElementById('travelerIdType').value = "aadhar";
-                }
-            } else if (currentRole === 'driver') {
-                document.getElementById('signupDrivingLicense').value = extractedVal;
-            } else if (currentRole === 'guide') {
-                document.getElementById('signupAadhar').value = extractedVal;
+            if (statusDiv) {
+                statusDiv.style.color = '#10b981';
+                statusDiv.innerHTML = `${idType} Authenticated!<br><span style="font-size:10px;">Document Number: ${extractedVal}</span>`;
             }
 
-        } else {
+            // Autofill the input based on account role
+            if (currentRole === 'traveler') {
+                const travelerInput = document.getElementById('signupTravelerId');
+                const typeInput = document.getElementById('travelerIdType');
+                if (travelerInput) travelerInput.value = extractedVal;
+                if (typeInput) typeInput.value = idType === "Passport" ? "passport" : "aadhar";
+            } else if (currentRole === 'driver') {
+                const licenseInput = document.getElementById('signupDrivingLicense');
+                if (licenseInput) licenseInput.value = extractedVal;
+            } else if (currentRole === 'guide') {
+                const aadharInput = document.getElementById('signupAadhar');
+                if (aadharInput) aadharInput.value = extractedVal;
+            }
+
+        } else if (statusDiv) {
             statusDiv.style.color = '#dc2626';
-            statusDiv.innerHTML = 'Document layout unrecognized.<br>' +
-                                  '<span style="font-size:10px;color:#71717a;">Please upload a clear picture showing your full Aadhaar or Passport card text.</span>';
+            statusDiv.innerHTML = 'Document layout not recognized.<br><span style="font-size:10px;color:#71717a;">Please upload a clear, legible picture showing your Aadhaar or Passport card text.</span>';
         }
 
     } catch (err) {
-        console.error("OCR scan error:", err);
-        statusDiv.style.color = '#dc2626';
-        statusDiv.innerHTML = 'Scan failed: ' + err.message;
+        console.error('OCR scanning error:', err);
+        if (statusDiv) {
+            statusDiv.style.color = '#dc2626';
+            statusDiv.innerHTML = `Scanning failed: ${err.message}`;
+        }
     }
 }

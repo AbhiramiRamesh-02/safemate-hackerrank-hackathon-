@@ -1,195 +1,42 @@
-var emergencyContact = "";
-var audioCtx = null;
-var analyser = null;
-var source = null;
-var streamRef = null;
-var volumeInterval = null;
-var isAudioMonitoring = false;
-var recognition = null;
+// Microphone acoustic scream detection & voice distress keyword trigger
 
-// Show Emergency Modal
+let audioCtx = null;
+let analyser = null;
+let source = null;
+let streamRef = null;
+let volumeInterval = null;
+let isAudioMonitoring = false;
+let recognition = null;
+
+// Display emergency action modal
 async function showEmergencyModal() {
-    var modal = document.getElementById('emergencyModal');
+    const modal = document.getElementById('emergencyModal');
     if (modal) modal.style.display = 'flex';
     
-    var user = getCurrentUser();
-    if (user) {
-        try {
-            var contacts = await apiCall('GET', '/emergency-contacts');
-            if (contacts.length > 0) {
-                emergencyContact = contacts[0].phone;
-            }
-        } catch (err) {}
+    if (typeof loadActiveEmergencyContact === 'function') {
+        loadActiveEmergencyContact();
     }
 }
 
-// Close Emergency Modal
 function closeEmergencyModal() {
-    var modal = document.getElementById('emergencyModal');
+    const modal = document.getElementById('emergencyModal');
     if (modal) modal.style.display = 'none';
 }
 
-// Call Emergency Contact
-function callEmergency() {
-    if (!emergencyContact) {
-        alert("No emergency contact found. Please add an emergency contact in your profile.");
-        closeEmergencyModal();
-        return;
-    }
-    window.location.href = "tel:" + emergencyContact;
-    alert("Calling " + emergencyContact + "...");
-    closeEmergencyModal();
-}
-
-// Call Police
-function callPolice() {
-    var policeNumber = "100";
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var locationLink = "https://maps.google.com/?q=" + lat + "," + lon;
-                alert("Calling Police (100)...\n\nYour location: " + locationLink + "\n\nStay calm, help is on the way!");
-                window.location.href = "tel:" + policeNumber;
-            },
-            function(error) {
-                alert("Calling Police (100)...\n\nStay calm, help is on the way!");
-                window.location.href = "tel:" + policeNumber;
-            }
-        );
-    } else {
-        alert("Calling Police (100)...\n\nStay calm, help is on the way!");
-        window.location.href = "tel:" + policeNumber;
-    }
-    closeEmergencyModal();
-}
-
-// Save Emergency Contact
-async function saveEmergencyContact() {
-    var name = document.getElementById('emergencyContactName').value.trim();
-    var phone = document.getElementById('emergencyContactPhone').value.trim();
-    var relation = document.getElementById('emergencyContactRelation').value;
-
-    if (!name || !phone) { alert('Please fill in all fields!'); return; }
-    if (phone.length < 10) { alert('Please enter a valid phone number!'); return; }
-
-    try {
-        await apiCall('POST', '/emergency-contacts', {
-            contact_name: name,
-            phone: phone,
-            relationship: relation
-        });
-        alert('Emergency contact saved successfully!');
-        document.getElementById('emergencyContactName').value = '';
-        document.getElementById('emergencyContactPhone').value = '';
-        displaySavedContacts();
-    } catch (err) {
-        alert(err.message);
-    }
-}
-
-// Display Saved Contacts
-async function displaySavedContacts() {
-    var container = document.getElementById('savedContacts');
-    if (!container) return;
-    try {
-        var contacts = await apiCall('GET', '/emergency-contacts');
-        if (contacts.length === 0) {
-            container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">No emergency contact saved yet.</p>';
-            return;
-        }
-        var html = '';
-        contacts.forEach(function(c) {
-            html += '<div style="background:#dcfce7;padding:15px;border-radius:10px;margin-top:15px;">' +
-                '<h4 style="color:#166534;margin-bottom:10px;">Emergency Contact</h4>' +
-                '<p style="color:#333;margin:5px 0;"><strong>Name:</strong> ' + c.contact_name + '</p>' +
-                '<p style="color:#333;margin:5px 0;"><strong>Phone:</strong> ' + c.phone + '</p>' +
-                '<p style="color:#666;font-size:13px;margin:5px 0;"><strong>Relationship:</strong> ' + c.relationship + '</p>' +
-                '</div>';
-        });
-        container.innerHTML = html;
-    } catch (err) {
-        container.innerHTML = '<p style="color:#666;text-align:center;padding:15px;">Could not load contacts.</p>';
-    }
-}
-
-// Send Emergency Message
-function sendEmergencyMessage() {
-    if (!emergencyContact) {
-        alert("No emergency contact found. Please add an emergency contact in your profile.");
-        closeEmergencyModal();
-        return;
-    }
-    
-    var locationInfo = "";
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                locationInfo = " My current location: https://maps.google.com/?q=" + lat + "," + lon;
-                sendSMS(locationInfo);
-            },
-            function(error) {
-                sendSMS(locationInfo);
-            }
-        );
-    } else {
-        sendSMS(locationInfo);
-    }
-}
-
-function sendSMS(locationInfo) {
-    var user = getCurrentUser();
-    var userName = user ? user.name : "User";
-    var message = "EMERGENCY! I need help. This is " + userName + ". I am in an emergency situation." + locationInfo;
-    window.location.href = "sms:" + emergencyContact + "?body=" + encodeURIComponent(message);
-    alert("Emergency message will be sent to " + emergencyContact);
-    closeEmergencyModal();
-}
-
-// Alert Nearby Drivers
-function alertNearbyDrivers() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var locationLink = "https://maps.google.com/?q=" + lat + "," + lon;
-                alert("EMERGENCY ALERT SENT!\n\nNearby women drivers have been notified of your emergency.\n\nYour location has been shared with available drivers nearby.\n\nLocation: " + locationLink + "\n\nHelp is on the way! Stay calm.");
-            },
-            function(error) {
-                alert("EMERGENCY ALERT SENT!\n\nNearby women drivers have been notified of your emergency.\n\nPlease stay calm and safe.");
-            }
-        );
-    } else {
-        alert("EMERGENCY ALERT SENT!\n\nNearby women drivers have been notified of your emergency.\n\nPlease stay calm and safe.");
-    }
-}
-
-// Acoustic Scream & Distress Detection
+// Toggle microphone audio monitoring for screams / sudden sound spikes
 async function toggleScreamDetection() {
-    var statusText = document.getElementById('micStatusText');
-    var btn = document.getElementById('screamToggleBtn');
-    var visualizer = document.getElementById('visualizerContainer');
+    const statusText = document.getElementById('micStatusText');
+    const btn = document.getElementById('screamToggleBtn');
+    const visualizer = document.getElementById('visualizerContainer');
 
     if (isAudioMonitoring) {
-        if (volumeInterval) clearInterval(volumeInterval);
-        if (streamRef) {
-            streamRef.getTracks().forEach(track => track.stop());
-        }
-        if (audioCtx) audioCtx.close();
-        if (recognition) {
-            recognition.onend = null;
-            recognition.stop();
-        }
+        stopAudioMonitoring();
         resetMicUI();
         return;
     }
 
     try {
-        var stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         streamRef = stream;
         isAudioMonitoring = true;
 
@@ -209,19 +56,18 @@ async function toggleScreamDetection() {
         source.connect(analyser);
 
         analyser.fftSize = 256;
-        var bufferLength = analyser.frequencyBinCount;
-        var dataArray = new Uint8Array(bufferLength);
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-        volumeInterval = setInterval(function() {
+        // Volume analysis loop
+        volumeInterval = setInterval(() => {
             analyser.getByteFrequencyData(dataArray);
-            var sum = 0;
-            for (var i = 0; i < bufferLength; i++) {
-                sum += dataArray[i];
-            }
-            var average = sum / bufferLength;
-            var volumePercent = Math.min(100, Math.round((average / 128) * 100));
+            const sum = dataArray.reduce((acc, val) => acc + val, 0);
+            const average = sum / bufferLength;
+            const volumePercent = Math.min(100, Math.round((average / 128) * 100));
             
-            document.getElementById('volumeBar').style.width = volumePercent + '%';
+            const volBar = document.getElementById('volumeBar');
+            if (volBar) volBar.style.width = `${volumePercent}%`;
             
             if (volumePercent >= 30) {
                 clearInterval(volumeInterval);
@@ -229,87 +75,74 @@ async function toggleScreamDetection() {
             }
         }, 100);
 
-        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        // Speech recognition for distress keywords
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = 'en-US';
 
-            recognition.onresult = function(event) {
-                for (var i = event.resultIndex; i < event.results.length; ++i) {
-                    var text = event.results[i][0].transcript.toLowerCase();
-                    console.log("Speech text: ", text);
-                    
-                    if (text.includes("help") || 
-                        text.includes("save me") || 
-                        text.includes("emergency") || 
-                        text.includes("police") || 
-                        text.includes("bachao") || 
-                        text.includes("stop it") || 
-                        text.includes("assault")) {
-                        
+            const distressWords = ['help', 'save me', 'emergency', 'police', 'bachao', 'stop it', 'assault'];
+
+            recognition.onresult = event => {
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const text = event.results[i][0].transcript.toLowerCase();
+                    if (distressWords.some(word => text.includes(word))) {
                         triggerSpeechSOS(text);
                         break;
                     }
                 }
             };
 
-            recognition.onerror = function(event) {
-                console.warn("Speech recognition warning: ", event.error);
-            };
-
-            recognition.onend = function() {
+            recognition.onerror = e => console.warn('Speech recognition notice:', e.error);
+            recognition.onend = () => {
                 if (isAudioMonitoring) {
-                    try { recognition.start(); } catch(e) {}
+                    try { recognition.start(); } catch {}
                 }
             };
 
             recognition.start();
         }
 
-    } catch (err) {
-        alert('Microphone access denied or unsupported on this device. Please check your browser permissions.');
+    } catch {
+        alert('Microphone access was denied or is not supported. Please grant permissions to enable scream detection.');
+    }
+}
+
+function stopAudioMonitoring() {
+    if (volumeInterval) clearInterval(volumeInterval);
+    if (streamRef) streamRef.getTracks().forEach(track => track.stop());
+    if (audioCtx) audioCtx.close().catch(() => {});
+    if (recognition) {
+        recognition.onend = null;
+        recognition.stop();
     }
 }
 
 function triggerScreamSOS() {
-    if (volumeInterval) clearInterval(volumeInterval);
-    if (streamRef) streamRef.getTracks().forEach(track => track.stop());
-    if (audioCtx) audioCtx.close();
-    if (recognition) {
-        recognition.onend = null;
-        recognition.stop();
-    }
-
+    stopAudioMonitoring();
     resetMicUI();
-
-    alert('ACOUSTIC DISTRESS SIGNAL DETECTED!\n\nOur system detected a sudden loud scream or distress noise. Automatically activating the SOS portal...');
+    
+    alert('ACOUSTIC DISTRESS SIGNAL DETECTED!\n\nA sudden sound spike was detected. Opening SOS portal...');
     showEmergencyModal();
-    alertNearbyDrivers();
+    if (typeof alertNearbyDrivers === 'function') alertNearbyDrivers();
 }
 
 function triggerSpeechSOS(phrase) {
-    if (volumeInterval) clearInterval(volumeInterval);
-    if (streamRef) streamRef.getTracks().forEach(track => track.stop());
-    if (audioCtx) audioCtx.close();
-    if (recognition) {
-        recognition.onend = null;
-        recognition.stop();
-    }
-
+    stopAudioMonitoring();
     resetMicUI();
-
-    alert('VOICE DISTRESS KEYWORD DETECTED!\n\nYou spoke: "' + phrase + '"\n\nAutomatically activating the emergency SOS portal...');
+    
+    alert(`VOICE DISTRESS PHRASE DETECTED: "${phrase}"\n\nOpening emergency SOS portal...`);
     showEmergencyModal();
-    alertNearbyDrivers();
+    if (typeof alertNearbyDrivers === 'function') alertNearbyDrivers();
 }
 
 function resetMicUI() {
     isAudioMonitoring = false;
-    var statusText = document.getElementById('micStatusText');
-    var btn = document.getElementById('screamToggleBtn');
-    var visualizer = document.getElementById('visualizerContainer');
+    const statusText = document.getElementById('micStatusText');
+    const btn = document.getElementById('screamToggleBtn');
+    const visualizer = document.getElementById('visualizerContainer');
     
     if (statusText) {
         statusText.textContent = 'Disabled (Offline)';
@@ -320,14 +153,12 @@ function resetMicUI() {
         btn.style.background = '#10b981';
     }
     if (visualizer) visualizer.classList.add('hidden');
-    document.getElementById('volumeBar').style.width = '0%';
+    
+    const volBar = document.getElementById('volumeBar');
+    if (volBar) volBar.style.width = '0%';
 }
 
+// Test trigger for demo/pitch presentations
 function simulateScreamDetection() {
     triggerScreamSOS();
 }
-
-// Trigger initial load of saved contacts on DOM load
-document.addEventListener('DOMContentLoaded', function() {
-    displaySavedContacts();
-});

@@ -1,0 +1,130 @@
+<!-- Global Modals & Floating Utilities Partial -->
+
+<!-- Driver Details Modal -->
+<div id="driverDetailsModal" class="emergency-modal">
+    <div class="emergency-modal-content">
+        <h2 id="driverDetailName" style="color:#DE638A;margin-bottom:10px;">Driver Details</h2>
+        <div id="driverDetailContent" style="text-align:left;margin-bottom:20px;">
+            <p style="margin:8px 0;"><strong>Vehicle Type:</strong> <span id="driverDetailVehicleType"></span></p>
+            <p style="margin:8px 0;"><strong>Vehicle:</strong> <span id="driverDetailVehicle"></span></p>
+            <p style="margin:8px 0;"><strong>Vehicle Number:</strong> <span id="driverDetailVehicleNumber"></span></p>
+            <p style="margin:8px 0;"><strong>City:</strong> <span id="driverDetailCity"></span></p>
+            <p style="margin:8px 0;"><strong>Rating:</strong> <span id="driverDetailRating"></span></p>
+            <p style="margin:8px 0;"><strong>Total Rides:</strong> <span id="driverDetailRides"></span></p>
+            <p style="margin:8px 0;"><strong>Phone:</strong> <span id="driverDetailPhone"></span></p>
+        </div>
+        <button class="submit-btn" onclick="requestRideFromDetails()">Request Ride</button>
+        <button class="emergency-close-btn" style="margin-top:10px;" onclick="closeDriverDetails()">Close</button>
+    </div>
+</div>
+
+<!-- Guide Details Modal -->
+<div id="guideDetailsModal" class="emergency-modal">
+    <div class="emergency-modal-content">
+        <h2 id="guideDetailName" style="color:#DE638A;margin-bottom:10px;">Guide Details</h2>
+        <div id="guideDetailContent" style="text-align:left;margin-bottom:20px;">
+            <p style="margin:8px 0;"><strong>Tour Type:</strong> <span id="guideDetailTour"></span></p>
+            <p style="margin:8px 0;"><strong>Rating:</strong> <span id="guideDetailRating"></span></p>
+            <p style="margin:8px 0;"><strong>Age:</strong> <span id="guideDetailAge"></span> years</p>
+            <p style="margin:8px 0;"><strong>Phone:</strong> <span id="guideDetailPhone"></span></p>
+            <p style="margin:8px 0;"><strong>Availability:</strong> <span id="guideDetailAvailability"></span></p>
+            <p style="margin:8px 0;"><strong>Tour Description:</strong> <span id="guideDetailDesc"></span></p>
+            <p style="margin:8px 0;"><strong>Price per day:</strong> <span id="guideDetailPrice" style="color:#DE638A;font-weight:600;"></span></p>
+        </div>
+        <div id="bookingSection" style="border-top:2px solid #e5e7eb;padding-top:15px;">
+            <h4 style="color:#333;margin-bottom:15px;">Book This Guide</h4>
+            <div class="form-group">
+                <label>Number of Days</label>
+                <select id="bookingDays" onchange="updateBookingTotal()">
+                    <option value="1">1 Day</option>
+                    <option value="2">2 Days</option>
+                    <option value="3">3 Days</option>
+                    <option value="4">4 Days</option>
+                    <option value="5">5 Days</option>
+                    <option value="6">6 Days</option>
+                    <option value="7">7 Days</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select Date</label>
+                <input type="date" id="bookingDate" style="width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:10px;">
+            </div>
+            <div class="form-group">
+                <label>Total Price</label>
+                <p id="bookingTotal" style="font-size:20px;font-weight:700;color:#DE638A;margin:10px 0;">₹0</p>
+            </div>
+            <button class="submit-btn" onclick="bookGuide()">Book Now</button>
+        </div>
+        <button class="emergency-close-btn" style="margin-top:10px;" onclick="closeGuideDetails()">Close</button>
+    </div>
+</div>
+
+<!-- Booking Details & Review Modal -->
+<div id="bookingDetailsModal" class="emergency-modal">
+    <div class="emergency-modal-content">
+        <h2 id="bookingDetailTitle" style="color:#DE638A;margin-bottom:10px;">Booking Details</h2>
+        <div id="bookingDetailContent" style="text-align:left;margin-bottom:20px;">
+            <p style="margin:8px 0;"><strong>Tour:</strong> <span id="bookingDetailTour"></span></p>
+            <p style="margin:8px 0;"><strong>Locations:</strong> <span id="bookingDetailLocations"></span></p>
+            <p style="margin:8px 0;"><strong>Date:</strong> <span id="bookingDetailDate"></span></p>
+            <p style="margin:8px 0;"><strong>Duration:</strong> <span id="bookingDetailDuration"></span></p>
+            <p style="margin:8px 0;"><strong>Price:</strong> <span id="bookingDetailPrice" style="color:#DE638A;font-weight:600;"></span></p>
+            <p style="margin:8px 0;"><strong>Guide:</strong> <span id="bookingDetailGuide"></span></p>
+            <p style="margin:8px 0;"><strong>Status:</strong> <span style="color:#10b981;font-weight:600;">Confirmed</span></p>
+        </div>
+        
+        <!-- Write Review Section -->
+        <div style="border-top:2px solid #e5e7eb;padding-top:15px;margin-top:15px;">
+            <h4 style="color:#333;margin-bottom:15px;">Write a Review</h4>
+            <div class="form-group">
+                <label>Rating</label>
+                <select id="bookingReviewRating">
+                    <option>⭐⭐⭐⭐⭐ Excellent</option>
+                    <option>⭐⭐⭐⭐ Good</option>
+                    <option>⭐⭐⭐ Average</option>
+                    <option>⭐⭐ Poor</option>
+                    <option>⭐ Terrible</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Your Review</label>
+                <textarea id="bookingReviewText" placeholder="How was your experience with this guide?" style="width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:10px;min-height:80px;"></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitBookingReview()">Submit Review</button>
+        </div>
+        <button class="emergency-close-btn" style="margin-top:10px;" onclick="closeBookingDetails()">Close</button>
+    </div>
+</div>
+
+<!-- Emergency SOS Floating Trigger -->
+<button class="emergency-btn" onclick="showEmergencyModal()">SOS</button>
+
+<!-- Emergency Actions Modal -->
+<div id="emergencyModal" class="emergency-modal">
+    <div class="emergency-modal-content">
+        <h2>Emergency</h2>
+        <p>Choose an action:</p>
+        <div class="emergency-actions">
+            <button class="emergency-call-btn" onclick="callEmergency()">Call Emergency Contact</button>
+            <button class="emergency-message-btn" onclick="sendEmergencyMessage()">Send Message to Emergency Contact</button>
+            <button class="emergency-alert-btn" onclick="alertNearbyDrivers()">Alert Nearby Drivers</button>
+            <button class="emergency-police-btn" onclick="callPolice()">Call Police (100)</button>
+            <button class="emergency-close-btn" onclick="closeEmergencyModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Chat Trigger & Window -->
+<button id="chatFloatingBtn" class="hidden" onclick="toggleChatWindow()">💬</button>
+
+<div id="chatBoxContainer" class="hidden">
+    <div class="chat-header">
+        <span id="chatDriverName">Chat</span>
+        <span class="close-icon" onclick="toggleChatWindow()">✕</span>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <div class="chat-input-bar">
+        <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+        <button onclick="sendChatMessage()">Send</button>
+    </div>
+</div>

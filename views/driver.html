@@ -1,0 +1,146 @@
+<!-- Driver Dashboard Partial -->
+<div class="dashboard hidden" id="driverDashboard">
+    <h2 style="color:#4A3267; margin-bottom:18px; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="driverUserName" style="color:#DE638A;">Driver</span>! 👋</h2>
+    
+    <!-- Driver Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showDriverTab('driverHome')">Home</button>
+        <button class="tab-btn" onclick="showDriverTab('driverProfile')">My Vehicle</button>
+    </div>
+
+    <!-- Driver Home Tab -->
+    <div id="driverTab-driverHome" class="tab-content">
+        <!-- Stats Grid -->
+        <div class="dashboard-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Your Rating</h4>
+                    <div class="value" id="driverRating">0.0</div>
+                    <p id="driverTotalRides">0 rides</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Today's Earnings</h4>
+                    <div class="value" id="driverTodayEarnings">₹0</div>
+                    <p id="driverTodayRides">0 rides today</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Total Earnings</h4>
+                    <div class="value" id="driverTotalEarnings">₹0</div>
+                    <p id="driverAllTimeRides">All time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Chart -->
+        <div class="dashboard-section">
+            <h3>Weekly Earnings History</h3>
+            <div class="dashboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; border-bottom: 2px solid #e4e4e7; margin-bottom: 10px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 40px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">M</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 75px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">T</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 95px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">W</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 30px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">T</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 85px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">F</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 100px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">S</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 12%;">
+                        <div style="background: #DE638A; width: 100%; height: 50px; border-radius: 4px 4px 0 0;"></div>
+                        <span style="font-size: 11px; color: #71717a; margin-top: 4px;">S</span>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 12px; color: #71717a;">
+                    <span>Peak: Sat (₹2,900)</span>
+                    <span>Daily Avg: ₹1,550</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Availability Toggle -->
+        <div class="dashboard-section">
+            <h3>Availability</h3>
+            <div class="dashboard-card">
+                <div class="availability-toggle">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="driverAvailability" checked onchange="toggleAvailability()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="availability-status" id="availabilityText">You are ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Driver My Vehicle Tab -->
+    <div id="driverTab-driverProfile" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>My Vehicle Details</h3>
+            <div class="planner-form">
+                <div class="form-group">
+                    <label>Vehicle Type</label>
+                    <select id="driverVehicleType">
+                        <option>Car</option>
+                        <option>Bike</option>
+                        <option>Scooter</option>
+                        <option>Auto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vehicle Brand & Model</label>
+                    <input type="text" id="driverVehicleBrand" placeholder="e.g., Honda Activa, Royal Enfield">
+                </div>
+                <div class="form-group">
+                    <label>Vehicle Number</label>
+                    <input type="text" id="driverVehicleNumber" placeholder="e.g., TN 01 AB 1234">
+                </div>
+                <div class="form-group">
+                    <label>City / Operating Area</label>
+                    <select id="driverCity">
+                        <option>Bangalore</option>
+                        <option>Chennai</option>
+                        <option>Jaipur</option>
+                        <option>Pondicherry</option>
+                        <option>Coorg</option>
+                        <option>Delhi</option>
+                        <option>Mumbai</option>
+                        <option>Hyderabad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price per Ride (₹)</label>
+                    <input type="number" id="driverPrice" placeholder="e.g., 150">
+                </div>
+                <button class="submit-btn" onclick="saveDriverProfile()">Save Vehicle Details</button>
+                <div id="driverProfileSaved" style="margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ride Requests Feed -->
+    <div class="dashboard-section">
+        <h3>Ride Requests</h3>
+        <div id="rideRequests"></div>
+    </div>
+
+    <!-- My Rides Feed -->
+    <div class="dashboard-section">
+        <h3>My Rides</h3>
+        <div id="myRides"></div>
+    </div>
+</div>

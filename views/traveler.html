@@ -1,0 +1,226 @@
+<!-- Traveler Core Travel Dashboard Partial -->
+<div class="dashboard hidden" id="travelerDashboard">
+    <h2 style="color:#4A3267; margin-bottom:18px; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
+    
+    <!-- Traveler Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTravelerTab('planTrip')">✈️ Plan Trip</button>
+        <button class="tab-btn" onclick="showTravelerTab('bookCab')">🚖 Book Cab</button>
+        <button class="tab-btn" onclick="showTravelerTab('bookHotel')">🏨 Hotels & PG</button>
+        <button class="tab-btn" onclick="showTravelerTab('travelPartner')">👭 Cab Pooling</button>
+        <button class="tab-btn" onclick="showTravelerTab('travelGuide')">🧭 Travel Guides</button>
+        <button class="tab-btn" onclick="showTravelerTab('nearbyToilets')">🚻 Toilet Finder</button>
+        <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">🗺️ Safe Routes</button>
+        <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">📢 Anonymous Alerts</button>
+        <button class="tab-btn" onclick="showTravelerTab('myBookings')">📅 My Bookings</button>
+        <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">⚙️ SOS Settings</button>
+    </div>
+    
+    <!-- Tab: Plan Your Trip -->
+    <div id="tab-planTrip" class="tab-content">
+        <div class="dashboard-section">
+            <h3>Plan Your Trip</h3>
+            <div class="planner-form">
+                <div class="form-row">
+                    <select id="tripDestination">
+                        <option>Pondicherry</option>
+                        <option>Coorg</option>
+                        <option>Jaipur</option>
+                    </select>
+                    <select id="tripInterest">
+                        <option>Nature</option>
+                        <option>Adventure</option>
+                        <option>Cafes</option>
+                        <option>Shopping</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label style="display:block;color:#555;font-weight:500;margin-bottom:8px;">From Date</label>
+                        <input type="date" id="tripFromDate" style="padding:12px;border:2px solid #e5e7eb;border-radius:10px;width:100%">
+                    </div>
+                    <div>
+                        <label style="display:block;color:#555;font-weight:500;margin-bottom:8px;">To Date</label>
+                        <input type="date" id="tripToDate" style="padding:12px;border:2px solid #e5e7eb;border-radius:10px;width:100%">
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="createTrip()">Get Recommendations</button>
+                <div id="recommendations" class="hidden" style="margin-top:20px"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tab: Book a Cab -->
+    <div id="tab-bookCab" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>Book a Cab</h3>
+            <p style="color:#666;margin-bottom:15px;">Select a driver to request a ride. Drivers will receive your request and can accept or decline.</p>
+            
+            <div class="planner-form" style="margin-bottom:20px; padding:15px; border:1px solid #f3e8ff; background:#faf5ff; border-radius:12px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Filter by City</label>
+                        <select id="driverCityFilter" onchange="filterDrivers()">
+                            <option value="All">All Cities</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Jaipur">Jaipur</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                            <option value="Coorg">Coorg</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Vehicle Type</label>
+                        <select id="driverVehicleFilter" onchange="filterDrivers()">
+                            <option value="All">All Types</option>
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Hatchback">Hatchback</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-grid" id="availableDrivers"></div>
+        </div>
+    </div>
+    
+    <!-- Tab: Hotels & PG -->
+    <div id="tab-bookHotel" class="tab-content hidden">
+        <div class="dashboard-section">
+            <div class="card" style="background:#fff5f7; border: 1px solid #fbcfe8; margin-bottom: 24px; padding: 20px;">
+                <h4 style="color:#DE638A; margin-bottom:8px; display:flex; align-items:center; gap:8px;">List a Safe Stay / PG</h4>
+                <p style="font-size:12px; color:#71717a; margin-bottom:12px;">Are you a verified female stay or PG owner? Register your property directly into our directory list.</p>
+                <button onclick="toggleStayRegistrationForm()" class="booking-btn" style="margin-top:0; width:auto; padding:8px 16px;">List Your Property</button>
+                
+                <div id="stayRegistrationForm" class="hidden" style="margin-top:15px; border-top:1px solid #fbcfe8; padding-top:15px;">
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label style="font-size:11px; font-weight:600;">Property Name</label>
+                        <input type="text" id="stayNameInput" placeholder="e.g. Royal Palace Girls PG" style="padding:8px; font-size:13px;">
+                    </div>
+                    <div class="form-group" style="display:flex; gap:10px; margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-size:11px; font-weight:600;">Type</label>
+                            <select id="stayTypeInput" style="padding:8px; font-size:13px; height:38px; width:100%; border:1px solid #e4e4e7; border-radius:6px;">
+                                <option value="PG">PG (Paying Guest)</option>
+                                <option value="Hotel">Hotel</option>
+                            </select>
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:11px; font-weight:600;">City</label>
+                            <input type="text" id="stayCityInput" placeholder="e.g. Bangalore" style="padding:8px; font-size:13px;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label style="font-size:11px; font-weight:600;">Full Address</label>
+                        <input type="text" id="stayAddressInput" placeholder="e.g. 12th Main Rd, Indiranagar" style="padding:8px; font-size:13px;">
+                    </div>
+                    <div class="form-group" style="display:flex; gap:10px; margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-size:11px; font-weight:600;">Pricing</label>
+                            <input type="text" id="stayPriceInput" placeholder="e.g. ₹8,500 / Month" style="padding:8px; font-size:13px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:11px; font-weight:600;">Contact Phone</label>
+                            <input type="tel" id="stayPhoneInput" placeholder="Owner Phone" style="padding:8px; font-size:13px;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label style="font-size:11px; font-weight:600;">Property Description</label>
+                        <input type="text" id="stayDescInput" placeholder="e.g. Safe girls PG with biometric access and warden." style="padding:8px; font-size:13px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom:15px;">
+                        <label style="font-size:11px; font-weight:600;">Safety Features (comma separated)</label>
+                        <input type="text" id="staySafetyInput" placeholder="e.g. CCTV, 24/7 warden, double locks" style="padding:8px; font-size:13px;">
+                    </div>
+                    <button onclick="registerStay()" class="booking-btn" style="background:#DE638A; color:white; width:100%; font-weight:700;">Submit Listing</button>
+                </div>
+            </div>
+
+            <h3>Verified Women-Only Stays & PGs</h3>
+            <div id="verifiedStaysList" class="service-grid"></div>
+        </div>
+    </div>
+    
+    <!-- Tab: Travel Partner / Pooling -->
+    <div id="tab-travelPartner" class="tab-content hidden">
+        <div class="dashboard-section"></div>
+    </div>
+    
+    <!-- Tab: Travel Guide -->
+    <div id="tab-travelGuide" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>Travel Guides</h3>
+            <div class="planner-form" style="margin-bottom:20px; padding:15px; border:1px solid #f3e8ff; background:#faf5ff; border-radius:12px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Filter by City</label>
+                        <select id="guideCityFilter" onchange="filterGuides()">
+                            <option value="All">All Cities</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Jaipur">Jaipur</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                            <option value="Coorg">Coorg</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Filter by Age</label>
+                        <select id="guideAgeFilter" onchange="filterGuides()">
+                            <option value="All">All Ages</option>
+                            <option value="Under30">Under 30 years</option>
+                            <option value="30to40">30 - 40 years</option>
+                            <option value="Over40">Over 40 years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="service-grid" id="availableGuides"></div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h3>Reviews</h3>
+            <div id="reviewsList"></div>
+        </div>
+    </div>
+
+    <!-- Tab: Nearby Toilets -->
+    <div id="tab-nearbyToilets" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>Find Nearby Toilets</h3>
+            <div class="planner-form">
+                <div class="form-row">
+                    <select id="toiletLocation">
+                        <option>Pondicherry</option>
+                        <option>Coorg</option>
+                        <option>Jaipur</option>
+                        <option>Bangalore</option>
+                        <option>Chennai</option>
+                    </select>
+                    <select id="toiletType">
+                        <option>All Types</option>
+                        <option>Public Toilet</option>
+                        <option>Private/Paid</option>
+                        <option>Hotel/Restaurant</option>
+                        <option>Railway Station</option>
+                        <option>Bus Stand</option>
+                    </select>
+                </div>
+                <button class="submit-btn" style="margin-bottom:10px;" onclick="useCurrentLocation()">Use My Current Location</button>
+                <button class="submit-btn" onclick="findNearbyToilets()">Find Toilets</button>
+                <div id="toiletResults" class="hidden" style="margin-top:20px"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tab: My Bookings -->
+    <div id="tab-myBookings" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>My Bookings</h3>
+            <div id="travelerMyBookings"></div>
+        </div>
+    </div>
+
+    <!-- Traveler Safety & SOS Mount Point -->
+    <div id="app-traveler-safety"></div>
+</div>

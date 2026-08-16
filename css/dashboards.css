@@ -1,0 +1,246 @@
+/* ===================================================
+   SAFEMATE - DASHBOARDS, TABS & ROLE PANELS
+   =================================================== */
+
+/* Role Selection Cards */
+.role-card {
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    border-radius: 12px;
+    border: 1.5px solid #E5DFEC;
+    background: #ffffff;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.role-card:hover {
+    border-color: #DE638A;
+    background: #fffcfd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.1);
+}
+
+.role-info h3 {
+    color: #4A3267;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    letter-spacing: -0.2px;
+}
+
+.role-info p {
+    color: #6E5A87;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Login Card */
+.login-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 26px;
+    box-shadow: 0 6px 20px rgba(74, 50, 103, 0.05);
+    max-width: 420px;
+    margin: 36px auto;
+    border: 1px solid #E5DFEC;
+}
+
+.login-card h2 {
+    text-align: center;
+    color: #4A3267;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 22px;
+    letter-spacing: -0.4px;
+}
+
+/* Dashboard Shell */
+.dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-section {
+    margin-bottom: 22px;
+}
+
+.dashboard-section h3 {
+    color: #4A3267;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E5DFEC;
+}
+
+/* Tab Navigation */
+.tab-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin-bottom: 24px;
+    background: #F4EFF6;
+    padding: 8px;
+    border-radius: 14px;
+    width: 100%;
+    border: 1px solid #E2DBE8;
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+}
+
+.tab-btn {
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #DDD6E5;
+    border-radius: 9px;
+    color: #4A3267;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-family: inherit;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(74, 50, 103, 0.02);
+}
+
+.tab-btn:hover {
+    color: #DE638A;
+    background-color: #fffcfd;
+    border-color: #DE638A;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(222, 99, 138, 0.12);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
+    color: #ffffff;
+    border-color: #DE638A;
+    box-shadow: 0 3px 10px rgba(222, 99, 138, 0.3);
+    font-weight: 700;
+}
+
+.tab-content {
+    display: block;
+}
+
+/* Stats Section */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #E5DFEC;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    border-color: #DE638A;
+    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.08);
+}
+
+.stat-card h4 {
+    color: #6E5A87;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-card .value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #DE638A;
+    letter-spacing: -0.4px;
+}
+
+.stat-card p {
+    color: #9E8CAA;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* Availability Toggle */
+.availability-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #E5DFEC;
+    border-radius: 9px;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #EDE7F2;
+    transition: 0.25s ease;
+    border-radius: 24px;
+    border: 1px solid #DDD6E5;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.25s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .toggle-slider {
+    background-color: #DE638A;
+    border-color: #DE638A;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.availability-status {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: #10b981;
+}
+
+.availability-status.offline {
+    color: #ef4444;
+}

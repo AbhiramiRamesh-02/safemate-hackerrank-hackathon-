@@ -1,0 +1,143 @@
+<!-- Guide Dashboard Partial -->
+<div class="dashboard hidden" id="guideDashboard">
+    <h2 style="color:#4A3267; margin-bottom:18px; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="guideUserName" style="color:#DE638A;">Guide</span>! 👋</h2>
+    
+    <!-- Guide Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showGuideTab('guideHome')">Home</button>
+        <button class="tab-btn" onclick="showGuideTab('guideProfile')">My Services</button>
+        <button class="tab-btn" onclick="showGuideTab('bookingRequests')">Bookings</button>
+        <button class="tab-btn" onclick="showGuideTab('myBookings')">My Bookings</button>
+        <button class="tab-btn" onclick="showGuideTab('myTours')">My Tours</button>
+        <button class="tab-btn" onclick="showGuideTab('reviews')">Reviews</button>
+    </div>
+
+    <!-- Guide Home Tab -->
+    <div id="guideTab-guideHome" class="tab-content">
+        <!-- Stats Grid -->
+        <div class="dashboard-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Your Rating</h4>
+                    <div class="value">4.9</div>
+                    <p>89 tours</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Today's Earnings</h4>
+                    <div class="value">₹3,500</div>
+                    <p>4 tours</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Monthly</h4>
+                    <div class="value">₹1,25,000</div>
+                    <p>Great work!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Availability Toggle -->
+        <div class="dashboard-section">
+            <h3>Availability</h3>
+            <div class="dashboard-card">
+                <div class="availability-toggle">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="guideAvailability" checked onchange="toggleGuideAvailability()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="availability-status" id="guideAvailabilityText">You are AVAILABLE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide My Services Tab -->
+    <div id="guideTab-guideProfile" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>My Services</h3>
+            <div class="planner-form">
+                <div class="form-group">
+                    <label>Service Name</label>
+                    <input type="text" id="guideServiceName" placeholder="e.g., Jaipur Heritage Tour">
+                </div>
+                <div class="form-group">
+                    <label>Location / City</label>
+                    <select id="guideServiceCity">
+                        <option>Jaipur</option>
+                        <option>Coorg</option>
+                        <option>Pondicherry</option>
+                        <option>Delhi</option>
+                        <option>Bangalore</option>
+                        <option>Chennai</option>
+                        <option>Hyderabad</option>
+                        <option>Mumbai</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select id="guideServiceType">
+                        <option>Heritage Tour</option>
+                        <option>Nature Trek</option>
+                        <option>Beach Tour</option>
+                        <option>City Exploration</option>
+                        <option>Adventure</option>
+                        <option>Culinary Tour</option>
+                        <option>Shopping Tour</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="guideServiceDesc" placeholder="Describe your tour service..." style="width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:10px;resize:vertical;min-height:80px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Price per Person (₹)</label>
+                    <input type="number" id="guideServicePrice" placeholder="e.g., 2500">
+                </div>
+                <button class="submit-btn" onclick="saveGuideServices()">Add Service</button>
+                <div id="guideServicesSaved" style="margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Requests -->
+    <div id="guideTab-bookingRequests" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>Booking Requests</h3>
+            <div id="bookingRequests"></div>
+        </div>
+    </div>
+
+    <!-- My Bookings -->
+    <div id="guideTab-myBookings" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>My Bookings</h3>
+            <div id="myBookings"></div>
+        </div>
+    </div>
+
+    <!-- My Tours -->
+    <div id="guideTab-myTours" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>My Tours</h3>
+            <div class="tour-card">
+                <h4>Jaipur Heritage Tour</h4>
+                <p class="tour-meta">4.9 • 67 reviews</p>
+                <p>Full day - Hawa Mahal, City Palace, Amber Fort</p>
+                <p class="price">₹2,500/person</p>
+            </div>
+            <div class="tour-card">
+                <h4>Coorg Nature Adventure</h4>
+                <p class="tour-meta">4.8 • 45 reviews</p>
+                <p>2-day trek and coffee plantation</p>
+                <p class="price">₹4,000/person</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Feed -->
+    <div id="guideTab-reviews" class="tab-content hidden">
+        <div class="dashboard-section">
+            <h3>Reviews</h3>
+            <div id="guideReviews"></div>
+        </div>
+    </div>
+</div>

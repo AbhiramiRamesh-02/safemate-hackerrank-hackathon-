@@ -1,0 +1,135 @@
+/* ===================================================
+   SAFEMATE - LIVE COMMUNITY & RIDE CHAT
+   =================================================== */
+
+#chatFloatingBtn {
+    position: fixed;
+    bottom: 110px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(222, 99, 138, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s;
+}
+
+#chatFloatingBtn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 20px rgba(222, 99, 138, 0.45);
+}
+
+#chatBoxContainer {
+    position: fixed;
+    bottom: 190px;
+    right: 30px;
+    width: 320px;
+    height: 400px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #C6BADE;
+    box-shadow: 0 10px 30px rgba(74, 50, 103, 0.18);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
+    color: white;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1px;
+}
+
+.chat-header .close-icon {
+    cursor: pointer;
+    font-size: 17px;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+}
+
+.chat-header .close-icon:hover {
+    opacity: 1;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    background: #faf7fa;
+}
+
+.chat-input-bar {
+    display: flex;
+    border-top: 1px solid #C6BADE;
+    padding: 10px;
+    background: #ffffff;
+    gap: 6px;
+}
+
+.chat-input-bar input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1.5px solid #DDD6E5;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    font-family: inherit;
+}
+
+.chat-input-bar input:focus {
+    border-color: #DE638A;
+}
+
+.chat-input-bar button {
+    background: #DE638A;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.chat-input-bar button:hover {
+    background: #c95076;
+}
+
+/* Chat Mobile Responsive */
+@media (max-width: 600px) {
+    #chatFloatingBtn {
+        right: 16px !important;
+        bottom: 16px !important;
+        width: 56px !important;
+        height: 56px !important;
+        font-size: 20px !important;
+    }
+    #chatBoxContainer {
+        width: calc(100% - 32px) !important;
+        right: 16px !important;
+        bottom: 82px !important;
+        height: 370px !important;
+        max-height: 70vh !important;
+        border-radius: 12px !important;
+    }
+}

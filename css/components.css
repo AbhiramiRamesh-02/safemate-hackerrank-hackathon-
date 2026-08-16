@@ -1,224 +1,91 @@
 /* ===================================================
-   SAFEMATE - CLEAN MODERN MOBILITY COMPONENTS
-   PALETTE: English Violet (#4A3267), Blush (#DE638A),
-            Pink (#F7B9C4), Mimi Pink (#F3D9E5), Thistle (#C6BADE)
+   SAFEMATE - FORM CONTROLS & ACTION BUTTONS
    =================================================== */
 
-.toggle-switch {
-    position: relative;
-    width: 44px;
-    height: 24px;
+/* Form Controls */
+.form-group {
+    margin-bottom: 16px;
 }
 
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #EDE7F2;
-    transition: 0.25s ease;
-    border-radius: 24px;
-    border: 1px solid #DDD6E5;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.25s ease;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-}
-
-input:checked + .toggle-slider {
-    background-color: #DE638A;
-    border-color: #DE638A;
-}
-
-input:checked + .toggle-slider:before {
-    transform: translateX(20px);
-}
-
-.availability-status {
-    font-weight: 700;
-    font-size: 13.5px;
-    color: #10b981;
-}
-
-.availability-status.offline {
-    color: #ef4444;
-}
-
-/* Mobility Request Cards */
-.request-card {
-    border-left: 4px solid #DE638A;
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #E5DFEC;
-    border-left-width: 4px;
-    border-left-color: #DE638A;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    transition: all 0.2s ease;
-}
-
-.request-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
-}
-
-.request-card .route {
-    color: #271b35;
-    font-size: 14.5px;
+.form-group label {
+    display: block;
+    color: #4A3267;
     font-weight: 600;
-    margin: 5px 0;
+    margin-bottom: 6px;
+    font-size: 13px;
+    letter-spacing: 0.1px;
 }
 
-.request-card .meta {
-    color: #6E5A87;
-    font-size: 12px;
-    margin: 3px 0;
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #DDD6E5;
+    border-radius: 9px;
+    font-size: 13.5px;
+    background: #ffffff;
+    color: #271b35;
+    transition: all 0.15s ease;
+    font-family: inherit;
 }
 
-.request-card .price {
-    color: #DE638A;
-    font-weight: 700;
-    font-size: 15px;
-    margin: 6px 0;
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #9E8CAA;
 }
 
-.action-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #DE638A;
+    box-shadow: 0 0 0 3px rgba(222, 99, 138, 0.14);
+    background: #ffffff;
 }
 
-.accept-btn,
-.decline-btn {
-    flex: 1;
-    padding: 9px 12px;
+/* Modern Action Button */
+.submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
     color: white;
     border: none;
-    border-radius: 7px;
+    border-radius: 9px;
+    font-size: 14.5px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 12.5px;
+    box-shadow: 0 3px 12px rgba(222, 99, 138, 0.25);
     transition: all 0.15s ease;
+    letter-spacing: 0.2px;
 }
 
-.accept-btn {
-    background: #10b981;
+.submit-btn:hover {
+    background: linear-gradient(135deg, #c95076 0%, #3a2652 100%);
+    box-shadow: 0 5px 16px rgba(222, 99, 138, 0.38);
+    transform: translateY(-1px);
 }
 
-.accept-btn:hover {
-    background: #059669;
+.submit-btn:active {
+    transform: translateY(1px) scale(0.99);
 }
 
-.decline-btn {
-    background: #ef4444;
-}
-
-.decline-btn:hover {
-    background: #dc2626;
-}
-
-.completed-card {
-    background: #ffffff;
-    border-left: 4px solid #10b981;
-    border: 1px solid #E5DFEC;
-    border-left-width: 4px;
-    border-left-color: #10b981;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-}
-
-/* Clean Review Cards */
-.review-card {
-    border: 1px solid #E5DFEC;
-    border-left: 4px solid #DE638A;
-    background: #ffffff;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-}
-
-.review-card h4 {
-    color: #d97706;
-    margin-bottom: 4px;
+.switch-link {
+    text-align: center;
+    margin-top: 16px;
+    color: #6E5A87;
     font-size: 13.5px;
 }
 
-.review-card p {
-    color: #271b35;
-    font-style: italic;
-    font-size: 13px;
-    margin-bottom: 4px;
-    line-height: 1.45;
-}
-
-.review-card small {
-    color: #9E8CAA;
-    font-size: 11px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Modern Service Grid */
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 14px;
-}
-
-.service-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 18px;
-    border: 1.5px solid #E5DFEC;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.2s ease;
-}
-
-.service-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.1);
-}
-
-.service-card h4 {
-    color: #4A3267;
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 3px;
-}
-
-.service-card .service-type {
+.switch-link a {
     color: #DE638A;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-weight: 700;
+    text-decoration: none;
 }
 
-.service-card p {
-    color: #6E5A87;
-    font-size: 13px;
-    line-height: 1.45;
+.switch-link a:hover {
+    text-decoration: underline;
+    color: #4A3267;
 }
 
 /* Clean Booking Button */
@@ -276,75 +143,4 @@ input:checked + .toggle-slider:before {
     outline: none;
     border-color: #DE638A;
     box-shadow: 0 0 0 3px rgba(222, 99, 138, 0.14);
-}
-
-/* Place & Stay Cards */
-.place-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #E5DFEC;
-    border-left-width: 4px;
-    border-left-color: #DE638A;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
-    transition: all 0.2s ease;
-}
-
-.place-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
-}
-
-.place-card h4 {
-    color: #4A3267;
-    font-size: 15.5px;
-    font-weight: 700;
-    margin-bottom: 3px;
-}
-
-.place-card .rating {
-    color: #d97706;
-    font-weight: 700;
-    font-size: 13px;
-}
-
-.place-card .reviews-count {
-    color: #9E8CAA;
-    font-size: 12px;
-}
-
-.place-card .comment {
-    color: #6E5A87;
-    font-style: italic;
-    margin: 6px 0;
-    font-size: 13px;
-    line-height: 1.45;
-}
-
-.place-card .safe-badge {
-    display: inline-block;
-    background: #ecfdf5;
-    color: #059669;
-    padding: 2px 9px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 700;
-    margin-top: 4px;
-    border: 1px solid #a7f3d0;
-}
-
-.tour-card {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-}
-
-.tour-card h4 {
-    color: #92400e;
-    font-weight: 700;
-    font-size: 14.5px;
-    margin-bottom: 3px;
 }
