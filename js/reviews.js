@@ -1,10 +1,8 @@
-// Verified reviews and traveler feedback controller
 
 let currentBookingTour = "";
 let currentBookingGuide = "";
 let currentBookingDestination = "";
 
-// Loads community reviews for travel guides and stays
 async function loadReviews() {
     const container = document.getElementById('reviewsList');
     if (!container) return;
@@ -28,7 +26,6 @@ async function loadReviews() {
     }
 }
 
-// Submits a review linked to a completed booking
 async function submitBookingReview() {
     const rating = document.getElementById('bookingReviewRating')?.value || '5/5';
     const textInput = document.getElementById('bookingReviewText');
@@ -55,7 +52,6 @@ async function submitBookingReview() {
     }
 }
 
-// Displays modal for a specific booking and allows writing a review
 function viewBookingDetails(tour, locations, date, duration, price, guide, destination) {
     currentBookingTour = tour;
     currentBookingGuide = guide;

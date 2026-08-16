@@ -1,8 +1,6 @@
-// Emergency contact records, SMS location broadcasts, and SOS driver alerts
 
 let emergencyContact = "";
 
-// Loads the user's primary emergency contact
 async function loadActiveEmergencyContact() {
     try {
         const contacts = await apiCall('GET', '/emergency-contacts');
@@ -12,7 +10,6 @@ async function loadActiveEmergencyContact() {
     } catch {}
 }
 
-// Triggers telephone call to saved emergency contact
 function callEmergency() {
     if (!emergencyContact) {
         alert("No emergency contact found. Please add a trusted contact in your SOS settings.");
@@ -23,7 +20,6 @@ function callEmergency() {
     closeEmergencyModal();
 }
 
-// Emergency police dialer (100) with live GPS coordinate popup
 function callPolice() {
     const policeNumber = "100";
     
@@ -47,7 +43,6 @@ function callPolice() {
     closeEmergencyModal();
 }
 
-// Persists a new emergency contact
 async function saveEmergencyContact() {
     const name = document.getElementById('emergencyContactName')?.value.trim();
     const phone = document.getElementById('emergencyContactPhone')?.value.trim();
@@ -78,7 +73,6 @@ async function saveEmergencyContact() {
     }
 }
 
-// Renders the list of active emergency contacts
 async function displaySavedContacts() {
     const container = document.getElementById('savedContacts');
     if (!container) return;
@@ -105,7 +99,6 @@ async function displaySavedContacts() {
     }
 }
 
-// Dispatches distress SMS with Google Maps location pin
 function sendEmergencyMessage() {
     if (!emergencyContact) {
         alert("No emergency contact found. Please configure an emergency contact first.");
@@ -135,7 +128,6 @@ function sendSMS(locationInfo) {
     closeEmergencyModal();
 }
 
-// Broadcasts alert to nearby verified women drivers
 function alertNearbyDrivers() {
     const dispatchAlert = locationLink => {
         alert(`EMERGENCY BROADCAST SENT!\n\nNearby verified women drivers have been alerted to your position.\n${locationLink ? `\nLocation: ${locationLink}\n` : ''}\nPlease remain in a secure area.`);

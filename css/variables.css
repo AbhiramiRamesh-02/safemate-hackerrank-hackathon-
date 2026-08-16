@@ -1,7 +1,4 @@
-/* ===================================================
-   SAFEMATE - DESIGN SYSTEM TOKENS & VARIABLES
-   Palette: English Violet, Blush, Pink, Mimi Pink, Thistle
-   =================================================== */
+
 
 :root {
     --color-violet-primary: #4A3267;
@@ -29,7 +26,7 @@
     --shadow-glow: 0 4px 16px rgba(222, 99, 138, 0.25);
 }
 
-/* Global Reset */
+
 * {
     margin: 0;
     padding: 0;

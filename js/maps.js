@@ -1,7 +1,6 @@
-// Leaflet map rendering, dark spots detection, and safe detour routing
+
 let mapRef = null;
 
-// City coordinates fallback center points
 const CITY_CENTERS = {
     Bangalore: [12.9716, 77.5946],
     Chennai: [13.0827, 80.2707],
@@ -13,7 +12,6 @@ const CITY_CENTERS = {
     Hyderabad: [17.3850, 78.4867]
 };
 
-// Loads reported dark spots from backend and renders the community list
 async function loadDarkSpots() {
     const container = document.getElementById('darkSpotsList');
     if (!container) return;
@@ -48,7 +46,6 @@ async function loadDarkSpots() {
     }
 }
 
-// Submits a newly reported unsafe area
 async function submitDarkSpot() {
     const title = document.getElementById('darkSpotTitle')?.value.trim();
     const city = document.getElementById('darkSpotCity')?.value || 'Bangalore';
@@ -62,7 +59,7 @@ async function submitDarkSpot() {
 
     let lat = 0, lng = 0;
     try {
-        // Free geocoding with OpenStreetMap Nominatim
+        
         const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(`${title}, ${city}`)}`);
         const geoData = await geoRes.json();
         if (geoData?.length) {
@@ -98,7 +95,6 @@ async function submitDarkSpot() {
     }
 }
 
-// Calculate shortest vs detour-safe path using OpenStreetMap OSRM routing
 async function calculateSafeRoute() {
     const start = document.getElementById('routeStart')?.value.trim();
     const end = document.getElementById('routeEnd')?.value.trim();
@@ -111,7 +107,6 @@ async function calculateSafeRoute() {
     try {
         document.getElementById('routeResultsDiv')?.classList.remove('hidden');
 
-        // Geocode start & end
         let [startLat, startLng] = [12.9716, 77.5946];
         let [endLat, endLng] = [12.9344, 77.6192];
 
@@ -127,7 +122,6 @@ async function calculateSafeRoute() {
 
         const spots = await apiCall('GET', '/dark-spots').catch(() => []);
 
-        // Initialize Leaflet map
         if (!mapRef) {
             mapRef = L.map('map').setView([startLat, startLng], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -138,14 +132,12 @@ async function calculateSafeRoute() {
             mapRef.setView([startLat, startLng], 13);
         }
 
-        // Reset previous layers
         mapRef.eachLayer(layer => {
             if (layer instanceof L.Polyline || layer instanceof L.Marker) {
                 mapRef.removeLayer(layer);
             }
         });
 
-        // Request driving route
         const routeUrl = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson`;
         const routeRes = await fetch(routeUrl);
         const routeData = await routeRes.json();
@@ -157,7 +149,6 @@ async function calculateSafeRoute() {
 
         const shortestCoords = routeData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
 
-        // Distance formula between two coordinates (meters)
         const getDistance = (lat1, lon1, lat2, lon2) => {
             const R = 6371e3;
             const p1 = lat1 * Math.PI / 180;
@@ -168,7 +159,6 @@ async function calculateSafeRoute() {
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         };
 
-        // Pin reported dark spots and detect hazards along path
         const dangerousSpots = [];
         spots.forEach(s => {
             if (!s.latitude || !s.longitude) return;
@@ -186,7 +176,6 @@ async function calculateSafeRoute() {
             }
         });
 
-        // Draw direct (risky) route
         L.polyline(shortestCoords, { color: '#ef4444', weight: 4, dashArray: '5, 10' }).addTo(mapRef);
 
         let finalSafeCoords = shortestCoords;
@@ -218,7 +207,6 @@ async function calculateSafeRoute() {
             }
         }
 
-        // Draw recommended safe route in vibrant green
         L.polyline(finalSafeCoords, { color: '#22c55e', weight: 6 }).addTo(mapRef);
 
         const bounds = L.latLngBounds([[startLat, startLng], [endLat, endLng]]);
@@ -227,7 +215,6 @@ async function calculateSafeRoute() {
         L.marker([startLat, startLng]).addTo(mapRef).bindPopup(`Start: ${start}`);
         L.marker([endLat, endLng]).addTo(mapRef).bindPopup(`Destination: ${end}`);
 
-        // Update UI summary labels
         const shortestPathEl = document.getElementById('shortestRoutePath');
         const shortestRiskEl = document.getElementById('shortestRouteRiskCount');
         const safePathEl = document.getElementById('safeRoutePath');

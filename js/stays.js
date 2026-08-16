@@ -1,6 +1,4 @@
-// Trip recommendation planner, verified female PG listings, and stay bookings
 
-// Generates destination recommendations & matches active travel groups
 async function createTrip() {
     const destination = document.getElementById('tripDestination')?.value || 'Pondicherry';
     const interest = document.getElementById('tripInterest')?.value || 'Nature';
@@ -39,7 +37,6 @@ async function createTrip() {
         `;
     });
 
-    // Integrated Co-Travelers & Groups for Destination
     let groupsHtml = `
         <div style="margin-top:25px; padding-top:20px; border-top: 2px solid #e5e7eb;">
             <h3 style="color:#333; margin-bottom:10px;">Co-Travelers & Groups for ${destination}</h3>
@@ -153,7 +150,6 @@ function toggleStayRegistrationForm() {
     document.getElementById('stayRegistrationForm')?.classList.toggle('hidden');
 }
 
-// Submits a female-safe stay / PG property registration
 async function registerStay() {
     const name = document.getElementById('stayNameInput')?.value.trim();
     const type = document.getElementById('stayTypeInput')?.value;
@@ -196,7 +192,6 @@ async function registerStay() {
     }
 }
 
-// Queries verified women-only stays from database
 async function loadStays() {
     const container = document.getElementById('verifiedStaysList');
     if (!container) return;
@@ -229,7 +224,6 @@ async function loadStays() {
     }
 }
 
-// Places a stay booking request
 async function bookStay(name, type, price) {
     const user = getCurrentUser();
     if (!user) {

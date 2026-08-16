@@ -1,13 +1,10 @@
-// View routing, role switching, and tab controllers
 
-// Returns back to the home role picker
 function showHome() {
     const screens = ['loginPage', 'travelerDashboard', 'driverDashboard', 'guideDashboard', 'aboutUs'];
     screens.forEach(id => document.getElementById(id)?.classList.add('hidden'));
     document.getElementById('home')?.classList.remove('hidden');
 }
 
-// Opens login/signup for selected user role
 function showLogin(role) {
     currentRole = role;
     
@@ -39,7 +36,6 @@ function showLoginForm() {
     document.getElementById('loginForm')?.classList.remove('hidden');
 }
 
-// Activates the appropriate dashboard view and loads initial feeds
 function showDashboard(role) {
     const views = ['travelerDashboard', 'driverDashboard', 'guideDashboard', 'home', 'loginPage', 'aboutUs'];
     views.forEach(id => document.getElementById(id)?.classList.add('hidden'));
@@ -48,7 +44,6 @@ function showDashboard(role) {
     const fallbackName = role === 'traveler' ? 'Traveler' : (role === 'driver' ? 'Driver' : 'Guide');
     const displayName = user?.name || fallbackName;
     
-    // Update dashboard header greetings
     ['travelerUserName', 'driverUserName', 'guideUserName'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = displayName;
@@ -82,7 +77,6 @@ function goBack() {
     document.getElementById('home')?.classList.remove('hidden');
 }
 
-// Traveler Tab Navigation & lazy-loading data triggers
 function showTravelerTab(tabName) {
     const contents = document.querySelectorAll('#travelerDashboard .tab-content');
     contents.forEach(el => el.classList.add('hidden'));
@@ -97,7 +91,6 @@ function showTravelerTab(tabName) {
     
     document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
 
-    // Trigger tab-specific API loaders
     const tabActions = {
         travelPartner: loadTravelGroups,
         anonymousReports: loadAnonymousReports,
@@ -114,7 +107,6 @@ function showTravelerTab(tabName) {
     }
 }
 
-// Driver Tab Navigation
 function showDriverTab(tabName) {
     const tabs = document.querySelectorAll('#driverDashboard .tab-content');
     tabs.forEach(el => el.classList.add('hidden'));
@@ -130,7 +122,6 @@ function showDriverTab(tabName) {
     document.getElementById(`driverTab-${tabName}`)?.classList.remove('hidden');
 }
 
-// Guide Tab Navigation
 function showGuideTab(tabName) {
     const tabs = document.querySelectorAll('#guideDashboard .tab-content');
     tabs.forEach(el => el.classList.add('hidden'));

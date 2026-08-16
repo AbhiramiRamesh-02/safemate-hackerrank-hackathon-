@@ -1,10 +1,7 @@
-// API client helper for SafeMate frontend
+
 const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 const API_BASE = isLocal ? 'http://localhost:3001/api' : '/api';
 
-/**
- * Universal fetch wrapper that attaches JWT token and parses JSON responses.
- */
 async function apiCall(method, endpoint, payload = null) {
     const headers = { 'Content-Type': 'application/json' };
     const token = localStorage.getItem('token');
@@ -32,9 +29,6 @@ async function apiCall(method, endpoint, payload = null) {
     return data;
 }
 
-/**
- * Retrieves the currently logged-in user profile from localStorage.
- */
 function getCurrentUser() {
     try {
         const stored = localStorage.getItem('currentUser');

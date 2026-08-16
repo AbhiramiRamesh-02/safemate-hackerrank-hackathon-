@@ -1,10 +1,8 @@
-// Lady travel guides directory, search filtering, and tour booking
 
 let allGuidesArray = [];
 let currentGuidePrice = 0;
 let currentGuideName = "";
 
-// Opens detailed modal for selected tour guide
 function viewGuideDetails(name, tourType, rating, age, phone, availability, description, price) {
     currentGuideName = name;
     
@@ -23,7 +21,6 @@ function viewGuideDetails(name, tourType, rating, age, phone, availability, desc
     document.getElementById('guideDetailDesc').textContent = description;
     document.getElementById('guideDetailPrice').textContent = price;
     
-    // Parse numeric value for daily rate calculations
     currentGuidePrice = parseInt(price.replace(/[^0-9]/g, ''), 10) || 2000;
     
     const daysInput = document.getElementById('bookingDays');
@@ -42,7 +39,6 @@ function viewGuideDetails(name, tourType, rating, age, phone, availability, desc
     }
 }
 
-// Recalculates total based on selected days
 function updateBookingTotal() {
     const days = parseInt(document.getElementById('bookingDays')?.value, 10) || 1;
     const total = days * currentGuidePrice;
@@ -57,7 +53,6 @@ function closeGuideDetails() {
     document.body.style.overflow = 'auto';
 }
 
-// Confirms guide booking request
 async function bookGuide() {
     const days = document.getElementById('bookingDays')?.value || '1';
     const date = document.getElementById('bookingDate')?.value;
@@ -94,7 +89,6 @@ async function bookGuide() {
     }
 }
 
-// Loads verified female guides from MongoDB
 async function loadAvailableGuides() {
     const container = document.getElementById('availableGuides');
     if (!container) return;
@@ -109,7 +103,6 @@ async function loadAvailableGuides() {
     }
 }
 
-// Filters guides based on location and age criteria
 function filterGuides() {
     const container = document.getElementById('availableGuides');
     if (!container) return;

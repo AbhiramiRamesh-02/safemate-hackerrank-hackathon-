@@ -4,7 +4,6 @@ const authMiddleware = require('../middleware/auth');
 const Stay = require('../models/Stay');
 const StayBooking = require('../models/StayBooking');
 
-// GET /api/stays — get verified stays
 router.get('/', async (req, res) => {
     try {
         const stays = await Stay.find({}).sort({ created_at: -1 });
@@ -14,7 +13,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /api/stays — register stay (owner option)
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const { name, type, city, address, price_per_month, phone, description, safety_measures } = req.body;
@@ -35,7 +33,6 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 });
 
-// POST /api/stays/book — book a stay
 router.post('/book', authMiddleware, async (req, res) => {
     try {
         const { stay_name, stay_type, price, phone } = req.body;
@@ -55,7 +52,6 @@ router.post('/book', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/stays/bookings/my — get current traveler's stay bookings
 router.get('/bookings/my', authMiddleware, async (req, res) => {
     try {
         const bookings = await StayBooking.find({ traveler_email: req.user.email }).sort({ created_at: -1 });

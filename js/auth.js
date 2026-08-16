@@ -1,8 +1,7 @@
-// User authentication, signup validation, and OTP flow handlers
+
 let currentRole = "";
 let globalVerifyEmail = "";
 
-// Dynamic form display based on selected account type
 function showVerificationField() {
     const roleEl = document.getElementById('signupRole');
     if (!roleEl) return;
@@ -19,7 +18,6 @@ function showVerificationField() {
     if (role === 'guide' && guideField) guideField.classList.remove('hidden');
 }
 
-// Handles user sign in
 async function login() {
     const email = document.getElementById('loginEmail')?.value.trim();
     const password = document.getElementById('loginPassword')?.value;
@@ -47,7 +45,6 @@ async function login() {
     }
 }
 
-// Handles new account registration
 async function signup() {
     const name = document.getElementById('signupName')?.value.trim();
     const email = document.getElementById('signupEmail')?.value.trim();
@@ -71,7 +68,6 @@ async function signup() {
         return;
     }
 
-    // Role-specific field validation
     if (role === 'traveler') {
         const travelerId = document.getElementById('signupTravelerId')?.value.trim();
         if (!travelerId) {
@@ -121,7 +117,6 @@ async function signup() {
     }
 }
 
-// Switches form view to OTP confirmation
 function showOTPForm() {
     document.getElementById('loginForm')?.classList.add('hidden');
     document.getElementById('signupForm')?.classList.add('hidden');
@@ -131,7 +126,6 @@ function showOTPForm() {
     if (authTitle) authTitle.textContent = 'Verify Your Email';
 }
 
-// Verifies 6-digit OTP code
 async function verifyOTP() {
     const otpInput = document.getElementById('otpCodeInput');
     const otp = otpInput?.value.trim();
@@ -159,7 +153,6 @@ async function verifyOTP() {
     }
 }
 
-// Dispatches a new OTP code if previous expired
 async function resendOTP() {
     if (!globalVerifyEmail) {
         alert('No active session found. Please register or login.');
@@ -174,7 +167,6 @@ async function resendOTP() {
     }
 }
 
-// Clears user authentication session and returns to Home
 function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
@@ -190,7 +182,6 @@ function logout() {
     document.getElementById('logoutBtn')?.classList.add('hidden');
 }
 
-// Developer debugging helper to reset localStorage
 function clearAllData() {
     if (confirm('Clear all stored sessions and cached data? This will log you out.')) {
         localStorage.clear();
@@ -198,7 +189,6 @@ function clearAllData() {
     }
 }
 
-// Verifies if the user is already authenticated on page load
 function checkLoginStatus() {
     const user = getCurrentUser();
     if (user && user.role) {

@@ -3,7 +3,6 @@ const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const Message = require('../models/Message');
 
-// GET /api/chat/:bookingId - get messages for a booking
 router.get('/:bookingId', authMiddleware, async (req, res) => {
     try {
         const messages = await Message.find({ bookingId: req.params.bookingId }).sort({ created_at: 1 });
@@ -13,7 +12,6 @@ router.get('/:bookingId', authMiddleware, async (req, res) => {
     }
 });
 
-// POST /api/chat - send a message
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const { bookingId, text } = req.body;

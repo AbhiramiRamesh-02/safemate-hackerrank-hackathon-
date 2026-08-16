@@ -4,7 +4,6 @@ const authMiddleware = require('../middleware/auth');
 const User = require('../models/User');
 const RideRequest = require('../models/RideRequest');
 
-// PUT /api/vehicle — save driver vehicle details
 router.put('/vehicle', authMiddleware, async (req, res) => {
     try {
         const { vehicle_type, vehicle_brand, vehicle_number, city, price_per_ride } = req.body;
@@ -28,7 +27,6 @@ router.put('/vehicle', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/drivers — get all available drivers
 router.get('/drivers', async (req, res) => {
     try {
         const drivers = await User.find({
@@ -41,7 +39,6 @@ router.get('/drivers', async (req, res) => {
     }
 });
 
-// POST /api/rides — request a ride
 router.post('/rides', authMiddleware, async (req, res) => {
     try {
         const { driver_name, vehicle_type, vehicle, vehicle_number, city, pickup, drop_location, price } = req.body;
@@ -67,7 +64,6 @@ router.post('/rides', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/rides/pending — get pending ride requests
 router.get('/rides/pending', authMiddleware, async (req, res) => {
     try {
         let filter = { status: 'pending' };
@@ -81,7 +77,6 @@ router.get('/rides/pending', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/rides/my — get completed/accepted rides
 router.get('/rides/my', authMiddleware, async (req, res) => {
     try {
         let filter = { status: { $in: ['accepted', 'completed'] } };
@@ -97,7 +92,6 @@ router.get('/rides/my', authMiddleware, async (req, res) => {
     }
 });
 
-// PUT /api/rides/:id/accept
 router.put('/rides/:id/accept', authMiddleware, async (req, res) => {
     try {
         const ride = await RideRequest.findByIdAndUpdate(
@@ -111,7 +105,6 @@ router.put('/rides/:id/accept', authMiddleware, async (req, res) => {
     }
 });
 
-// PUT /api/rides/:id/decline
 router.put('/rides/:id/decline', authMiddleware, async (req, res) => {
     try {
         await RideRequest.findByIdAndUpdate(req.params.id, { $set: { status: 'declined' } });
@@ -121,7 +114,6 @@ router.put('/rides/:id/decline', authMiddleware, async (req, res) => {
     }
 });
 
-// PUT /api/rides/:id/complete
 router.put('/rides/:id/complete', authMiddleware, async (req, res) => {
     try {
         await RideRequest.findByIdAndUpdate(req.params.id, { $set: { status: 'completed' } });
@@ -131,7 +123,6 @@ router.put('/rides/:id/complete', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/driver/stats — get driver earnings and stats
 router.get('/driver/stats', authMiddleware, async (req, res) => {
     try {
         const todayStr = new Date().toISOString().split('T')[0];

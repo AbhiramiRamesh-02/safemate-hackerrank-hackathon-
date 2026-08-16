@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
@@ -13,7 +12,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes Mounts
 app.use('/api', require('./routes/auth'));
 app.use('/api/stays', require('./routes/stays'));
 app.use('/api', require('./routes/rides'));
@@ -23,12 +21,10 @@ app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/travel-groups', require('./routes/pools'));
 
-// Root check endpoint
 app.get('/', (req, res) => {
     res.send('Safemate API server running...');
 });
 
-// Start Server
 const PORT = process.env.PORT || 3001;
 
 async function startServer() {

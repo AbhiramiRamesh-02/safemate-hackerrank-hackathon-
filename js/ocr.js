@@ -1,4 +1,3 @@
-// Client-side optical character recognition (OCR) for Aadhaar, Passport & License auto-verification
 
 async function processIDCardOCR(event) {
     const file = event.target.files?.[0];
@@ -28,7 +27,6 @@ async function processIDCardOCR(event) {
         const rawText = result.data.text || "";
         const upperText = rawText.toUpperCase();
 
-        // Pattern matching for standard Indian ID formats
         const isAadhar = upperText.includes('GOVERNMENT OF INDIA') || 
                          upperText.includes('UNIQUE IDENTIFICATION') || 
                          upperText.includes('DOB') ||
@@ -71,7 +69,6 @@ async function processIDCardOCR(event) {
                 statusDiv.innerHTML = `${idType} Authenticated!<br><span style="font-size:10px;">Document Number: ${extractedVal}</span>`;
             }
 
-            // Autofill the input based on account role
             if (currentRole === 'traveler') {
                 const travelerInput = document.getElementById('signupTravelerId');
                 const typeInput = document.getElementById('travelerIdType');

@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - PLACE, TOUR, REVIEW & TOILET CARDS
-   =================================================== */
 
-/* Place & Stay Cards */
+
+
 .place-card {
     background: #ffffff;
     border-radius: 12px;
@@ -57,7 +55,7 @@
     border: 1px solid #a7f3d0;
 }
 
-/* Tour Card */
+
 .tour-card {
     background: #fffbeb;
     border: 1px solid #fde68a;
@@ -85,7 +83,7 @@
     font-size: 14px;
 }
 
-/* Clean Review Cards */
+
 .review-card {
     border: 1px solid #E5DFEC;
     border-left: 4px solid #DE638A;
@@ -115,7 +113,7 @@
     font-size: 11px;
 }
 
-/* Toilet Finder Clean Cards */
+
 .toilet-card {
     background: white;
     border-radius: 12px;

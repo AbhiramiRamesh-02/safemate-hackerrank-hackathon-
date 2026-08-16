@@ -22,7 +22,6 @@ async function seedDatabase() {
         await mongoose.connect(uri);
         console.log('Connected successfully. Cleaning database collections...');
 
-        // Clear existing data
         await User.deleteMany({});
         await GuideService.deleteMany({});
         await TravelGroup.deleteMany({});

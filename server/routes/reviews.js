@@ -3,7 +3,6 @@ const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const Review = require('../models/Review');
 
-// GET /api/reviews
 router.get('/', async (req, res) => {
     try {
         const reviews = await Review.find({}).sort({ created_at: -1 });
@@ -13,7 +12,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /api/reviews
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const { text, service, rating } = req.body;

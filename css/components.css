@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - FORM CONTROLS & ACTION BUTTONS
-   =================================================== */
 
-/* Form Controls */
+
+
 .form-group {
     margin-bottom: 16px;
 }
@@ -44,7 +42,7 @@
     background: #ffffff;
 }
 
-/* Modern Action Button */
+
 .submit-btn {
     width: 100%;
     padding: 13px;
@@ -88,7 +86,7 @@
     color: #4A3267;
 }
 
-/* Clean Booking Button */
+
 .booking-btn {
     width: 100%;
     padding: 10px 14px;
@@ -109,7 +107,7 @@
     box-shadow: 0 4px 12px rgba(222, 99, 138, 0.35);
 }
 
-/* Forms in Tabs */
+
 .planner-form {
     background: #ffffff;
     border-radius: 14px;

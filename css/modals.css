@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - EMERGENCY SOS & MODAL OVERLAYS
-   =================================================== */
 
-/* Pulsing 3D SOS Button */
+
+
 .emergency-btn {
     position: fixed;
     bottom: 30px;
@@ -42,7 +40,7 @@
     }
 }
 
-/* Emergency Modals */
+
 .emergency-modal {
     display: none;
     position: fixed;
@@ -129,7 +127,7 @@
     color: white;
 }
 
-/* Modal Responsive */
+
 @media (max-width: 600px) {
     .emergency-modal-content {
         width: 95% !important;

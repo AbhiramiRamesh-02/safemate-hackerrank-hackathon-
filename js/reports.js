@@ -1,6 +1,4 @@
-// Anonymous safety incident reporting and community alerts
 
-// Fetches and displays anonymous incident reports with ML confidence indicators
 async function loadAnonymousReports() {
     const container = document.getElementById('anonymousReportsList');
     if (!container) return;
@@ -17,7 +15,6 @@ async function loadAnonymousReports() {
         container.innerHTML = reports.map(r => {
             const date = new Date(r.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
             
-            // Risk & confidence score assignment
             let badgeText = "78% Confidence • Community Consensus";
             let badgeBg = "#f3f4f6";
             let badgeColor = "#4b5563";
@@ -51,7 +48,6 @@ async function loadAnonymousReports() {
     }
 }
 
-// Submits a zero-identity anonymous incident report
 async function submitAnonymousReport() {
     const category = document.getElementById('reportCategory')?.value || 'Other Concern';
     const locationInput = document.getElementById('reportLocation');

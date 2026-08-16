@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - BASE LAYOUT, TYPOGRAPHY & HEADER
-   =================================================== */
 
-/* Base Canvas & Clean Typography */
+
+
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--color-bg-canvas, #fcfbfe);
@@ -14,13 +12,13 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Main Container */
+
 .container {
     max-width: 480px;
     margin: 0 auto;
 }
 
-/* Crisp Clean Header */
+
 header {
     background: #ffffff;
     padding: 14px 20px;
@@ -33,7 +31,7 @@ header {
     border: 1px solid #e7e0ed;
 }
 
-/* Logo Styling */
+
 .logo-container {
     display: flex;
     align-items: center;
@@ -78,7 +76,7 @@ header {
     gap: 14px;
 }
 
-/* Logout Button */
+
 .logout-btn {
     background-color: #F8F3FA;
     color: #4A3267;
@@ -98,7 +96,7 @@ header {
     box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 
-/* Page Title */
+
 .page-title {
     text-align: center;
     color: #4A3267;
@@ -108,7 +106,7 @@ header {
     letter-spacing: -0.5px;
 }
 
-/* Clean Flat Card */
+
 .card {
     background: #ffffff;
     border-radius: 14px;
@@ -119,7 +117,7 @@ header {
     transition: all 0.2s ease;
 }
 
-/* Mobile Responsive Base Overrides */
+
 @media (max-width: 600px) {
     body {
         padding: 12px;

@@ -5,7 +5,6 @@ const User = require('../models/User');
 const GuideService = require('../models/GuideService');
 const GuideBooking = require('../models/GuideBooking');
 
-// GET /api/guides — get all available guides
 router.get('/guides', async (req, res) => {
     try {
         const guides = await User.find({ role: 'guide' }).select('name email phone city age rating');
@@ -23,7 +22,6 @@ router.get('/guides', async (req, res) => {
     }
 });
 
-// GET /api/guide-services/my — get current guide's services
 router.get('/guide-services/my', authMiddleware, async (req, res) => {
     try {
         const services = await GuideService.find({ guide_email: req.user.email }).sort({ created_at: -1 });
@@ -33,7 +31,6 @@ router.get('/guide-services/my', authMiddleware, async (req, res) => {
     }
 });
 
-// POST /api/guide-services — create/register a guide service
 router.post('/guide-services', authMiddleware, async (req, res) => {
     try {
         const { service_name, city, service_type, description, price } = req.body;
@@ -54,7 +51,6 @@ router.post('/guide-services', authMiddleware, async (req, res) => {
     }
 });
 
-// POST /api/bookings — book a guide
 router.post('/bookings', authMiddleware, async (req, res) => {
     try {
         const { guide_name, tour_type, booking_date, days, price } = req.body;
@@ -77,7 +73,6 @@ router.post('/bookings', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/bookings/pending — get pending booking requests
 router.get('/bookings/pending', authMiddleware, async (req, res) => {
     try {
         let filter = { status: 'pending' };
@@ -93,7 +88,6 @@ router.get('/bookings/pending', authMiddleware, async (req, res) => {
     }
 });
 
-// GET /api/bookings/my — get accepted bookings
 router.get('/bookings/my', authMiddleware, async (req, res) => {
     try {
         let filter = { status: 'accepted' };
@@ -109,7 +103,6 @@ router.get('/bookings/my', authMiddleware, async (req, res) => {
     }
 });
 
-// PUT /api/bookings/:id/accept
 router.put('/bookings/:id/accept', authMiddleware, async (req, res) => {
     try {
         const booking = await GuideBooking.findByIdAndUpdate(
@@ -123,7 +116,6 @@ router.put('/bookings/:id/accept', authMiddleware, async (req, res) => {
     }
 });
 
-// PUT /api/bookings/:id/decline
 router.put('/bookings/:id/decline', authMiddleware, async (req, res) => {
     try {
         await GuideBooking.findByIdAndUpdate(req.params.id, { $set: { status: 'declined' } });

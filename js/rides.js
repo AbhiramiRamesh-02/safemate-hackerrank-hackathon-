@@ -1,4 +1,3 @@
-// Driver profile discovery, ride booking requests, and mobility status management
 
 let selectedDriver = {
     name: "",
@@ -13,7 +12,6 @@ let selectedDriver = {
 
 let allDriversArray = [];
 
-// Opens driver profile modal with vehicle specifications
 function viewDriverDetails(name, vehicleType, city, rating, rides, vehicleNumber, vehicle, phone) {
     selectedDriver = { name, vehicleType, city, rating, rides, vehicleNumber, vehicle, phone };
     
@@ -39,7 +37,6 @@ function closeDriverDetails() {
     document.body.style.overflow = 'auto';
 }
 
-// Dispatches a ride request to the selected verified driver
 async function requestRideFromDetails() {
     const user = getCurrentUser();
     if (!user) {
@@ -67,7 +64,6 @@ async function requestRideFromDetails() {
     }
 }
 
-// Loads verified female drivers from backend
 async function loadAvailableDrivers() {
     const container = document.getElementById('availableDrivers');
     if (!container) return;
@@ -82,7 +78,6 @@ async function loadAvailableDrivers() {
     }
 }
 
-// Filters drivers by city and vehicle preference
 function filterDrivers() {
     const container = document.getElementById('availableDrivers');
     if (!container) return;
@@ -123,7 +118,6 @@ function filterDrivers() {
     }).join('');
 }
 
-// Queries pending ride requests for driver portal
 async function loadDriverRideRequests() {
     const container = document.getElementById('rideRequests');
     if (!container) return;
@@ -152,7 +146,6 @@ async function loadDriverRideRequests() {
     }
 }
 
-// Driver accepts a ride
 async function acceptRideRequest(id) {
     try {
         const data = await apiCall('PUT', `/rides/${id}/accept`);
@@ -167,7 +160,6 @@ async function acceptRideRequest(id) {
     }
 }
 
-// Declines a ride
 async function declineRideRequest(id) {
     try {
         await apiCall('PUT', `/rides/${id}/decline`);
@@ -178,7 +170,6 @@ async function declineRideRequest(id) {
     }
 }
 
-// Updates driver's daily earnings & trip summary
 async function loadDriverStats() {
     try {
         const stats = await apiCall('GET', '/driver/stats');
@@ -197,7 +188,6 @@ async function loadDriverStats() {
     } catch {}
 }
 
-// Saves vehicle profile and operating city
 async function saveDriverProfile() {
     const vehicleType = document.getElementById('driverVehicleType')?.value;
     const vehicleBrand = document.getElementById('driverVehicleBrand')?.value.trim();
@@ -238,7 +228,6 @@ async function saveDriverProfile() {
     }
 }
 
-// Loads currently assigned rides for driver
 async function loadDriverAcceptedRides() {
     const container = document.getElementById('myRides');
     if (!container) return;

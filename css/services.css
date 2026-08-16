@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - SERVICES, DRIVERS & MOBILITY REQUESTS
-   =================================================== */
 
-/* Mobility Request Cards */
+
+
 .request-card {
     background: #ffffff;
     border-radius: 12px;
@@ -83,7 +81,7 @@
     margin-bottom: 12px;
 }
 
-/* Modern Service Grid */
+
 .service-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

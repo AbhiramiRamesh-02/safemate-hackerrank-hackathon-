@@ -1,6 +1,4 @@
-/* ===================================================
-   SAFEMATE - LIVE COMMUNITY & RIDE CHAT
-   =================================================== */
+
 
 #chatFloatingBtn {
     position: fixed;
@@ -115,7 +113,7 @@
     background: #c95076;
 }
 
-/* Chat Mobile Responsive */
+
 @media (max-width: 600px) {
     #chatFloatingBtn {
         right: 16px !important;

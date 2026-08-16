@@ -1,6 +1,4 @@
-// Travel partner group coordination, cab pooling, and traveler unified bookings history
 
-// Renders the travel partner group hub and pooling creator
 async function loadTravelGroups() {
     const container = document.getElementById('tab-travelPartner');
     if (!container) return;
@@ -53,7 +51,6 @@ async function loadTravelGroups() {
     }
 }
 
-// Creates a new travel / cab pooling group
 async function createTravelGroup() {
     const title = document.getElementById('groupTitle')?.value.trim();
     const category = document.getElementById('groupCategory')?.value;
@@ -79,7 +76,6 @@ async function createTravelGroup() {
     }
 }
 
-// Joins an existing group
 async function joinTravelGroup(groupId) {
     try {
         await apiCall('PUT', `/travel-groups/${groupId}/join`);
@@ -90,14 +86,12 @@ async function joinTravelGroup(groupId) {
     }
 }
 
-// Loads unified booking history (cabs, guides, stays) for traveler
 async function loadTravelerMyBookings() {
     const container = document.getElementById('travelerMyBookings');
     if (!container) return;
 
     const bookingsList = [];
 
-    // Preloaded verified sample bookings
     bookingsList.push({
         title: 'Jaipur Heritage Tour',
         subtitle: 'Route: Hawa Mahal, City Palace, Amber Fort',
@@ -137,7 +131,7 @@ async function loadTravelerMyBookings() {
     });
 
     try {
-        // Collect rides
+        
         const [pendingRides, acceptedRides] = await Promise.all([
             apiCall('GET', '/rides/pending').catch(() => []),
             apiCall('GET', '/rides/my').catch(() => [])
@@ -163,7 +157,6 @@ async function loadTravelerMyBookings() {
             }
         });
 
-        // Collect guide tours
         const [pendingBookings, acceptedBookings] = await Promise.all([
             apiCall('GET', '/bookings/pending').catch(() => []),
             apiCall('GET', '/bookings/my').catch(() => [])
@@ -194,7 +187,6 @@ async function loadTravelerMyBookings() {
             }
         });
 
-        // Collect stay bookings
         const stayBookings = await apiCall('GET', '/stays/bookings/my').catch(() => []);
         stayBookings.forEach(sb => {
             const chatTip = sb.status === 'confirmed' ? 'Click to open Chat with Reception' : 'Chat locked until confirmed';
@@ -216,7 +208,6 @@ async function loadTravelerMyBookings() {
         console.warn('Booking history sync notice:', e);
     }
 
-    // Sort newest bookings first
     bookingsList.sort((a, b) => b.date - a.date);
 
     container.innerHTML = bookingsList.map(item => {

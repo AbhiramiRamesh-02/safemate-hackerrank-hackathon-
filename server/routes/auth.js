@@ -37,7 +37,6 @@ async function sendOTPEmail(email, name, otp) {
     await transporter.sendMail(mailOptions);
 }
 
-// POST /api/signup
 router.post('/signup', async (req, res) => {
     try {
         const {
@@ -86,7 +85,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// POST /api/verify-otp
 router.post('/verify-otp', async (req, res) => {
     try {
         const { email, otp } = req.body;
@@ -120,7 +118,6 @@ router.post('/verify-otp', async (req, res) => {
     }
 });
 
-// POST /api/resend-otp
 router.post('/resend-otp', async (req, res) => {
     try {
         const { email } = req.body;
@@ -151,7 +148,6 @@ router.post('/resend-otp', async (req, res) => {
     }
 });
 
-// POST /api/login
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;

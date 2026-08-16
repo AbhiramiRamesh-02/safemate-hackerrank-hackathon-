@@ -5,8 +5,6 @@ const DarkSpot = require('../models/DarkSpot');
 const AnonymousReport = require('../models/AnonymousReport');
 const EmergencyContact = require('../models/EmergencyContact');
 
-// ─── DARK SPOTS (RISK ZONES) ROUTES ──────────────────────────
-// GET /api/dark-spots — get all reported dark spots
 router.get('/dark-spots', async (req, res) => {
     try {
         const spots = await DarkSpot.find({}).sort({ created_at: -1 });
@@ -16,7 +14,6 @@ router.get('/dark-spots', async (req, res) => {
     }
 });
 
-// POST /api/dark-spots — report a new dark spot
 router.post('/dark-spots', authMiddleware, async (req, res) => {
     try {
         const { title, city, risk_level, description, latitude, longitude } = req.body;
@@ -40,8 +37,6 @@ router.post('/dark-spots', authMiddleware, async (req, res) => {
     }
 });
 
-// ─── ANONYMOUS ABUSE & COMMUNITY REPORTS ────────────────────
-// GET /api/anonymous-reports — get recent community alerts
 router.get('/anonymous-reports', async (req, res) => {
     try {
         const reports = await AnonymousReport.find({}).sort({ created_at: -1 });
@@ -51,7 +46,6 @@ router.get('/anonymous-reports', async (req, res) => {
     }
 });
 
-// POST /api/anonymous-reports — submit a report anonymously
 router.post('/anonymous-reports', async (req, res) => {
     try {
         const { category, location, description } = req.body;
@@ -73,8 +67,6 @@ router.post('/anonymous-reports', async (req, res) => {
     }
 });
 
-// ─── EMERGENCY CONTACTS ROUTES ──────────────────────────────
-// GET /api/emergency-contacts — get saved contacts for the user
 router.get('/emergency-contacts', authMiddleware, async (req, res) => {
     try {
         const contacts = await EmergencyContact.find({ user_email: req.user.email }).sort({ created_at: -1 });
@@ -84,7 +76,6 @@ router.get('/emergency-contacts', authMiddleware, async (req, res) => {
     }
 });
 
-// POST /api/emergency-contacts — save a new emergency contact
 router.post('/emergency-contacts', authMiddleware, async (req, res) => {
     try {
         const { contact_name, phone, relationship } = req.body;

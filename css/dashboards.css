@@ -1,8 +1,6 @@
-/* ===================================================
-   SAFEMATE - DASHBOARDS, TABS & ROLE PANELS
-   =================================================== */
 
-/* Role Selection Cards */
+
+
 .role-card {
     display: flex;
     align-items: center;
@@ -36,7 +34,7 @@
     line-height: 1.4;
 }
 
-/* Login Card */
+
 .login-card {
     background: #ffffff;
     border-radius: 16px;
@@ -56,7 +54,7 @@
     letter-spacing: -0.4px;
 }
 
-/* Dashboard Shell */
+
 .dashboard {
     max-width: 1200px;
     margin: 0 auto;
@@ -83,7 +81,7 @@
     border: 1px solid #E5DFEC;
 }
 
-/* Tab Navigation */
+
 .tab-nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -136,7 +134,7 @@
     display: block;
 }
 
-/* Stats Section */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -180,7 +178,7 @@
     margin-top: 3px;
 }
 
-/* Availability Toggle */
+
 .availability-toggle {
     display: flex;
     align-items: center;

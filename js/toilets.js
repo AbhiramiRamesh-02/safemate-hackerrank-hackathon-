@@ -1,4 +1,3 @@
-// Curated nearby clean and safe restroom directory for female travelers
 
 const TOILETS_DIRECTORY = {
     Pondicherry: [
@@ -39,7 +38,6 @@ const TOILETS_DIRECTORY = {
     ]
 };
 
-// Filters and displays matching restrooms
 function findNearbyToilets() {
     const location = document.getElementById('toiletLocation')?.value || 'Bangalore';
     const selectedType = document.getElementById('toiletType')?.value || 'All Types';
@@ -74,7 +72,6 @@ function findNearbyToilets() {
     }
 }
 
-// Estimates user's nearest supported city using browser GPS coordinates
 function useCurrentLocation() {
     if (!navigator.geolocation) {
         alert('Geolocation is not supported by your browser.');

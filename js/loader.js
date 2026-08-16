@@ -1,4 +1,3 @@
-// Asynchronously mounts HTML partials into designated layout placeholders
 
 const VIEW_PARTIALS = [
     { containerId: 'app-header', url: 'views/header.html' },
@@ -29,7 +28,6 @@ async function loadViewPartials() {
 
         await Promise.all(loadTasks);
 
-        // Initialize state after mounting templates
         if (typeof checkLoginStatus === 'function') checkLoginStatus();
         if (typeof checkActiveRideChat === 'function') checkActiveRideChat();
         if (typeof displaySavedContacts === 'function') displaySavedContacts();

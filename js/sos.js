@@ -1,4 +1,3 @@
-// Microphone acoustic scream detection & voice distress keyword trigger
 
 let audioCtx = null;
 let analyser = null;
@@ -8,7 +7,6 @@ let volumeInterval = null;
 let isAudioMonitoring = false;
 let recognition = null;
 
-// Display emergency action modal
 async function showEmergencyModal() {
     const modal = document.getElementById('emergencyModal');
     if (modal) modal.style.display = 'flex';
@@ -23,7 +21,6 @@ function closeEmergencyModal() {
     if (modal) modal.style.display = 'none';
 }
 
-// Toggle microphone audio monitoring for screams / sudden sound spikes
 async function toggleScreamDetection() {
     const statusText = document.getElementById('micStatusText');
     const btn = document.getElementById('screamToggleBtn');
@@ -59,7 +56,6 @@ async function toggleScreamDetection() {
         const bufferLength = analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
 
-        // Volume analysis loop
         volumeInterval = setInterval(() => {
             analyser.getByteFrequencyData(dataArray);
             const sum = dataArray.reduce((acc, val) => acc + val, 0);
@@ -75,7 +71,6 @@ async function toggleScreamDetection() {
             }
         }, 100);
 
-        // Speech recognition for distress keywords
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
@@ -158,7 +153,6 @@ function resetMicUI() {
     if (volBar) volBar.style.width = '0%';
 }
 
-// Test trigger for demo/pitch presentations
 function simulateScreamDetection() {
     triggerScreamSOS();
 }

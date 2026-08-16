@@ -1,10 +1,8 @@
-// Real-time peer-to-peer ride and tour message exchange
 
 let currentChatBookingId = null;
 let currentChatRecipientName = "";
 let chatPollInterval = null;
 
-// Opens or minimizes floating chat window
 function toggleChatWindow() {
     const box = document.getElementById('chatBoxContainer');
     if (!box) return;
@@ -26,7 +24,6 @@ function handleChatKeyPress(event) {
     }
 }
 
-// Sends a message in the active booking channel
 async function sendChatMessage() {
     const input = document.getElementById('chatInput');
     if (!input) return;
@@ -43,7 +40,6 @@ async function sendChatMessage() {
     }
 }
 
-// Queries latest message thread for active booking
 async function loadChatMessages() {
     if (!currentChatBookingId) return;
     const container = document.getElementById('chatMessages');
@@ -61,7 +57,6 @@ async function loadChatMessages() {
             const color = isMe ? 'white' : '#18181b';
             const radius = isMe ? '12px 12px 0 12px' : '12px 12px 12px 0';
             
-            // XSS sanitization
             const temp = document.createElement('div');
             temp.textContent = m.text;
             const safeText = temp.innerHTML;
@@ -77,7 +72,6 @@ async function loadChatMessages() {
         const previousCount = container.children.length;
         container.innerHTML = html;
         
-        // Auto scroll on new incoming message
         if (messages.length > previousCount) {
             container.scrollTop = container.scrollHeight;
         }
@@ -86,7 +80,6 @@ async function loadChatMessages() {
     }
 }
 
-// Direct entry into chat channel from a ride or guide booking card
 function openChatFromBooking(bookingId, recipientName, status) {
     if (status !== 'accepted' && status !== 'confirmed') {
         alert('Chat becomes available once the ride or tour booking is accepted.');
@@ -112,7 +105,6 @@ function openChatFromBooking(bookingId, recipientName, status) {
     }
 }
 
-// Checks if the user has an ongoing ride/tour conversation session
 function checkActiveRideChat() {
     const hasActiveRide = localStorage.getItem('hasActiveRide');
     const driverName = localStorage.getItem('chatDriverName');

@@ -1,6 +1,4 @@
-// Guide dashboard controllers, incoming tour management, and service publishing
 
-// Fetches pending traveler bookings for this guide
 async function loadGuideBookings() {
     const container = document.getElementById('bookingRequests');
     if (!container) return;
@@ -31,7 +29,6 @@ async function loadGuideBookings() {
     }
 }
 
-// Accepts incoming tour booking
 async function acceptGuideBooking(id) {
     try {
         const data = await apiCall('PUT', `/bookings/${id}/accept`);
@@ -47,7 +44,6 @@ async function acceptGuideBooking(id) {
     }
 }
 
-// Declines booking request
 async function declineGuideBooking(id) {
     try {
         await apiCall('PUT', `/bookings/${id}/decline`);
@@ -63,7 +59,6 @@ function showGuideDashboard() {
     loadGuideBookings();
 }
 
-// Adds a new custom tour package/service offering
 async function saveGuideServices() {
     const serviceName = document.getElementById('guideServiceName')?.value.trim();
     const city = document.getElementById('guideServiceCity')?.value || 'Jaipur';
@@ -113,7 +108,6 @@ async function saveGuideServices() {
     }
 }
 
-// Displays confirmed / ongoing tours for this guide
 async function loadGuideAcceptedBookings() {
     const container = document.getElementById('myBookings');
     if (!container) return;
