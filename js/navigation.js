@@ -91,6 +91,11 @@ function showTravelerTab(tabName) {
     
     document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
 
+    const dropdown = document.getElementById('travelerServiceDropdown');
+    if (dropdown && dropdown.value !== tabName) {
+        dropdown.value = tabName;
+    }
+
     const tabActions = {
         travelPartner: loadTravelGroups,
         anonymousReports: loadAnonymousReports,

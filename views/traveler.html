@@ -1,7 +1,27 @@
-
 <div class="dashboard hidden" id="travelerDashboard">
-    <h2 style="color:#4A3267; margin-bottom:18px; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
-    
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+        <h2 style="color:#4A3267; margin:0; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
+        
+        <div style="display:flex; align-items:center; gap:8px; background:#ffffff; border:1.5px solid #DE638A; border-radius:10px; padding:6px 12px; box-shadow:0 2px 8px rgba(222,99,138,0.08);">
+            <label for="travelerServiceDropdown" style="font-size:13px; font-weight:700; color:#4A3267; margin:0;">Explore Service:</label>
+            <select id="travelerServiceDropdown" onchange="showTravelerTab(this.value)" style="border:none; background:transparent; font-size:13px; font-weight:700; color:#DE638A; cursor:pointer; outline:none; font-family:inherit;">
+                <optgroup label="Trip & Travel Services">
+                    <option value="planTrip">✈️ Plan Trip (Custom)</option>
+                    <option value="bookCab">🚖 Book Cab</option>
+                    <option value="travelGuide">🧭 Travel Guides</option>
+                    <option value="bookHotel">🏨 Hotels & Safe PGs</option>
+                    <option value="travelPartner">👭 Cab Pooling & Partners</option>
+                </optgroup>
+                <optgroup label="Safety & Assistance">
+                    <option value="safeRoutes">🗺️ Safe Routes & Dark Spots</option>
+                    <option value="nearbyToilets">🚻 Restroom Finder</option>
+                    <option value="anonymousReports">📢 Anonymous Alerts</option>
+                    <option value="emergencyContact">⚙️ SOS Settings</option>
+                    <option value="myBookings">📅 My Bookings</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
     
     <div class="tab-nav">
         <button class="tab-btn active" onclick="showTravelerTab('planTrip')">✈️ Plan Trip</button>
@@ -16,24 +36,44 @@
         <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">⚙️ SOS Settings</button>
     </div>
     
-    
     <div id="tab-planTrip" class="tab-content">
         <div class="dashboard-section">
             <h3>Plan Your Trip</h3>
             <div class="planner-form">
                 <div class="form-row">
-                    <select id="tripDestination">
-                        <option>Pondicherry</option>
-                        <option>Coorg</option>
-                        <option>Jaipur</option>
-                    </select>
-                    <select id="tripInterest">
-                        <option>Nature</option>
-                        <option>Adventure</option>
-                        <option>Cafes</option>
-                        <option>Shopping</option>
+                    <div>
+                        <label style="display:block;color:#555;font-weight:600;margin-bottom:6px;font-size:13px;">Destination City</label>
+                        <select id="tripDestination">
+                            <option>Pondicherry</option>
+                            <option>Coorg</option>
+                            <option>Jaipur</option>
+                            <option>Bangalore</option>
+                            <option>Chennai</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;color:#555;font-weight:600;margin-bottom:6px;font-size:13px;">Travel Interest</label>
+                        <select id="tripInterest">
+                            <option>Nature</option>
+                            <option>Adventure</option>
+                            <option>Cafes</option>
+                            <option>Shopping</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="display:block;color:#4A3267;font-weight:700;margin-bottom:6px;font-size:13px;">Required Services & Safety Features</label>
+                    <select id="tripServiceType" style="border:1.5px solid #DE638A; background:#fffcfd; font-weight:600;">
+                        <option value="all">🌟 All-in-One Package (Cabs, Guides, Safe Stays & Safety Route)</option>
+                        <option value="cabs">🚖 Safe Cab & Driver Assistance</option>
+                        <option value="guides">🧭 Verified Lady Tour Guide</option>
+                        <option value="hotels">🏨 Women-Only Stays & PGs</option>
+                        <option value="pooling">👭 Travel Partner & Cab Pool</option>
+                        <option value="safety">🗺️ Route Risk & Dark Spot Map</option>
                     </select>
                 </div>
+
                 <div class="form-row">
                     <div>
                         <label style="display:block;color:#555;font-weight:500;margin-bottom:8px;">From Date</label>
@@ -49,7 +89,6 @@
             </div>
         </div>
     </div>
-    
     
     <div id="tab-bookCab" class="tab-content hidden">
         <div class="dashboard-section">
@@ -84,7 +123,6 @@
             <div class="service-grid" id="availableDrivers"></div>
         </div>
     </div>
-    
     
     <div id="tab-bookHotel" class="tab-content hidden">
         <div class="dashboard-section">
@@ -142,11 +180,9 @@
         </div>
     </div>
     
-    
     <div id="tab-travelPartner" class="tab-content hidden">
         <div class="dashboard-section"></div>
     </div>
-    
     
     <div id="tab-travelGuide" class="tab-content hidden">
         <div class="dashboard-section">
@@ -184,7 +220,6 @@
         </div>
     </div>
 
-    
     <div id="tab-nearbyToilets" class="tab-content hidden">
         <div class="dashboard-section">
             <h3>Find Nearby Toilets</h3>
@@ -213,7 +248,6 @@
         </div>
     </div>
     
-    
     <div id="tab-myBookings" class="tab-content hidden">
         <div class="dashboard-section">
             <h3>My Bookings</h3>
@@ -221,6 +255,5 @@
         </div>
     </div>
 
-    
     <div id="app-traveler-safety"></div>
 </div>
