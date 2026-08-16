@@ -1,4 +1,3 @@
-
 const VIEW_PARTIALS = [
     { containerId: 'app-header', url: 'views/header.html' },
     { containerId: 'app-about', url: 'views/about.html' },
@@ -12,12 +11,13 @@ const VIEW_PARTIALS = [
 
 async function loadViewPartials() {
     try {
+        const cacheBuster = `?t=${Date.now()}`;
         const loadTasks = VIEW_PARTIALS.map(async ({ containerId, url }) => {
             const container = document.getElementById(containerId);
             if (!container) return;
 
             try {
-                const response = await fetch(url);
+                const response = await fetch(`${url}${cacheBuster}`);
                 if (response.ok) {
                     container.innerHTML = await response.text();
                 }
