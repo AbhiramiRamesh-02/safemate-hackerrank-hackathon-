@@ -1,27 +1,24 @@
-
-
-
 .role-card {
     display: flex;
     align-items: center;
     padding: 18px 20px;
     cursor: pointer;
     border-radius: 12px;
-    border: 1.5px solid #E5DFEC;
-    background: #ffffff;
+    border: 1.5px solid #E4E0E7;
+    background: #FFFFFF;
     margin-bottom: 12px;
     transition: all 0.2s ease;
 }
 
 .role-card:hover {
-    border-color: #DE638A;
-    background: #fffcfd;
+    border-color: #B85C78;
+    background: #F7F6F8;
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.1);
+    box-shadow: 0 4px 14px rgba(184, 92, 120, 0.1);
 }
 
 .role-info h3 {
-    color: #4A3267;
+    color: #3B2E4A;
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 3px;
@@ -29,31 +26,29 @@
 }
 
 .role-info p {
-    color: #6E5A87;
+    color: #6F6B75;
     font-size: 13px;
     line-height: 1.4;
 }
 
-
 .login-card {
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 16px;
     padding: 32px 26px;
-    box-shadow: 0 6px 20px rgba(74, 50, 103, 0.05);
+    box-shadow: 0 6px 20px rgba(42, 32, 54, 0.05);
     max-width: 420px;
     margin: 36px auto;
-    border: 1px solid #E5DFEC;
+    border: 1px solid #E4E0E7;
 }
 
 .login-card h2 {
     text-align: center;
-    color: #4A3267;
+    color: #3B2E4A;
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 22px;
     letter-spacing: -0.4px;
 }
-
 
 .dashboard {
     max-width: 1200px;
@@ -65,7 +60,7 @@
 }
 
 .dashboard-section h3 {
-    color: #4A3267;
+    color: #3B2E4A;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 12px;
@@ -73,34 +68,33 @@
 }
 
 .dashboard-card {
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
-    border: 1px solid #E5DFEC;
+    box-shadow: 0 2px 8px rgba(42, 32, 54, 0.03);
+    border: 1px solid #E4E0E7;
 }
-
 
 .tab-nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 8px;
     margin-bottom: 24px;
-    background: #F4EFF6;
+    background: #F7F6F8;
     padding: 8px;
     border-radius: 14px;
     width: 100%;
-    border: 1px solid #E2DBE8;
-    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E4E0E7;
+    box-shadow: 0 2px 8px rgba(42, 32, 54, 0.03);
 }
 
 .tab-btn {
     padding: 10px 12px;
-    background: #ffffff;
-    border: 1px solid #DDD6E5;
+    background: #FFFFFF;
+    border: 1px solid #E4E0E7;
     border-radius: 9px;
-    color: #4A3267;
+    color: #3B2E4A;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
@@ -111,29 +105,28 @@
     gap: 7px;
     font-family: inherit;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(74, 50, 103, 0.02);
+    box-shadow: 0 1px 3px rgba(42, 32, 54, 0.02);
 }
 
 .tab-btn:hover {
-    color: #DE638A;
-    background-color: #fffcfd;
-    border-color: #DE638A;
+    color: #B85C78;
+    background-color: #F7F6F8;
+    border-color: #B85C78;
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(222, 99, 138, 0.12);
+    box-shadow: 0 3px 8px rgba(184, 92, 120, 0.12);
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, #DE638A 0%, #4A3267 100%);
-    color: #ffffff;
-    border-color: #DE638A;
-    box-shadow: 0 3px 10px rgba(222, 99, 138, 0.3);
+    background: linear-gradient(135deg, #B85C78 0%, #3B2E4A 100%);
+    color: #FFFFFF;
+    border-color: #B85C78;
+    box-shadow: 0 3px 10px rgba(184, 92, 120, 0.3);
     font-weight: 700;
 }
 
 .tab-content {
     display: block;
 }
-
 
 .stats-grid {
     display: grid;
@@ -142,22 +135,22 @@
 }
 
 .stat-card {
-    background: #ffffff;
-    border: 1px solid #E5DFEC;
+    background: #FFFFFF;
+    border: 1px solid #E4E0E7;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(74, 50, 103, 0.03);
+    box-shadow: 0 2px 8px rgba(42, 32, 54, 0.03);
     transition: all 0.2s ease;
 }
 
 .stat-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.08);
+    border-color: #B85C78;
+    box-shadow: 0 4px 14px rgba(184, 92, 120, 0.08);
 }
 
 .stat-card h4 {
-    color: #6E5A87;
+    color: #6F6B75;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
@@ -168,24 +161,23 @@
 .stat-card .value {
     font-size: 26px;
     font-weight: 800;
-    color: #DE638A;
+    color: #B85C78;
     letter-spacing: -0.4px;
 }
 
 .stat-card p {
-    color: #9E8CAA;
+    color: #6F6B75;
     font-size: 12px;
     margin-top: 3px;
 }
-
 
 .availability-toggle {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    background: #ffffff;
-    border: 1px solid #E5DFEC;
+    background: #FFFFFF;
+    border: 1px solid #E4E0E7;
     border-radius: 9px;
 }
 
@@ -205,10 +197,10 @@
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #EDE7F2;
+    background-color: #F7F6F8;
     transition: 0.25s ease;
     border-radius: 24px;
-    border: 1px solid #DDD6E5;
+    border: 1px solid #E4E0E7;
 }
 
 .toggle-slider:before {
@@ -225,8 +217,8 @@
 }
 
 input:checked + .toggle-slider {
-    background-color: #DE638A;
-    border-color: #DE638A;
+    background-color: #247A6B;
+    border-color: #247A6B;
 }
 
 input:checked + .toggle-slider:before {
@@ -236,9 +228,9 @@ input:checked + .toggle-slider:before {
 .availability-status {
     font-weight: 700;
     font-size: 13.5px;
-    color: #10b981;
+    color: #247A6B;
 }
 
 .availability-status.offline {
-    color: #ef4444;
+    color: #D94848;
 }

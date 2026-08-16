@@ -1,42 +1,39 @@
-
-
-
 .place-card {
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
-    border: 1px solid #E5DFEC;
-    border-left: 4px solid #DE638A;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E4E0E7;
+    border-left: 4px solid #B85C78;
+    box-shadow: 0 2px 6px rgba(42, 32, 54, 0.03);
     transition: all 0.2s ease;
 }
 
 .place-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
+    border-color: #B85C78;
+    box-shadow: 0 4px 12px rgba(184, 92, 120, 0.08);
 }
 
 .place-card h4 {
-    color: #4A3267;
+    color: #3B2E4A;
     font-size: 15.5px;
     font-weight: 700;
     margin-bottom: 3px;
 }
 
 .place-card .rating {
-    color: #d97706;
+    color: #D9912B;
     font-weight: 700;
     font-size: 13px;
 }
 
 .place-card .reviews-count {
-    color: #9E8CAA;
+    color: #6F6B75;
     font-size: 12px;
 }
 
 .place-card .comment {
-    color: #6E5A87;
+    color: #6F6B75;
     font-style: italic;
     margin: 6px 0;
     font-size: 13px;
@@ -45,63 +42,61 @@
 
 .place-card .safe-badge {
     display: inline-block;
-    background: #ecfdf5;
-    color: #059669;
+    background: #DFF3EE;
+    color: #247A6B;
     padding: 2px 9px;
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
     margin-top: 4px;
-    border: 1px solid #a7f3d0;
+    border: 1px solid #BFE7DD;
 }
 
-
 .tour-card {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
+    background: #FFFDF9;
+    border: 1px solid #F6DFBA;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
 }
 
 .tour-card h4 {
-    color: #92400e;
+    color: #B5731C;
     font-weight: 700;
     font-size: 14.5px;
     margin-bottom: 3px;
 }
 
 .tour-card .tour-meta {
-    color: #b45309;
+    color: #8C5611;
     font-size: 12px;
     margin: 4px 0;
 }
 
 .tour-card .price {
-    color: #d97706;
+    color: #D9912B;
     font-weight: 700;
     font-size: 14px;
 }
 
-
 .review-card {
-    border: 1px solid #E5DFEC;
-    border-left: 4px solid #DE638A;
-    background: #ffffff;
+    border: 1px solid #E4E0E7;
+    border-left: 4px solid #B85C78;
+    background: #FFFFFF;
     padding: 16px;
     margin-bottom: 12px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
+    box-shadow: 0 2px 6px rgba(42, 32, 54, 0.03);
 }
 
 .review-card h4 {
-    color: #d97706;
+    color: #D9912B;
     margin-bottom: 4px;
     font-size: 13.5px;
 }
 
 .review-card p {
-    color: #271b35;
+    color: #25232A;
     font-style: italic;
     font-size: 13px;
     margin-bottom: 4px;
@@ -109,55 +104,54 @@
 }
 
 .review-card small {
-    color: #9E8CAA;
+    color: #6F6B75;
     font-size: 11px;
 }
 
-
 .toilet-card {
-    background: white;
+    background: #FFFFFF;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
-    border: 1px solid #E5DFEC;
-    border-left: 4px solid #DE638A;
-    box-shadow: 0 2px 6px rgba(74, 50, 103, 0.03);
+    border: 1px solid #E4E0E7;
+    border-left: 4px solid #B85C78;
+    box-shadow: 0 2px 6px rgba(42, 32, 54, 0.03);
     transition: all 0.2s ease;
 }
 
 .toilet-card:hover {
-    border-color: #DE638A;
-    box-shadow: 0 4px 12px rgba(222, 99, 138, 0.08);
+    border-color: #B85C78;
+    box-shadow: 0 4px 12px rgba(184, 92, 120, 0.08);
 }
 
 .toilet-card h4 {
-    color: #4A3267;
+    color: #3B2E4A;
     font-size: 15.5px;
     font-weight: 700;
     margin-bottom: 3px;
 }
 
 .toilet-card .toilet-type {
-    color: #DE638A;
+    color: #B85C78;
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
 .toilet-card .toilet-address {
-    color: #6E5A87;
+    color: #6F6B75;
     font-size: 13px;
     margin: 5px 0;
 }
 
 .toilet-card .toilet-distance {
-    color: #10b981;
+    color: #247A6B;
     font-weight: 700;
     font-size: 13px;
 }
 
 .toilet-card .toilet-rating {
-    color: #d97706;
+    color: #D9912B;
     font-weight: 700;
     font-size: 13px;
     margin: 3px 0;
@@ -165,25 +159,25 @@
 
 .toilet-card .clean-badge {
     display: inline-block;
-    background: #ecfdf5;
-    color: #059669;
+    background: #DFF3EE;
+    color: #247A6B;
     padding: 2px 9px;
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
     margin-top: 4px;
-    border: 1px solid #a7f3d0;
+    border: 1px solid #BFE7DD;
 }
 
 .toilet-card .women-only-badge {
     display: inline-block;
-    background: #F9EDF3;
-    color: #DE638A;
+    background: #F3E3E8;
+    color: #B85C78;
     padding: 2px 9px;
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
     margin-top: 4px;
     margin-left: 6px;
-    border: 1px solid #F3D9E5;
+    border: 1px solid #E8CDD5;
 }

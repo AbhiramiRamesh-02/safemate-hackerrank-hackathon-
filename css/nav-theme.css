@@ -1,9 +1,9 @@
 .mmt-nav-container {
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 16px;
     padding: 6px 14px 0 14px;
-    box-shadow: 0 4px 20px rgba(74, 50, 103, 0.07);
-    border: 1px solid #E5DFEC;
+    box-shadow: 0 4px 20px rgba(42, 32, 54, 0.05);
+    border: 1px solid #E4E0E7;
     margin-bottom: 24px;
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
     cursor: pointer;
     border: none;
     background: transparent;
-    color: #6E5A87;
+    color: #6F6B75;
     transition: all 0.2s ease;
     position: relative;
     white-space: nowrap;
@@ -38,7 +38,7 @@
     height: 24px;
     margin-bottom: 6px;
     fill: none;
-    stroke: #6E5A87;
+    stroke: #6F6B75;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -52,19 +52,19 @@
 }
 
 .mmt-nav-item:hover {
-    color: #DE638A;
+    color: #B85C78;
 }
 .mmt-nav-item:hover svg {
-    stroke: #DE638A;
+    stroke: #B85C78;
     transform: translateY(-2px);
 }
 
 .mmt-nav-item.active {
-    color: #DE638A;
+    color: #B85C78;
     font-weight: 700;
 }
 .mmt-nav-item.active svg {
-    stroke: #DE638A;
+    stroke: #B85C78;
     stroke-width: 2.2;
 }
 .mmt-nav-item.active::after {
@@ -74,16 +74,16 @@
     left: 10%;
     width: 80%;
     height: 3.5px;
-    background: #DE638A;
+    background: #B85C78;
     border-radius: 4px 4px 0 0;
 }
 
 .mmt-booking-card {
-    background: #ffffff;
+    background: #FFFFFF;
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 6px 24px rgba(74, 50, 103, 0.06);
-    border: 1px solid #E5DFEC;
+    box-shadow: 0 6px 24px rgba(42, 32, 54, 0.05);
+    border: 1px solid #E4E0E7;
     position: relative;
     margin-bottom: 24px;
 }
@@ -91,16 +91,16 @@
 .mmt-search-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    border: 1px solid #E5DFEC;
+    border: 1px solid #E4E0E7;
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 20px;
-    background: #ffffff;
+    background: #FFFFFF;
 }
 
 .mmt-search-col {
     padding: 14px 18px;
-    border-right: 1px solid #E5DFEC;
+    border-right: 1px solid #E4E0E7;
     cursor: pointer;
     transition: background 0.15s ease;
 }
@@ -108,13 +108,13 @@
     border-right: none;
 }
 .mmt-search-col:hover {
-    background: #FAF7FC;
+    background: #F7F6F8;
 }
 
 .mmt-col-label {
     font-size: 11px;
     font-weight: 700;
-    color: #9E8CAA;
+    color: #6F6B75;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 4px;
@@ -126,14 +126,14 @@
 .mmt-col-value {
     font-size: 18px;
     font-weight: 800;
-    color: #4A3267;
+    color: #3B2E4A;
     margin-bottom: 2px;
     letter-spacing: -0.3px;
 }
 
 .mmt-col-sub {
     font-size: 11.5px;
-    color: #6E5A87;
+    color: #6F6B75;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -151,23 +151,23 @@
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #DDD6E5;
-    background: #ffffff;
-    color: #4A3267;
+    border: 1px solid #E4E0E7;
+    background: #FFFFFF;
+    color: #3B2E4A;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
 .mmt-pill-btn.active, .mmt-pill-btn:hover {
-    border-color: #DE638A;
-    color: #DE638A;
-    background: #FAF7FC;
+    border-color: #B85C78;
+    color: #B85C78;
+    background: #F3E3E8;
 }
 
 .mmt-cta-btn {
-    background: linear-gradient(90deg, #DE638A 0%, #4A3267 100%);
-    color: #ffffff;
-    font-size: 16px;
+    background: linear-gradient(90deg, #B85C78 0%, #3B2E4A 100%);
+    color: #FFFFFF;
+    font-size: 15px;
     font-weight: 800;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -175,7 +175,7 @@
     border-radius: 30px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(222, 99, 138, 0.35);
+    box-shadow: 0 4px 16px rgba(184, 92, 120, 0.3);
     display: block;
     margin: 0 auto;
     transition: all 0.2s ease;
@@ -183,5 +183,5 @@
 
 .mmt-cta-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(222, 99, 138, 0.45);
+    box-shadow: 0 8px 24px rgba(184, 92, 120, 0.4);
 }
