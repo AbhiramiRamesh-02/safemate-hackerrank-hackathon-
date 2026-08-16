@@ -12,9 +12,10 @@ const VIEW_PARTIALS = [
 async function loadViewPartials() {
     try {
         const cacheBuster = `?t=${Date.now()}`;
-        const loadTasks = VIEW_PARTIALS.map(async ({ containerId, url }) => {
+        
+        for (const { containerId, url } of VIEW_PARTIALS) {
             const container = document.getElementById(containerId);
-            if (!container) return;
+            if (!container) continue;
 
             try {
                 const response = await fetch(`${url}${cacheBuster}`);
@@ -24,9 +25,7 @@ async function loadViewPartials() {
             } catch (err) {
                 console.warn(`Could not load partial "${url}":`, err);
             }
-        });
-
-        await Promise.all(loadTasks);
+        }
 
         if (typeof checkLoginStatus === 'function') checkLoginStatus();
         if (typeof checkActiveRideChat === 'function') checkActiveRideChat();
