@@ -1,16 +1,17 @@
 .mmt-nav-container {
     background: #ffffff;
-    border-radius: 14px;
-    padding: 6px 8px 0 8px;
-    box-shadow: 0 4px 16px rgba(74, 50, 103, 0.05);
+    border-radius: 12px;
+    padding: 4px 6px 0 6px;
+    box-shadow: 0 2px 10px rgba(74, 50, 103, 0.05);
     border: 1px solid #E5DFEC;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 2px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    width: 100%;
 }
 .mmt-nav-container::-webkit-scrollbar {
     display: none;
@@ -21,7 +22,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 8px 12px 10px 12px;
+    padding: 6px 8px 8px 8px;
     cursor: pointer;
     border: none;
     background: transparent;
@@ -29,16 +30,16 @@
     transition: all 0.15s ease;
     position: relative;
     white-space: nowrap;
-    min-width: 72px;
+    min-width: 64px;
     flex-shrink: 0;
     text-decoration: none;
     font-family: inherit;
 }
 
 .mmt-nav-item svg {
-    width: 22px;
-    height: 22px;
-    margin-bottom: 4px;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
     fill: none;
     stroke: #6E5A87;
     stroke-width: 1.8;
@@ -48,7 +49,7 @@
 }
 
 .mmt-nav-item span {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 600;
     letter-spacing: 0.1px;
 }
@@ -67,8 +68,8 @@
     content: '';
     position: absolute;
     bottom: 0;
-    left: 8%;
-    width: 84%;
+    left: 10%;
+    width: 80%;
     height: 3px;
     background: #DE638A;
     border-radius: 4px 4px 0 0;
@@ -76,26 +77,28 @@
 
 .mmt-booking-card {
     background: #ffffff;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 4px 18px rgba(74, 50, 103, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 3px 14px rgba(74, 50, 103, 0.05);
     border: 1px solid #E5DFEC;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    width: 100%;
 }
 
 .mmt-search-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: 1.5px solid #E5DFEC;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     background: #ffffff;
+    width: 100%;
 }
 
 .mmt-search-col {
-    padding: 12px 14px;
+    padding: 10px 12px;
     border-right: 1px solid #E5DFEC;
     cursor: pointer;
     background: #ffffff;
@@ -105,31 +108,32 @@
 }
 
 .mmt-col-label {
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
     color: #9E8CAA;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
 }
 
 .mmt-col-sub {
-    font-size: 11px;
+    font-size: 10.5px;
     color: #6E5A87;
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 .mmt-pill-selector {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 14px;
+    width: 100%;
 }
 
 .mmt-pill-btn {
-    padding: 7px 12px;
-    border-radius: 8px;
-    font-size: 11.5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
     font-weight: 600;
     border: 1px solid #DDD6E5;
     background: #ffffff;
@@ -147,21 +151,24 @@
 .mmt-cta-btn {
     background: linear-gradient(90deg, #DE638A 0%, #4A3267 100%);
     color: #ffffff;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding: 13px 36px;
-    border-radius: 26px;
+    padding: 12px 30px;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(222, 99, 138, 0.3);
+    box-shadow: 0 3px 12px rgba(222, 99, 138, 0.28);
     display: block;
     margin: 0 auto;
     transition: all 0.15s ease;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 850px) {
     .mmt-search-grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -173,43 +180,46 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 550px) {
     .mmt-booking-card {
-        padding: 16px 14px;
-        border-radius: 12px;
+        padding: 12px 10px;
+        border-radius: 10px;
     }
     .mmt-nav-item {
-        min-width: 66px;
-        padding: 6px 8px 8px 8px;
+        min-width: 58px;
+        padding: 5px 6px 7px 6px;
     }
     .mmt-nav-item svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
     .mmt-nav-item span {
-        font-size: 10px;
+        font-size: 9.5px;
     }
     .mmt-search-grid {
         grid-template-columns: 1fr;
+        border-radius: 8px;
+        margin-bottom: 12px;
     }
     .mmt-search-col {
         border-right: none !important;
         border-bottom: 1px solid #E5DFEC;
-        padding: 10px 12px;
+        padding: 8px 10px;
     }
     .mmt-search-col:last-child {
         border-bottom: none;
     }
     .mmt-pill-btn {
-        flex: 1 1 calc(50% - 8px);
+        flex: 1 1 calc(50% - 6px);
         text-align: center;
-        padding: 8px;
-        font-size: 11px;
+        padding: 6px 4px;
+        font-size: 10.5px;
     }
     .mmt-cta-btn {
         width: 100%;
-        padding: 13px;
-        font-size: 13.5px;
-        border-radius: 10px;
+        max-width: 100%;
+        padding: 11px;
+        font-size: 13px;
+        border-radius: 8px;
     }
 }
