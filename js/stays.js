@@ -90,74 +90,73 @@ async function createTrip() {
     serviceWidgetsHtml += '</div>';
     html += serviceWidgetsHtml;
 
-    if (['all', 'pooling'].includes(selectedService)) {
-        let groupsHtml = `
-            <div style="margin-top:15px; padding-top:15px; border-top: 1px dashed #e5e7eb;">
-                <h3 style="color:#333; margin-bottom:10px;">Co-Travelers & Groups for ${destination}</h3>
-                <p style="color:#555; font-size:13px; margin-bottom:15px;">Traveling solo? Join fellow verified women travelers heading to ${destination}.</p>
-        `;
-            
-        try {
-            const groups = await apiCall('GET', '/travel-groups');
-            const destLower = destination.toLowerCase();
-            const matching = groups.filter(g => 
-                (g.title && g.title.toLowerCase().includes(destLower)) || 
-                (g.starting_from && g.starting_from.toLowerCase().includes(destLower)) ||
-                (g.category && g.category.toLowerCase().includes(destLower))
-            );
-            
-            if (!matching.length) {
-                groupsHtml += `<p style="color:#666; font-style:italic; padding:10px 0;">No travel groups created for ${destination} yet. Start one below!</p>`;
-            } else {
-                groupsHtml += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
-                matching.forEach(g => {
-                    const formattedDate = new Date(g.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-                    groupsHtml += `
-                        <div class="dashboard-card" style="padding:15px; border:1px solid #e4e4e7; border-radius:10px; background:#fffbfd; display:flex; justify-content:space-between; align-items:center;">
-                            <div>
-                                <h4 style="margin:0;color:#db2777;">${g.title}</h4>
-                                <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Category: ${g.category} • Starting: ${g.starting_from}</p>
-                                <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Date: ${formattedDate} • Members: ${g.members_count}</p>
-                            </div>
-                            <button class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:12px;" onclick="joinTripPlannerGroup('${g._id}')">Join</button>
+    // Co-Travelers & Groups Section (Always included for destination)
+    let groupsHtml = `
+        <div style="margin-top:20px; padding-top:20px; border-top: 2px solid #e5e7eb;">
+            <h3 style="color:#333; margin-bottom:10px;">👭 Co-Travelers & Groups for ${destination}</h3>
+            <p style="color:#555; font-size:13px; margin-bottom:15px;">Traveling solo? Join fellow verified women travelers heading to ${destination} or create your own group below.</p>
+    `;
+        
+    try {
+        const groups = await apiCall('GET', '/travel-groups');
+        const destLower = destination.toLowerCase();
+        const matching = groups.filter(g => 
+            (g.title && g.title.toLowerCase().includes(destLower)) || 
+            (g.starting_from && g.starting_from.toLowerCase().includes(destLower)) ||
+            (g.category && g.category.toLowerCase().includes(destLower))
+        );
+        
+        if (!matching.length) {
+            groupsHtml += `<p style="color:#666; font-style:italic; padding:10px 0;">No travel groups created for ${destination} yet. Start one below!</p>`;
+        } else {
+            groupsHtml += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
+            matching.forEach(g => {
+                const formattedDate = new Date(g.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                groupsHtml += `
+                    <div class="dashboard-card" style="padding:15px; border:1px solid #e4e4e7; border-radius:10px; background:#fffbfd; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h4 style="margin:0;color:#db2777;">${g.title}</h4>
+                            <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Category: ${g.category} • Starting: ${g.starting_from}</p>
+                            <p style="margin:4px 0 0 0; font-size:12px; color:#71717a;">Date: ${formattedDate} • Members: ${g.members_count}</p>
                         </div>
-                    `;
-                });
-                groupsHtml += '</div>';
-            }
-        } catch {
-            groupsHtml += '<p style="color:#ef4444; font-size:12px;">Could not retrieve active groups.</p>';
+                        <button class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:12px;" onclick="joinTripPlannerGroup('${g._id}')">Join Group</button>
+                    </div>
+                `;
+            });
+            groupsHtml += '</div>';
         }
-
-        groupsHtml += `
-            <div class="planner-form" style="background:#fdf2f8; border: 1px dashed #fbcfe8; padding:15px; border-radius:10px; margin-top:15px;">
-                <h4 style="margin-top:0; color:#be185d;">Create a Travel Group for ${destination}</h4>
-                <div class="form-group" style="margin-bottom:10px;">
-                    <label style="font-size:12px;">Trip Title / Route</label>
-                    <input type="text" id="plannerGroupTitle" placeholder="e.g. Weekend Retreat to ${destination}" style="font-size:14px; padding:8px;">
-                </div>
-                <div class="form-group" style="margin-bottom:10px;">
-                    <label style="font-size:12px;">Trip Category</label>
-                    <select id="plannerGroupCategory" style="font-size:14px; padding:8px;">
-                        <option>Group Vacation</option>
-                        <option>Cab Pooling</option>
-                        <option>Weekend Trek</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-bottom:10px;">
-                    <label style="font-size:12px;">Starting Location</label>
-                    <input type="text" id="plannerGroupStarting" placeholder="e.g. Bangalore" style="font-size:14px; padding:8px;">
-                </div>
-                <div class="form-group" style="margin-bottom:15px;">
-                    <label style="font-size:12px;">Trip Date</label>
-                    <input type="date" id="plannerGroupDate" style="font-size:14px; padding:8px;">
-                </div>
-                <button class="submit-btn" style="padding:10px; font-size:13px;" onclick="submitPlannerGroup('${destination}')">Create & Join Group</button>
-            </div>
-        </div>`;
-
-        html += groupsHtml;
+    } catch {
+        groupsHtml += '<p style="color:#ef4444; font-size:12px;">Could not retrieve active groups.</p>';
     }
+
+    groupsHtml += `
+        <div class="planner-form" style="background:#fdf2f8; border: 1px dashed #fbcfe8; padding:18px; border-radius:12px; margin-top:15px;">
+            <h4 style="margin-top:0; color:#be185d; font-size:16px;">Create a Travel Group for ${destination}</h4>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:600;">Trip Title / Route</label>
+                <input type="text" id="plannerGroupTitle" placeholder="e.g. Weekend Retreat to ${destination}" style="font-size:14px; padding:10px;">
+            </div>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:600;">Trip Category</label>
+                <select id="plannerGroupCategory" style="font-size:14px; padding:10px;">
+                    <option>Group Vacation</option>
+                    <option>Cab Pooling</option>
+                    <option>Weekend Trek</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:600;">Starting Location</label>
+                <input type="text" id="plannerGroupStarting" placeholder="e.g. Bangalore" style="font-size:14px; padding:10px;">
+            </div>
+            <div class="form-group" style="margin-bottom:15px;">
+                <label style="font-size:12px; font-weight:600;">Trip Date</label>
+                <input type="date" id="plannerGroupDate" style="font-size:14px; padding:10px;">
+            </div>
+            <button class="submit-btn" style="padding:12px; font-size:14px; font-weight:700;" onclick="submitPlannerGroup('${destination}')">Create & Join Group</button>
+        </div>
+    </div>`;
+
+    html += groupsHtml;
 
     const recommendations = document.getElementById('recommendations');
     if (recommendations) {
@@ -169,7 +168,7 @@ async function createTrip() {
 async function joinTripPlannerGroup(groupId) {
     try {
         await apiCall('PUT', `/travel-groups/${groupId}/join`);
-        alert('Joined group! You can coordinate with co-travelers now.');
+        alert('Joined group! You are now connected with co-travelers.');
         createTrip();
     } catch (err) {
         alert(err.message || 'Could not join group.');
@@ -189,7 +188,7 @@ async function submitPlannerGroup(destination) {
     
     try {
         await apiCall('POST', '/travel-groups', { title, category, starting_from: starting, date });
-        alert('Travel group created successfully!');
+        alert('Travel group created successfully! Co-travelers can now join.');
         createTrip();
     } catch (err) {
         alert(err.message || 'Error creating group.');
@@ -217,24 +216,14 @@ async function registerStay() {
 
     try {
         await apiCall('POST', '/stays', {
-            name,
-            type,
-            city,
-            address,
-            price_per_month: price,
-            phone,
+            name, type, city, address, price_per_month: price, phone,
             description: description || undefined,
             safety_measures: safety || undefined
         });
 
         alert('Property registered! Your female-safe accommodation is now listed.');
-        
         ['stayNameInput', 'stayCityInput', 'stayAddressInput', 'stayPriceInput', 'stayPhoneInput', 'stayDescInput', 'staySafetyInput']
-            .forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-            
+            .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         toggleStayRegistrationForm();
         loadStays();
     } catch (err) {
