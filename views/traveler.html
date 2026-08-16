@@ -1,94 +1,116 @@
 <div class="dashboard hidden" id="travelerDashboard">
-    <div style="background:#ffffff; border:1px solid #E5DFEC; border-radius:16px; padding:18px 22px; margin-bottom:24px; box-shadow:0 4px 16px rgba(74,50,103,0.04);">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:14px;">
-            <h2 style="color:#4A3267; margin:0; font-size:22px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
-            <div id="activeTabBadge" style="background:#F9EDF3; color:#DE638A; font-weight:700; font-size:12.5px; padding:4px 12px; border-radius:20px; border:1px solid #F3D9E5;">
-                Active View: ✈️ Plan Your Trip
-            </div>
-        </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h2 style="color:#4A3267; margin:0; font-size:22px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
+        <span style="font-size:12px; color:#9E8CAA; font-weight:600;">Verified Women Travel Network</span>
+    </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
-            <div style="background:#FAF7FC; border:1.5px solid #DDD6E5; border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:4px;">
-                <label for="travelPlanDropdown" style="font-size:11.5px; font-weight:800; color:#4A3267; text-transform:uppercase; letter-spacing:0.5px;">
-                    ✈️ Trip & Travel Services
-                </label>
-                <select id="travelPlanDropdown" onchange="handleTripPlanSelect(this.value)" style="border:none; background:transparent; font-size:14px; font-weight:700; color:#DE638A; cursor:pointer; outline:none; font-family:inherit; padding:2px 0;">
-                    <option value="" disabled selected>Select Travel Service...</option>
-                    <option value="planTrip">✈️ Plan Trip (Custom Recommendations)</option>
-                    <option value="bookCab">🚖 Book Verified Cab</option>
-                    <option value="travelGuide">🧭 Certified Tour Guides</option>
-                    <option value="bookHotel">🏨 Hotels & Safe PGs</option>
-                    <option value="travelPartner">👭 Cab Pooling & Travel Partners</option>
-                    <option value="myBookings">📅 My Bookings & Rides</option>
-                </select>
-            </div>
-
-            <div style="background:#F0FDF4; border:1.5px solid #BBF7D0; border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:4px;">
-                <label for="safetyAssistanceDropdown" style="font-size:11.5px; font-weight:800; color:#166534; text-transform:uppercase; letter-spacing:0.5px;">
-                    🛡️ Safety & Assistance
-                </label>
-                <select id="safetyAssistanceDropdown" onchange="handleSafetySelect(this.value)" style="border:none; background:transparent; font-size:14px; font-weight:700; color:#15803D; cursor:pointer; outline:none; font-family:inherit; padding:2px 0;">
-                    <option value="" disabled selected>Select Safety Feature...</option>
-                    <option value="safeRoutes">🗺️ Safe Routes & Dark Spot Map</option>
-                    <option value="nearbyToilets">🚻 Restroom / Toilet Finder</option>
-                    <option value="anonymousReports">📢 Anonymous Harassment Alerts</option>
-                    <option value="emergencyContact">⚙️ SOS & Emergency Settings</option>
-                </select>
-            </div>
-        </div>
+    <div class="mmt-nav-container">
+        <button class="mmt-nav-item active" id="navItem-planTrip" onclick="showTravelerTab('planTrip')">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            <span>Plan Trip</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-bookCab" onclick="showTravelerTab('bookCab')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="8" rx="2"/><path d="M5 11l2-6h10l2 6M7 19v2M17 19v2M7 15h.01M17 15h.01"/></svg>
+            <span>Book Cab</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-bookHotel" onclick="showTravelerTab('bookHotel')">
+            <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h.01M15 17h.01"/></svg>
+            <span>Hotels & PG</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-travelGuide" onclick="showTravelerTab('travelGuide')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2.4 6-6 2.4 2.4-6 6-2.4z"/></svg>
+            <span>Tour Guides</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-travelPartner" onclick="showTravelerTab('travelPartner')">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>Cab Pooling</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-safeRoutes" onclick="showTravelerTab('safeRoutes')">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Safe Routes</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-nearbyToilets" onclick="showTravelerTab('nearbyToilets')">
+            <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 100 8 4 4 0 000-8zM6 22v-6a4 4 0 014-4h4a4 4 0 014 4v6M9 16v6M15 16v6"/></svg>
+            <span>Restrooms</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-anonymousReports" onclick="showTravelerTab('anonymousReports')">
+            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span>Alerts</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-myBookings" onclick="showTravelerTab('myBookings')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+            <span>My Bookings</span>
+        </button>
+        <button class="mmt-nav-item" id="navItem-emergencyContact" onclick="showTravelerTab('emergencyContact')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+            <span>SOS Safety</span>
+        </button>
     </div>
     
     <div id="tab-planTrip" class="tab-content">
-        <div class="dashboard-section">
-            <h3>Plan Your Trip</h3>
-            <div class="planner-form">
-                <div class="form-row">
-                    <div>
-                        <label style="display:block;color:#555;font-weight:600;margin-bottom:6px;font-size:13px;">Destination City</label>
-                        <select id="tripDestination">
-                            <option>Pondicherry</option>
-                            <option>Coorg</option>
-                            <option>Jaipur</option>
-                            <option>Bangalore</option>
-                            <option>Chennai</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="display:block;color:#555;font-weight:600;margin-bottom:6px;font-size:13px;">Travel Interest</label>
-                        <select id="tripInterest">
-                            <option>Nature</option>
-                            <option>Adventure</option>
-                            <option>Cafes</option>
-                            <option>Shopping</option>
-                        </select>
-                    </div>
+        <div class="mmt-booking-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <div style="display:flex; gap:16px; font-size:13px; font-weight:700; color:#4A3267;">
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="radio" name="tripMode" checked style="accent-color:#DE638A;"> Custom Safe Trip</label>
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="radio" name="tripMode" style="accent-color:#DE638A;"> Solo Traveler</label>
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="radio" name="tripMode" style="accent-color:#DE638A;"> Group Retreat</label>
                 </div>
-
-                <div class="form-group" style="margin-bottom:14px;">
-                    <label style="display:block;color:#4A3267;font-weight:700;margin-bottom:6px;font-size:13px;">Required Services & Safety Features</label>
-                    <select id="tripServiceType" style="border:1.5px solid #DE638A; background:#fffcfd; font-weight:600;">
-                        <option value="all">🌟 All-in-One Package (Cabs, Guides, Safe Stays & Safety Route)</option>
-                        <option value="cabs">🚖 Safe Cab & Driver Assistance</option>
-                        <option value="guides">🧭 Verified Lady Tour Guide</option>
-                        <option value="hotels">🏨 Women-Only Stays & PGs</option>
-                        <option value="pooling">👭 Travel Partner & Cab Pool</option>
-                        <option value="safety">🗺️ Route Risk & Dark Spot Map</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div>
-                        <label style="display:block;color:#555;font-weight:500;margin-bottom:8px;">From Date</label>
-                        <input type="date" id="tripFromDate" style="padding:12px;border:2px solid #e5e7eb;border-radius:10px;width:100%">
-                    </div>
-                    <div>
-                        <label style="display:block;color:#555;font-weight:500;margin-bottom:8px;">To Date</label>
-                        <input type="date" id="tripToDate" style="padding:12px;border:2px solid #e5e7eb;border-radius:10px;width:100%">
-                    </div>
-                </div>
-                <button class="submit-btn" onclick="createTrip()">Get Recommendations</button>
-                <div id="recommendations" class="hidden" style="margin-top:20px"></div>
+                <span style="font-size:12px; color:#9E8CAA; font-weight:600;">AI Safe Route & Travel Recommendation</span>
             </div>
+
+            <div class="mmt-search-grid">
+                <div class="mmt-search-col">
+                    <div class="mmt-col-label">City / Destination</div>
+                    <select id="tripDestination" style="border:none; background:transparent; font-size:17px; font-weight:800; color:#4A3267; outline:none; width:100%; cursor:pointer; font-family:inherit;">
+                        <option value="Pondicherry">Pondicherry</option>
+                        <option value="Coorg">Coorg</option>
+                        <option value="Jaipur">Jaipur</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                    </select>
+                    <div class="mmt-col-sub">Verified Safe Tourist Hub</div>
+                </div>
+
+                <div class="mmt-search-col">
+                    <div class="mmt-col-label">Travel Interest</div>
+                    <select id="tripInterest" style="border:none; background:transparent; font-size:17px; font-weight:800; color:#4A3267; outline:none; width:100%; cursor:pointer; font-family:inherit;">
+                        <option value="Nature">Nature & Scenic</option>
+                        <option value="Adventure">Adventure & Treks</option>
+                        <option value="Cafes">Cafes & Dining</option>
+                        <option value="Shopping">Heritage & Shopping</option>
+                    </select>
+                    <div class="mmt-col-sub">Tailored Experience</div>
+                </div>
+
+                <div class="mmt-search-col">
+                    <div class="mmt-col-label">Departure Date</div>
+                    <input type="date" id="tripFromDate" style="border:none; background:transparent; font-size:15px; font-weight:700; color:#4A3267; outline:none; width:100%; cursor:pointer; font-family:inherit;">
+                    <div class="mmt-col-sub">Select Start Day</div>
+                </div>
+
+                <div class="mmt-search-col">
+                    <div class="mmt-col-label">Return Date</div>
+                    <input type="date" id="tripToDate" style="border:none; background:transparent; font-size:15px; font-weight:700; color:#4A3267; outline:none; width:100%; cursor:pointer; font-family:inherit;">
+                    <div class="mmt-col-sub">Optional Return Day</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom:12px;">
+                <span style="font-size:12px; font-weight:700; color:#6E5A87; margin-bottom:8px; display:block;">Select Special Inclusions:</span>
+                <div class="mmt-pill-selector">
+                    <button class="mmt-pill-btn active" onclick="setTripService('all', this)">✨ All Services Package</button>
+                    <button class="mmt-pill-btn" onclick="setTripService('cabs', this)">🚖 Verified Cab & Driver</button>
+                    <button class="mmt-pill-btn" onclick="setTripService('guides', this)">🧭 Certified Lady Guide</button>
+                    <button class="mmt-pill-btn" onclick="setTripService('hotels', this)">🏨 Women-Only Stays/PG</button>
+                    <button class="mmt-pill-btn" onclick="setTripService('pooling', this)">👭 Cab & Travel Pool</button>
+                    <button class="mmt-pill-btn" onclick="setTripService('safety', this)">🛡️ Dark Spot Risk Scan</button>
+                    <input type="hidden" id="tripServiceType" value="all">
+                </div>
+            </div>
+
+            <button class="mmt-cta-btn" onclick="createTrip()">SEARCH SAFE TRIPS</button>
+
+            <div id="recommendations" class="hidden" style="margin-top:28px;"></div>
         </div>
     </div>
     

@@ -75,31 +75,13 @@ function goBack() {
     document.getElementById('home')?.classList.remove('hidden');
 }
 
-const TAB_TITLES = {
-    planTrip: '✈️ Plan Your Trip',
-    bookCab: '🚖 Book Verified Cab',
-    travelGuide: '🧭 Certified Tour Guides',
-    bookHotel: '🏨 Hotels & Safe PGs',
-    travelPartner: '👭 Cab Pooling & Travel Partners',
-    myBookings: '📅 My Bookings & Rides',
-    safeRoutes: '🗺️ Safe Routes & Dark Spot Map',
-    nearbyToilets: '🚻 Restroom / Toilet Finder',
-    anonymousReports: '📢 Anonymous Harassment Alerts',
-    emergencyContact: '⚙️ SOS & Emergency Settings'
-};
+function setTripService(service, btn) {
+    const hiddenInput = document.getElementById('tripServiceType');
+    if (hiddenInput) hiddenInput.value = service;
 
-function handleTripPlanSelect(tabName) {
-    if (!tabName) return;
-    const safetyDropdown = document.getElementById('safetyAssistanceDropdown');
-    if (safetyDropdown) safetyDropdown.value = '';
-    showTravelerTab(tabName);
-}
-
-function handleSafetySelect(tabName) {
-    if (!tabName) return;
-    const tripDropdown = document.getElementById('travelPlanDropdown');
-    if (tripDropdown) tripDropdown.value = '';
-    showTravelerTab(tabName);
+    const buttons = document.querySelectorAll('.mmt-pill-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
 }
 
 function showTravelerTab(tabName) {
@@ -108,24 +90,13 @@ function showTravelerTab(tabName) {
     
     document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
 
-    const badge = document.getElementById('activeTabBadge');
-    if (badge) {
-        badge.textContent = `Active View: ${TAB_TITLES[tabName] || tabName}`;
-    }
-
-    const tripDropdown = document.getElementById('travelPlanDropdown');
-    const safetyDropdown = document.getElementById('safetyAssistanceDropdown');
-
-    const tripTabs = ['planTrip', 'bookCab', 'travelGuide', 'bookHotel', 'travelPartner', 'myBookings'];
-    const safetyTabs = ['safeRoutes', 'nearbyToilets', 'anonymousReports', 'emergencyContact'];
-
-    if (tripTabs.includes(tabName)) {
-        if (tripDropdown) tripDropdown.value = tabName;
-        if (safetyDropdown) safetyDropdown.value = '';
-    } else if (safetyTabs.includes(tabName)) {
-        if (safetyDropdown) safetyDropdown.value = tabName;
-        if (tripDropdown) tripDropdown.value = '';
-    }
+    const navItems = document.querySelectorAll('.mmt-nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.id === `navItem-${tabName}` || item.getAttribute('onclick')?.includes(tabName)) {
+            item.classList.add('active');
+        }
+    });
 
     const tabActions = {
         travelPartner: loadTravelGroups,

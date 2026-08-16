@@ -1,0 +1,187 @@
+.mmt-nav-container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 6px 14px 0 14px;
+    box-shadow: 0 4px 20px rgba(74, 50, 103, 0.07);
+    border: 1px solid #E5DFEC;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.mmt-nav-container::-webkit-scrollbar {
+    display: none;
+}
+
+.mmt-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px 12px 14px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #6E5A87;
+    transition: all 0.2s ease;
+    position: relative;
+    white-space: nowrap;
+    min-width: 80px;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.mmt-nav-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+    fill: none;
+    stroke: #6E5A87;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.2s ease;
+}
+
+.mmt-nav-item span {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+.mmt-nav-item:hover {
+    color: #DE638A;
+}
+.mmt-nav-item:hover svg {
+    stroke: #DE638A;
+    transform: translateY(-2px);
+}
+
+.mmt-nav-item.active {
+    color: #DE638A;
+    font-weight: 700;
+}
+.mmt-nav-item.active svg {
+    stroke: #DE638A;
+    stroke-width: 2.2;
+}
+.mmt-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 3.5px;
+    background: #DE638A;
+    border-radius: 4px 4px 0 0;
+}
+
+.mmt-booking-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 6px 24px rgba(74, 50, 103, 0.06);
+    border: 1px solid #E5DFEC;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.mmt-search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    border: 1px solid #E5DFEC;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #ffffff;
+}
+
+.mmt-search-col {
+    padding: 14px 18px;
+    border-right: 1px solid #E5DFEC;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.mmt-search-col:last-child {
+    border-right: none;
+}
+.mmt-search-col:hover {
+    background: #FAF7FC;
+}
+
+.mmt-col-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9E8CAA;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mmt-col-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #4A3267;
+    margin-bottom: 2px;
+    letter-spacing: -0.3px;
+}
+
+.mmt-col-sub {
+    font-size: 11.5px;
+    color: #6E5A87;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mmt-pill-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.mmt-pill-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #DDD6E5;
+    background: #ffffff;
+    color: #4A3267;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.mmt-pill-btn.active, .mmt-pill-btn:hover {
+    border-color: #DE638A;
+    color: #DE638A;
+    background: #FAF7FC;
+}
+
+.mmt-cta-btn {
+    background: linear-gradient(90deg, #DE638A 0%, #4A3267 100%);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 14px 44px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(222, 99, 138, 0.35);
+    display: block;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+}
+
+.mmt-cta-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(222, 99, 138, 0.45);
+}
