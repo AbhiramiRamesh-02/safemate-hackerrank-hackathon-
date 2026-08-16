@@ -3,7 +3,6 @@ const VIEW_PARTIALS = [
     { containerId: 'app-about', url: 'views/about.html' },
     { containerId: 'app-auth', url: 'views/auth.html' },
     { containerId: 'app-traveler', url: 'views/traveler.html' },
-    { containerId: 'app-traveler-safety', url: 'views/travelerSafety.html' },
     { containerId: 'app-driver', url: 'views/driver.html' },
     { containerId: 'app-guide', url: 'views/guide.html' },
     { containerId: 'app-modals', url: 'views/modals.html' }

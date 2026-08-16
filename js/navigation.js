@@ -105,7 +105,8 @@ function showTravelerTab(tabName) {
         myBookings: loadTravelerMyBookings,
         bookHotel: loadStays,
         bookCab: loadAvailableDrivers,
-        travelGuide: loadAvailableGuides
+        travelGuide: loadAvailableGuides,
+        emergencyContact: displaySavedContacts
     };
 
     const action = tabActions[tabName];
