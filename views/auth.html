@@ -25,7 +25,7 @@
 
 <div class="container hidden" id="loginPage">
     <div class="login-card">
-        <button class="back-home-btn" onclick="showHome()" style="background:none;border:none;color:#B85C78;font-weight:600;cursor:pointer;margin-bottom:15px;font-size:14px;display:flex;align-items:center;gap:5px;">
+        <button class="back-home-btn" onclick="showHome()" style="background:none;border:none;color:#DE638A;font-weight:600;cursor:pointer;margin-bottom:15px;font-size:14px;display:flex;align-items:center;gap:5px;">
             ← Back to Home
         </button>
         
@@ -48,12 +48,12 @@
 
         <div id="otpForm" class="hidden">
             <div style="text-align: center; margin-bottom: 20px;">
-                <h3 style="color: #3B2E4A; margin-top: 10px; font-weight: 700;">Verify Your Email</h3>
-                <p style="font-size: 13px; color: #6F6B75; margin-top: 6px;">We sent a 6-digit OTP code to your email address. Please enter it below to complete verification.</p>
+                <h3 style="color: #4A3267; margin-top: 10px; font-weight: 700;">Verify Your Email</h3>
+                <p style="font-size: 13px; color: #71717a; margin-top: 6px;">We sent a 6-digit OTP code to your email address. Please enter it below to complete verification.</p>
             </div>
             <div class="form-group" style="margin-bottom:15px;">
                 <label style="font-weight:600; font-size:12px;">Verification Code</label>
-                <input type="text" id="otpCodeInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 20px; font-weight: 700; letter-spacing: 4px; padding: 10px; border:1px solid #E4E0E7; border-radius:8px; width:100%;">
+                <input type="text" id="otpCodeInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 20px; font-weight: 700; letter-spacing: 4px; padding: 10px; border:1px solid #e4e4e7; border-radius:8px; width:100%;">
             </div>
             <button class="submit-btn" onclick="verifyOTP()">Verify OTP</button>
             <p class="switch-link" style="margin-top:12px;">
@@ -91,18 +91,18 @@
                 </select>
             </div>
 
-            <div class="form-group" style="border: 2px dashed #B85C78; padding: 16px; border-radius: 12px; text-align: center; background: #F3E3E8; margin-bottom: 20px;">
-                <label style="font-weight:700; color:#B85C78; margin-bottom:6px; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <div class="form-group" style="border: 2px dashed #C6BADE; padding: 16px; border-radius: 12px; text-align: center; background: #F9EDF3; margin-bottom: 20px;">
+                <label style="font-weight:700; color:#DE638A; margin-bottom:6px; display:flex; align-items:center; justify-content:center; gap:6px;">
                     Smart ID OCR Scanner
                 </label>
-                <p style="font-size:11px; color:#6F6B75; margin-bottom:12px; line-height:1.4;">
+                <p style="font-size:11px; color:#71717a; margin-bottom:12px; line-height:1.4;">
                     Upload a photo of your Aadhaar card or Passport. Our local AI scanner will extract your ID details instantly to verify legitimacy.
                 </p>
                 <input type="file" id="idCardUploadInput" accept="image/*" style="display:none;" onchange="processIDCardOCR(event)">
-                <button type="button" class="booking-btn" onclick="document.getElementById('idCardUploadInput').click()" style="margin:0 auto; width:auto; padding:8px 16px; background:#B85C78; color:white; font-size:12px; font-weight:600;">
+                <button type="button" class="booking-btn" onclick="document.getElementById('idCardUploadInput').click()" style="margin:0 auto; width:auto; padding:8px 16px; background:#DE638A; color:white; font-size:12px; font-weight:600;">
                     Upload & Scan ID Card
                 </button>
-                <div id="ocrStatus" style="font-size:11px; font-weight:600; margin-top:8px; display:none; padding:6px; border-radius:6px; background:white; border:1px solid #E4E0E7;"></div>
+                <div id="ocrStatus" style="font-size:11px; font-weight:600; margin-top:8px; display:none; padding:6px; border-radius:6px; background:white; border:1px solid #f3f4f6;"></div>
             </div>
             
             <div id="travelerVerification" class="form-group hidden">
@@ -112,29 +112,29 @@
                     <option value="passport">Passport</option>
                 </select>
                 <input type="text" id="signupTravelerId" placeholder="Enter your ID number">
-                <small style="color:#6F6B75;font-size:12px;">For verification purposes</small>
+                <small style="color:#666;font-size:12px;">For verification purposes</small>
             </div>
             
             <div id="emergencyContact" class="form-group">
                 <label>Emergency Contact</label>
                 <input type="tel" id="signupEmergencyContact" placeholder="Emergency contact number">
-                <small style="color:#6F6B75;font-size:12px;">For emergency situations</small>
+                <small style="color:#666;font-size:12px;">For emergency situations</small>
             </div>
             
             <div id="driverVerification" class="form-group hidden">
                 <label>Driving License Number</label>
                 <input type="text" id="signupDrivingLicense" placeholder="Enter your driving license number">
-                <small style="color:#6F6B75;font-size:12px;">For verification purposes</small>
+                <small style="color:#666;font-size:12px;">For verification purposes</small>
             </div>
             
             <div id="guideVerification" class="form-group hidden">
                 <label>Aadhar Card Number</label>
                 <input type="text" id="signupAadhar" placeholder="Enter your Aadhar card number">
-                <small style="color:#6F6B75;font-size:12px;">For verification purposes</small>
+                <small style="color:#666;font-size:12px;">For verification purposes</small>
                 <div style="margin-top:15px;">
                     <label>Age</label>
                     <input type="number" id="signupAge" placeholder="Enter your age" min="18" max="100">
-                    <small style="color:#6F6B75;font-size:12px;">Must be 18 years or older</small>
+                    <small style="color:#666;font-size:12px;">Must be 18 years or older</small>
                 </div>
             </div>
             

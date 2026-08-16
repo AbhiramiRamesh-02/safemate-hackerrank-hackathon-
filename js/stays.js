@@ -19,12 +19,12 @@ async function createTrip() {
     const places = (placesData[destination] && placesData[destination][interest]) || [];
     let dateRange = "";
     if (fromDate && toDate) {
-        dateRange = `<p style="color:#B85C78;font-weight:600;margin-bottom:15px;">Date: ${fromDate} to ${toDate}${daysText}</p>`;
+        dateRange = `<p style="color:#DE638A;font-weight:600;margin-bottom:15px;">Date: ${fromDate} to ${toDate}${daysText}</p>`;
     } else if (fromDate) {
-        dateRange = `<p style="color:#B85C78;font-weight:600;margin-bottom:15px;">Starting from: ${fromDate}</p>`;
+        dateRange = `<p style="color:#DE638A;font-weight:600;margin-bottom:15px;">Starting from: ${fromDate}</p>`;
     }
     
-    let html = `<h3 style="color:#3B2E4A;margin-bottom:15px">Recommended Safe Spots in ${destination}</h3>${dateRange}`;
+    let html = `<h3 style="color:#4A3267;margin-bottom:15px">Recommended Safe Spots in ${destination}</h3>${dateRange}`;
     
     places.forEach(place => {
         html += `
@@ -37,14 +37,14 @@ async function createTrip() {
         `;
     });
 
-    let serviceWidgetsHtml = '<div style="margin-top:25px; padding-top:20px; border-top: 2px solid #E4E0E7;">';
+    let serviceWidgetsHtml = '<div style="margin-top:25px; padding-top:20px; border-top: 2px solid #E5DFEC;">';
 
     if (['all', 'cabs'].includes(selectedService)) {
         serviceWidgetsHtml += `
-            <div style="background:#F7F6F8; border:1px solid #E4E0E7; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#FAF7FC; border:1px solid #E5DFEC; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="margin:0; color:#3B2E4A; font-size:14px;">Verified Cabs for ${destination}</h4>
-                    <p style="margin:2px 0 0 0; font-size:12px; color:#6F6B75;">Pre-screened women drivers in ${destination}.</p>
+                    <h4 style="margin:0; color:#4A3267; font-size:14px;">Verified Cabs for ${destination}</h4>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#6E5A87;">Pre-screened women drivers in ${destination}.</p>
                 </div>
                 <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px;" onclick="showTravelerTab('bookCab')">Book Cab</button>
             </div>
@@ -53,22 +53,22 @@ async function createTrip() {
 
     if (['all', 'guides'].includes(selectedService)) {
         serviceWidgetsHtml += `
-            <div style="background:#FFFDF9; border:1px solid #F6DFBA; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#FFFDF9; border:1px solid #FDE68A; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="margin:0; color:#B5731C; font-size:14px;">Certified Lady Guides in ${destination}</h4>
-                    <p style="margin:2px 0 0 0; font-size:12px; color:#6F6B75;">Expert local guides for tours.</p>
+                    <h4 style="margin:0; color:#92400E; font-size:14px;">Certified Lady Guides in ${destination}</h4>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#6E5A87;">Expert local guides for tours.</p>
                 </div>
-                <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px; background:#D9912B;" onclick="showTravelerTab('travelGuide')">Find Guide</button>
+                <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px; background:#D97706;" onclick="showTravelerTab('travelGuide')">Find Guide</button>
             </div>
         `;
     }
 
     if (['all', 'hotels'].includes(selectedService)) {
         serviceWidgetsHtml += `
-            <div style="background:#F3E3E8; border:1px solid #E4E0E7; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#F9EDF3; border:1px solid #F3D9E5; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="margin:0; color:#B85C78; font-size:14px;">Safe PGs & Stays in ${destination}</h4>
-                    <p style="margin:2px 0 0 0; font-size:12px; color:#6F6B75;">Secure accommodation with verified locks.</p>
+                    <h4 style="margin:0; color:#DE638A; font-size:14px;">Safe PGs & Stays in ${destination}</h4>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#6E5A87;">Secure accommodation with verified locks.</p>
                 </div>
                 <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px;" onclick="showTravelerTab('bookHotel')">View Stays</button>
             </div>
@@ -77,12 +77,12 @@ async function createTrip() {
 
     if (['all', 'safety'].includes(selectedService)) {
         serviceWidgetsHtml += `
-            <div style="background:#DFF3EE; border:1px solid #BFE7DD; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="margin:0; color:#247A6B; font-size:14px;">Safe Routes & Dark Spot Scanner</h4>
-                    <p style="margin:2px 0 0 0; font-size:12px; color:#6F6B75;">Evaluate street lighting & hazard detours.</p>
+                    <h4 style="margin:0; color:#059669; font-size:14px;">Safe Routes & Dark Spot Scanner</h4>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#6E5A87;">Evaluate street lighting & hazard detours.</p>
                 </div>
-                <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px; background:#247A6B;" onclick="showTravelerTab('safeRoutes')">Scan Route</button>
+                <button class="booking-btn" style="margin:0; width:auto; padding:6px 12px; font-size:12px; background:#059669;" onclick="showTravelerTab('safeRoutes')">Scan Route</button>
             </div>
         `;
     }
@@ -91,9 +91,9 @@ async function createTrip() {
     html += serviceWidgetsHtml;
 
     let groupsHtml = `
-        <div style="margin-top:20px; padding-top:20px; border-top: 2px solid #E4E0E7;">
-            <h3 style="color:#3B2E4A; margin-bottom:10px;">Co-Travelers & Groups for ${destination}</h3>
-            <p style="color:#6F6B75; font-size:13px; margin-bottom:15px;">Traveling solo? Join fellow verified women travelers heading to ${destination} or create your own group below.</p>
+        <div style="margin-top:20px; padding-top:20px; border-top: 2px solid #E5DFEC;">
+            <h3 style="color:#4A3267; margin-bottom:10px;">Co-Travelers & Groups for ${destination}</h3>
+            <p style="color:#6E5A87; font-size:13px; margin-bottom:15px;">Traveling solo? Join fellow verified women travelers heading to ${destination} or create your own group below.</p>
     `;
         
     try {
@@ -106,17 +106,17 @@ async function createTrip() {
         );
         
         if (!matching.length) {
-            groupsHtml += `<p style="color:#6F6B75; font-style:italic; padding:10px 0;">No travel groups created for ${destination} yet. Start one below!</p>`;
+            groupsHtml += `<p style="color:#6E5A87; font-style:italic; padding:10px 0;">No travel groups created for ${destination} yet. Start one below!</p>`;
         } else {
             groupsHtml += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
             matching.forEach(g => {
                 const formattedDate = new Date(g.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                 groupsHtml += `
-                    <div class="dashboard-card" style="padding:15px; border:1px solid #E4E0E7; border-radius:10px; background:#FFFFFF; display:flex; justify-content:space-between; align-items:center;">
+                    <div class="dashboard-card" style="padding:15px; border:1px solid #E5DFEC; border-radius:10px; background:#ffffff; display:flex; justify-content:space-between; align-items:center;">
                         <div>
-                            <h4 style="margin:0;color:#B85C78;">${g.title}</h4>
-                            <p style="margin:4px 0 0 0; font-size:12px; color:#6F6B75;">Category: ${g.category} • Starting: ${g.starting_from}</p>
-                            <p style="margin:4px 0 0 0; font-size:12px; color:#6F6B75;">Date: ${formattedDate} • Members: ${g.members_count}</p>
+                            <h4 style="margin:0;color:#DE638A;">${g.title}</h4>
+                            <p style="margin:4px 0 0 0; font-size:12px; color:#6E5A87;">Category: ${g.category} • Starting: ${g.starting_from}</p>
+                            <p style="margin:4px 0 0 0; font-size:12px; color:#6E5A87;">Date: ${formattedDate} • Members: ${g.members_count}</p>
                         </div>
                         <button class="booking-btn" style="margin-top:0; width:auto; padding:6px 12px; font-size:12px;" onclick="joinTripPlannerGroup('${g._id}')">Join Group</button>
                     </div>
@@ -125,12 +125,12 @@ async function createTrip() {
             groupsHtml += '</div>';
         }
     } catch {
-        groupsHtml += '<p style="color:#D94848; font-size:12px;">Could not retrieve active groups.</p>';
+        groupsHtml += '<p style="color:#ef4444; font-size:12px;">Could not retrieve active groups.</p>';
     }
 
     groupsHtml += `
-        <div class="planner-form" style="background:#F3E3E8; border: 1px dashed #B85C78; padding:18px; border-radius:12px; margin-top:15px;">
-            <h4 style="margin-top:0; color:#B85C78; font-size:16px;">Create a Travel Group for ${destination}</h4>
+        <div class="planner-form" style="background:#F9EDF3; border: 1px dashed #DE638A; padding:18px; border-radius:12px; margin-top:15px;">
+            <h4 style="margin-top:0; color:#DE638A; font-size:16px;">Create a Travel Group for ${destination}</h4>
             <div class="form-group" style="margin-bottom:10px;">
                 <label style="font-size:12px; font-weight:600;">Trip Title / Route</label>
                 <input type="text" id="plannerGroupTitle" placeholder="e.g. Weekend Retreat to ${destination}" style="font-size:14px; padding:10px;">
@@ -237,7 +237,7 @@ async function loadStays() {
     try {
         const stays = await apiCall('GET', '/stays');
         if (!stays.length) {
-            container.innerHTML = '<p style="color:#6F6B75;text-align:center;padding:20px;grid-column:1/-1;">No stays listed yet. Register your PG or hotel above!</p>';
+            container.innerHTML = '<p style="color:#6E5A87;text-align:center;padding:20px;grid-column:1/-1;">No stays listed yet. Register your PG or hotel above!</p>';
             return;
         }
 
@@ -245,20 +245,20 @@ async function loadStays() {
             const measuresList = (s.safety_measures || []).map(m => `<li>✓ ${m}</li>`).join('');
             return `
                 <div class="service-card">
-                    <h4>${s.name} <span style="font-size:11px; background:#F3E3E8; color:#B85C78; padding:2px 6px; border-radius:4px; border:1px solid #E4E0E7; float:right;">${s.type}</span></h4>
+                    <h4>${s.name} <span style="font-size:11px; background:#F9EDF3; color:#DE638A; padding:2px 6px; border-radius:4px; border:1px solid #F3D9E5; float:right;">${s.type}</span></h4>
                     <p class="service-type">Location: ${s.city} • ${s.address}</p>
-                    <p style="font-weight:600; color:#25232A; margin-top:8px;">Price: ${s.price_per_month}</p>
-                    <p style="font-size:12px; color:#6F6B75; margin-top:6px; font-style:italic;">${s.description || ''}</p>
-                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #E4E0E7;">
-                        <span style="font-size:11px; font-weight:700; color:#B85C78;">Verified Safety Features:</span>
-                        <ul style="font-size:11px; color:#247A6B; list-style:none; padding:0; margin:4px 0 0 0; display:flex; flex-direction:column; gap:2px;">${measuresList}</ul>
+                    <p style="font-weight:600; color:#271b35; margin-top:8px;">Price: ${s.price_per_month}</p>
+                    <p style="font-size:12px; color:#6E5A87; margin-top:6px; font-style:italic;">${s.description || ''}</p>
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #E5DFEC;">
+                        <span style="font-size:11px; font-weight:700; color:#DE638A;">Verified Safety Features:</span>
+                        <ul style="font-size:11px; color:#10b981; list-style:none; padding:0; margin:4px 0 0 0; display:flex; flex-direction:column; gap:2px;">${measuresList}</ul>
                     </div>
                     <button class="booking-btn" onclick="bookStay('${s.name}', '${s.type}', '${s.price_per_month}')">Book Stay</button>
                 </div>
             `;
         }).join('');
     } catch {
-        container.innerHTML = '<p style="color:#6F6B75;text-align:center;padding:20px;grid-column:1/-1;">Could not load stays directory.</p>';
+        container.innerHTML = '<p style="color:#6E5A87;text-align:center;padding:20px;grid-column:1/-1;">Could not load stays directory.</p>';
     }
 }
 
