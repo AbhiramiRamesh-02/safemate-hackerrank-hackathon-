@@ -1,39 +1,41 @@
 <div class="dashboard hidden" id="travelerDashboard">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-        <h2 style="color:#4A3267; margin:0; font-size:24px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
-        
-        <div style="display:flex; align-items:center; gap:8px; background:#ffffff; border:1.5px solid #DE638A; border-radius:10px; padding:6px 12px; box-shadow:0 2px 8px rgba(222,99,138,0.08);">
-            <label for="travelerServiceDropdown" style="font-size:13px; font-weight:700; color:#4A3267; margin:0;">Explore Service:</label>
-            <select id="travelerServiceDropdown" onchange="showTravelerTab(this.value)" style="border:none; background:transparent; font-size:13px; font-weight:700; color:#DE638A; cursor:pointer; outline:none; font-family:inherit;">
-                <optgroup label="Trip & Travel Services">
-                    <option value="planTrip">✈️ Plan Trip (Custom)</option>
-                    <option value="bookCab">🚖 Book Cab</option>
-                    <option value="travelGuide">🧭 Travel Guides</option>
-                    <option value="bookHotel">🏨 Hotels & Safe PGs</option>
-                    <option value="travelPartner">👭 Cab Pooling & Partners</option>
-                </optgroup>
-                <optgroup label="Safety & Assistance">
-                    <option value="safeRoutes">🗺️ Safe Routes & Dark Spots</option>
-                    <option value="nearbyToilets">🚻 Restroom Finder</option>
-                    <option value="anonymousReports">📢 Anonymous Alerts</option>
-                    <option value="emergencyContact">⚙️ SOS Settings</option>
-                    <option value="myBookings">📅 My Bookings</option>
-                </optgroup>
-            </select>
+    <div style="background:#ffffff; border:1px solid #E5DFEC; border-radius:16px; padding:18px 22px; margin-bottom:24px; box-shadow:0 4px 16px rgba(74,50,103,0.04);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:14px;">
+            <h2 style="color:#4A3267; margin:0; font-size:22px; font-weight:800;">Hey, Welcome back, <span id="travelerUserName" style="color:#DE638A;">Traveler</span>! 👋</h2>
+            <div id="activeTabBadge" style="background:#F9EDF3; color:#DE638A; font-weight:700; font-size:12.5px; padding:4px 12px; border-radius:20px; border:1px solid #F3D9E5;">
+                Active View: ✈️ Plan Your Trip
+            </div>
         </div>
-    </div>
-    
-    <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTravelerTab('planTrip')">✈️ Plan Trip</button>
-        <button class="tab-btn" onclick="showTravelerTab('bookCab')">🚖 Book Cab</button>
-        <button class="tab-btn" onclick="showTravelerTab('bookHotel')">🏨 Hotels & PG</button>
-        <button class="tab-btn" onclick="showTravelerTab('travelPartner')">👭 Cab Pooling</button>
-        <button class="tab-btn" onclick="showTravelerTab('travelGuide')">🧭 Travel Guides</button>
-        <button class="tab-btn" onclick="showTravelerTab('nearbyToilets')">🚻 Toilet Finder</button>
-        <button class="tab-btn" onclick="showTravelerTab('safeRoutes')">🗺️ Safe Routes</button>
-        <button class="tab-btn" onclick="showTravelerTab('anonymousReports')">📢 Anonymous Alerts</button>
-        <button class="tab-btn" onclick="showTravelerTab('myBookings')">📅 My Bookings</button>
-        <button class="tab-btn" onclick="showTravelerTab('emergencyContact')">⚙️ SOS Settings</button>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+            <div style="background:#FAF7FC; border:1.5px solid #DDD6E5; border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:4px;">
+                <label for="travelPlanDropdown" style="font-size:11.5px; font-weight:800; color:#4A3267; text-transform:uppercase; letter-spacing:0.5px;">
+                    ✈️ Trip & Travel Services
+                </label>
+                <select id="travelPlanDropdown" onchange="handleTripPlanSelect(this.value)" style="border:none; background:transparent; font-size:14px; font-weight:700; color:#DE638A; cursor:pointer; outline:none; font-family:inherit; padding:2px 0;">
+                    <option value="" disabled selected>Select Travel Service...</option>
+                    <option value="planTrip">✈️ Plan Trip (Custom Recommendations)</option>
+                    <option value="bookCab">🚖 Book Verified Cab</option>
+                    <option value="travelGuide">🧭 Certified Tour Guides</option>
+                    <option value="bookHotel">🏨 Hotels & Safe PGs</option>
+                    <option value="travelPartner">👭 Cab Pooling & Travel Partners</option>
+                    <option value="myBookings">📅 My Bookings & Rides</option>
+                </select>
+            </div>
+
+            <div style="background:#F0FDF4; border:1.5px solid #BBF7D0; border-radius:12px; padding:10px 14px; display:flex; flex-direction:column; gap:4px;">
+                <label for="safetyAssistanceDropdown" style="font-size:11.5px; font-weight:800; color:#166534; text-transform:uppercase; letter-spacing:0.5px;">
+                    🛡️ Safety & Assistance
+                </label>
+                <select id="safetyAssistanceDropdown" onchange="handleSafetySelect(this.value)" style="border:none; background:transparent; font-size:14px; font-weight:700; color:#15803D; cursor:pointer; outline:none; font-family:inherit; padding:2px 0;">
+                    <option value="" disabled selected>Select Safety Feature...</option>
+                    <option value="safeRoutes">🗺️ Safe Routes & Dark Spot Map</option>
+                    <option value="nearbyToilets">🚻 Restroom / Toilet Finder</option>
+                    <option value="anonymousReports">📢 Anonymous Harassment Alerts</option>
+                    <option value="emergencyContact">⚙️ SOS & Emergency Settings</option>
+                </select>
+            </div>
+        </div>
     </div>
     
     <div id="tab-planTrip" class="tab-content">

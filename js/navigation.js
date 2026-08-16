@@ -1,4 +1,3 @@
-
 function showHome() {
     const screens = ['loginPage', 'travelerDashboard', 'driverDashboard', 'guideDashboard', 'aboutUs'];
     screens.forEach(id => document.getElementById(id)?.classList.add('hidden'));
@@ -7,7 +6,6 @@ function showHome() {
 
 function showLogin(role) {
     currentRole = role;
-    
     document.getElementById('home')?.classList.add('hidden');
     document.getElementById('loginPage')?.classList.remove('hidden');
     
@@ -77,23 +75,56 @@ function goBack() {
     document.getElementById('home')?.classList.remove('hidden');
 }
 
+const TAB_TITLES = {
+    planTrip: '✈️ Plan Your Trip',
+    bookCab: '🚖 Book Verified Cab',
+    travelGuide: '🧭 Certified Tour Guides',
+    bookHotel: '🏨 Hotels & Safe PGs',
+    travelPartner: '👭 Cab Pooling & Travel Partners',
+    myBookings: '📅 My Bookings & Rides',
+    safeRoutes: '🗺️ Safe Routes & Dark Spot Map',
+    nearbyToilets: '🚻 Restroom / Toilet Finder',
+    anonymousReports: '📢 Anonymous Harassment Alerts',
+    emergencyContact: '⚙️ SOS & Emergency Settings'
+};
+
+function handleTripPlanSelect(tabName) {
+    if (!tabName) return;
+    const safetyDropdown = document.getElementById('safetyAssistanceDropdown');
+    if (safetyDropdown) safetyDropdown.value = '';
+    showTravelerTab(tabName);
+}
+
+function handleSafetySelect(tabName) {
+    if (!tabName) return;
+    const tripDropdown = document.getElementById('travelPlanDropdown');
+    if (tripDropdown) tripDropdown.value = '';
+    showTravelerTab(tabName);
+}
+
 function showTravelerTab(tabName) {
     const contents = document.querySelectorAll('#travelerDashboard .tab-content');
     contents.forEach(el => el.classList.add('hidden'));
     
-    const buttons = document.querySelectorAll('#travelerDashboard .tab-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('onclick')?.includes(tabName)) {
-            btn.classList.add('active');
-        }
-    });
-    
     document.getElementById(`tab-${tabName}`)?.classList.remove('hidden');
 
-    const dropdown = document.getElementById('travelerServiceDropdown');
-    if (dropdown && dropdown.value !== tabName) {
-        dropdown.value = tabName;
+    const badge = document.getElementById('activeTabBadge');
+    if (badge) {
+        badge.textContent = `Active View: ${TAB_TITLES[tabName] || tabName}`;
+    }
+
+    const tripDropdown = document.getElementById('travelPlanDropdown');
+    const safetyDropdown = document.getElementById('safetyAssistanceDropdown');
+
+    const tripTabs = ['planTrip', 'bookCab', 'travelGuide', 'bookHotel', 'travelPartner', 'myBookings'];
+    const safetyTabs = ['safeRoutes', 'nearbyToilets', 'anonymousReports', 'emergencyContact'];
+
+    if (tripTabs.includes(tabName)) {
+        if (tripDropdown) tripDropdown.value = tabName;
+        if (safetyDropdown) safetyDropdown.value = '';
+    } else if (safetyTabs.includes(tabName)) {
+        if (safetyDropdown) safetyDropdown.value = tabName;
+        if (tripDropdown) tripDropdown.value = '';
     }
 
     const tabActions = {
