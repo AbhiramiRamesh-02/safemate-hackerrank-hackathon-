@@ -227,16 +227,35 @@
 
     <div id="tab-anonymousReports" class="tab-content hidden">
         <div class="dashboard-section">
-            <h3>Anonymous Abuse & Harassment Portal</h3>
-            <p style="color:#6E5A87; margin-bottom:20px;">Report safety incidents, stalking, or harassment. Your identity remains 100% anonymous.</p>
-            <div class="planner-form" style="margin-bottom:20px;">
+            <h3>Anonymous Incident & Safety Portal</h3>
+            <p style="color:#6E5A87; margin-bottom:14px; font-size:12.5px;">Report incidents, stalking, or harassment anonymously. Powered by ML threat assessment.</p>
+            <div class="planner-form" style="margin-bottom:18px;">
                 <div class="form-group"><label>Category of Incident</label><select id="reportCategory"><option>Stalking & Following</option><option>Unsafe Cab/Driver Behavior</option><option>Physical Assault</option><option>Verbal Harassment</option><option>Unsafe Facility/Restroom</option><option>Other Concern</option></select></div>
-                <div class="form-group"><label>Incident Location</label><input type="text" id="reportLocation" placeholder="e.g. Near Jaipur Metro Station"></div>
-                <div class="form-group"><label>Detailed Description</label><textarea id="reportDescription" placeholder="Provide details to alert other travelers..." style="width:100%;padding:10px;border:1.5px solid #DDD6E5;border-radius:8px;"></textarea></div>
-                <button class="submit-btn" onclick="submitAnonymousReport()">Submit Anonymously</button>
+                <div class="form-group">
+                    <label>Incident Location</label>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <input type="text" id="reportLocation" placeholder="e.g. Near Jaipur Metro Station" style="flex:1;">
+                        <button type="button" onclick="detectReportLocation()" style="background:#DE638A; color:white; border:none; border-radius:8px; padding:9px 12px; font-size:11px; font-weight:700; cursor:pointer; white-space:nowrap;">Detect GPS</button>
+                    </div>
+                    <div id="reportGpsStatus" style="font-size:11px; color:#10b981; margin-top:4px; display:none;"></div>
+                </div>
+                <div class="form-group"><label>Detailed Description (Scanned by ML)</label><textarea id="reportDescription" placeholder="Describe the incident..." style="width:100%;padding:10px;border:1.5px solid #DDD6E5;border-radius:8px;"></textarea></div>
+                <div class="form-group">
+                    <label>Evidence Photo (Optional)</label>
+                    <input type="file" id="reportPhotoInput" accept="image/*" style="display:none;" onchange="handleReportPhoto(event)">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <button type="button" onclick="document.getElementById('reportPhotoInput').click()" style="background:#FAF7FC; border:1.5px dashed #C6BADE; color:#4A3267; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:600; cursor:pointer;">Upload Photo</button>
+                        <span id="reportPhotoName" style="font-size:11px; color:#6E5A87;">No photo attached</span>
+                    </div>
+                    <div id="reportPhotoPreview" style="margin-top:8px; display:none;">
+                        <img id="reportPhotoImg" src="" style="max-height:100px; border-radius:8px; border:1px solid #E5DFEC;">
+                        <button type="button" onclick="clearReportPhoto()" style="display:block; background:none; border:none; color:#ef4444; font-size:11px; font-weight:600; cursor:pointer; margin-top:4px;">Remove photo</button>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="submitAnonymousReport()">Submit Report Anonymously</button>
             </div>
             <h4>Recent Community Alerts</h4>
-            <div id="anonymousReportsList" style="margin-top:15px; display: flex; flex-direction: column; gap: 10px;"></div>
+            <div id="anonymousReportsList" style="margin-top:14px; display: flex; flex-direction: column; gap: 10px;"></div>
         </div>
     </div>
 
